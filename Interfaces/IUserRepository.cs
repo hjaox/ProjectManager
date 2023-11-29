@@ -4,6 +4,7 @@ namespace ProjectManager.Interfaces
 {
     public interface IUserRepository
     {
-        ICollection<User> GetUser();
+        ICollection<User> GetUser(int id);
+        ICollection<User> GetAllUsers();
     }
 }
