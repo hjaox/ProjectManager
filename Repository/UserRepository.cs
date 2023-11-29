@@ -13,7 +13,12 @@ namespace ProjectManager.Repository
             _context = context;
         }
 
-        public ICollection<User> GetUser()
+        public ICollection<User> GetUser(int Id)
+        {
+            return _context.Users.Where(user => user.Id == Id).ToList();
+        }
+
+        public ICollection<User> GetAllUsers() 
         {
             return _context.Users.OrderBy(user => user.Id).ToList();
         }

@@ -15,10 +15,21 @@ namespace ProjectManager.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet]
-        public IActionResult GetUser()
+        [HttpGet("Id:int")]
+        public IActionResult GetUser(int Id)
         {
-            var user = _userRepository.GetUser();
+            var user = _userRepository.GetUser(Id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(user);
+        }
+
+        [HttpGet]
+        public IActionResult GetAllUsers()
+        {
+            var user = _userRepository.GetAllUsers();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
