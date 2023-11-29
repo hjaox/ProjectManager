@@ -1,0 +1,15 @@
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectManager.Models;
+
+namespace ProjectManager.Data
+{
+    public class DataContext : DbContext
+    {
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+            
+        }
+
+        public DbSet<User> Users { get; set; }
+    }
+}
