@@ -9,6 +9,7 @@ namespace ProjectManager.Helper
         public MappingProfiles()
         {
             CreateMap<User, UserDto>();
+            CreateMap<UserDto, User>();
         }
     }
 }

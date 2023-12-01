@@ -42,7 +42,7 @@ namespace ProjectManager.Controllers
 
             return Ok(user);
         }
-        /*
+
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -65,9 +65,13 @@ namespace ProjectManager.Controllers
                 return BadRequest(ModelState);
 
             var userMap = _mapper.Map<User>(userCreate);
-        
 
+            if (!_userRepository.CreateUser(userMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+            }
+
+            return Ok("Successfully created");
         }
-        */
     }
 }
