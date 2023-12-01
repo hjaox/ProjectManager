@@ -22,5 +22,18 @@ namespace ProjectManager.Repository
         {
             return _context.Users.OrderBy(user => user.Id).ToList();
         }
+
+        public bool CreateUser(User user)
+        {
+            _context.Add(user);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
