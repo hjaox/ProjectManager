@@ -6,5 +6,7 @@ namespace ProjectManager.Interfaces
     {
         ICollection<User> GetUser(int id);
         ICollection<User> GetAllUsers();
+        bool CreateUser(User user);
+        bool Save();
     }
 }
