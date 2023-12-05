@@ -35,5 +35,16 @@ namespace ProjectManager.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool UpdateUser(User user)
+        {
+            _context.Update(user);
+            return Save();
+        }
+
+        public bool UserExists(int id)
+        {
+            return _context.Users.Any(users => users.Id == id);
+        }
     }
 }
