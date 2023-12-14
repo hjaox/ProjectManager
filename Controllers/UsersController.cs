@@ -102,5 +102,31 @@ namespace ProjectManager.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteUser(int id)
+        {
+            if (!_userRepository.UserExists(id))
+            {
+                return NotFound();
+            }
+
+            var userToDelete = _userRepository.GetUser(id);
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_userRepository.DeleteUser(userToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting user");
+            }
+
+            return NoContent();
+        }
     }
 }
