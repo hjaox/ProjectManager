@@ -13,9 +13,9 @@ namespace ProjectManager.Repository
             _context = context;
         }
 
-        public ICollection<User> GetUser(int Id)
+        public User GetUser(int Id)
         {
-            return _context.Users.Where(user => user.Id == Id).ToList();
+            return _context.Users.Where(user => user.Id == Id).FirstOrDefault();
         }
 
         public ICollection<User> GetAllUsers() 
@@ -45,6 +45,12 @@ namespace ProjectManager.Repository
         public bool UserExists(int id)
         {
             return _context.Users.Any(users => users.Id == id);
+        }
+
+        public bool DeleteUser(User user)
+        {
+            _context.Remove(user);
+            return Save();
         }
     }
 }
