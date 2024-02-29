@@ -21,7 +21,9 @@ export default function Dashboard() {
 
     function handleProjectList(projects: ProjectList[]) {
         return projects.map(({project_id, project_name}, i) => {
-            return <li key={i} className="text-red-600">{project_id}{project_name}</li>
+            return <li key={i} className="itemContainer">
+                {project_id}{project_name}
+                </li>
         })
     }
 
@@ -37,7 +39,7 @@ export default function Dashboard() {
             )
             :
             (
-                <ul className="text-red-600">
+                <ul>
                     {handleProjectList(projectListData)}
                 </ul>
             )

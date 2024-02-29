@@ -5,6 +5,10 @@ export default {
   ],
   theme: {
     extend: {},
+    "item-container": {
+      "border-solid": true,
+      "border-black": true
+    }
   },
   plugins: [],
 }
