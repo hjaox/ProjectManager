@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { getUser } from "../../lib/axios/users";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Login() {
     let [username, setUsername] = useState("");
     let [password, setPassword] = useState("");
-    let nav = useNavigate();
+    const navigate = useNavigate();
 
     function handleUsernameInput(event: React.ChangeEvent<HTMLInputElement>): void {
         setUsername(event.target.value);
@@ -19,7 +19,7 @@ export default function Login() {
         event.preventDefault();
         getUser(username, password)
         .then(user => {
-            nav(`/Dashboard/${user.username}/${user.user_id}`)
+            navigate(`/Dashboard`, {state: user})
         })
         .catch(err => {
             console.log(err)

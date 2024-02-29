@@ -1,20 +1,32 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { getProjectsByUserID } from "../../lib/axios/projects";
 
+type ProjectList = {
+    project_id: number,
+    project_name: string,
+    for_owner_id: number
+}
+
 export default function Dashboard() {
-    let { username, userID } = useParams();
-    let [projectListData, setProjectListData] = useState<(number|string)[] | null>(null);
+    const { state: {user_id} } = useLocation();
+    let [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
 
     useEffect(() => {
-        getProjectsByUserID(userID)
-        .then(data => {
-            setProjectListData(projectListData => data)
+        getProjectsByUserID(user_id)
+        .then(projects => {
+            setProjectListData(() => [...projects])
         })
     }, [])
-    
-    
-    
+
+    function handleProjectList(projects: ProjectList[]) {
+        return projects.map(({project_id, project_name}, i) => {
+            return <li key={i}>{project_id}{project_name}</li>
+        })
+    }
+
+
+
     return (
         <>
         {
@@ -24,13 +36,11 @@ export default function Dashboard() {
             )
             :
             (
-                projectListData.map((project, i) => {
-                    
-                    console.log(project)
-                    return <></>
-                })
+                <ul>
+                    {handleProjectList(projectListData)}
+                </ul>
             )
-            
+
         }
         </>
     )
