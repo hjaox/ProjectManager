@@ -7,16 +7,21 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Login from './components/Homepage/components/Login.tsx';
+import Login from './components/Login/Login.tsx';
 import Guest from './components/Homepage/components/Guest.tsx';
-import Register from './components/Homepage/components/Regsiter.tsx';
+import Register from './components/Register/Register.tsx';
 import Homepage from './components/Homepage/Homepage.tsx';
 import Test from './Test.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
+import App from './App.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <App />
+  },
+  {
+    path: "/Homepage",
     element: <Homepage />
   },
   {
