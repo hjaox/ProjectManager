@@ -1,9 +1,9 @@
 module.exports = [
     {
-        name: "name1",
-        username: "username1",
-        email: "email@1",
-        password: "passname1"
+        name: "test",
+        username: "test",
+        email: "test",
+        password: "test"
     },
     {
         name: "name2",
@@ -16,11 +16,5 @@ module.exports = [
         username: "username3",
         email: "email@3",
         password: "passname3"
-    },
-    {
-        name: "test",
-        username: "test",
-        email: "test",
-        password: "test"
     }
 ];

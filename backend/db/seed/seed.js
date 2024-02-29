@@ -3,13 +3,16 @@ const db = require('../connection');
 
 function seed({usersData, projectsData, columnsData, cardsData}) {
     return db
-    .query(`DROP TABLE IF EXISTS columns`)
+    .query(`DROP TABLE IF EXISTS cards`)
     .then(() => {
-        return db.query(`DROP TABLE IF EXISTS projects`)
+        return db.query(`DROP TABLE IF EXISTS columns`);
+    })
+    .then(() => {
+        return db.query(`DROP TABLE IF EXISTS projects`);
     })
     .then(() => {
         return db.query(`DROP TABLE IF EXISTS users`);
-    })    
+    })
     .then(() => {
         return createUsersTable();
     })
