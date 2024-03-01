@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getUser } from "../../lib/axios/users";
 import { useNavigate } from "react-router-dom";
+import loginUser from "../../lib/axios/login";
 
 export default function Login() {
     let [username, setUsername] = useState("");
@@ -17,9 +17,9 @@ export default function Login() {
 
     function handleSubmit(event : React.FormEvent<HTMLFormElement>): void {
         event.preventDefault();
-        getUser(username, password)
-        .then(user => {
-            navigate(`/Dashboard`, {state: user})
+        loginUser(username, password)
+        .then(loginDetails => {
+            navigate(`/Dashboard`, {state: loginDetails})
         })
         .catch(err => {
             console.log(err)
@@ -29,19 +29,13 @@ export default function Login() {
     return (
         <form id="loginForm"
         onSubmit={event => handleSubmit(event)}>
-            <input name="usernameInput"
-            id="usernameInput"
-            type="text"
-            onChange={event => handleUsernameInput(event)} />
-            <input name="passwordInput"
-            id="passwordInput"
-            type="text"
-            onChange={event => handlePasswordInput(event)} />
-            <button
-            type="submit"
-            form="loginForm">
-                Login
-            </button>
+            <label htmlFor="usernameInput">Name:</label>
+            <input className="border border-black" name="usernameInput" id="usernameInput" type="text" onChange={event => handleUsernameInput(event)} />
+
+            <label htmlFor="usernameInput">Email:</label>
+            <input className="border border-black" name="passwordInput" id="passwordInput" type="text" onChange={event => handlePasswordInput(event)} />
+
+            <button type="submit" form="loginForm">Login</button>
         </form>
     )
 }
