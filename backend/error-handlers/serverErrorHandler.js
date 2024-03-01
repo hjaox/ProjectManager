@@ -1,4 +1,5 @@
 function serverErrorHandler(err, _, response, __) {
+    console.log(err)
     response.status(500).send("Internal Server Error")
 }
 
