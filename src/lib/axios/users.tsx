@@ -8,7 +8,7 @@ export function getUsers() {
 }
 
 export function getUser(username: string, password: string) {
-    return instance.get(`/api/user/${username}/${password}`)
+    return instance.get(`/api/users/${username}/${password}`)
     .then(({data: {user}}) => {
         return user
     })

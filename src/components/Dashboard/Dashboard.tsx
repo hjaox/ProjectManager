@@ -21,10 +21,14 @@ export default function Dashboard() {
 
     function handleProjectList(projects: ProjectList[]) {
         return projects.map(({project_id, project_name}, i) => {
-            return <li key={i} className="itemContainer">
+            return <li key={i} className="itemContainer" onClick={() => handleProjectItem(project_id)}>
                 {project_id}{project_name}
                 </li>
         })
+    }
+
+    function handleProjectItem(project_id: number) {
+
     }
 
 
@@ -39,7 +43,7 @@ export default function Dashboard() {
             )
             :
             (
-                <ul>
+                <ul className="flex gap-2">
                     {handleProjectList(projectListData)}
                 </ul>
             )

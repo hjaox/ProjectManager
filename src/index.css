@@ -4,6 +4,10 @@
 
 @layer utilities {
     .itemContainer {
-        border: 1px solid black
+        border: 1px solid black;
+        width: 15em;
+        height: 8em;
+        font-size: 20px;
+        padding: 0.1em
     }
 }
