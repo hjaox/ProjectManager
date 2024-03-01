@@ -1,10 +1,12 @@
+const connectDB = require('./db/connection');
 const {serverErrorHandler, customErrorHandler} = require('./error-handlers');
 const apiRouter = require('./router/api.router');
 const cors = require("cors");
-
 const express = require('express');
 
 const app = express();
+
+connectDB(app);
 
 app.use(express.json());
 
