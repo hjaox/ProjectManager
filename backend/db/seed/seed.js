@@ -1,135 +1,59 @@
-const format = require('pg-format');
-const db = require('../connection');
+const { ProjectModel } = require("../../mongo/models/projects.model");
+const UserModel = require("../../mongo/models/user.model");
+const mongoose = require("mongoose");
+require("dotenv").config({
+    path: `${__dirname}/../../.env.development`
+});
 
 function seed({usersData, projectsData, columnsData, cardsData}) {
-    return db
-    .query(`DROP TABLE IF EXISTS cards`)
+    return mongoose
+    .connect(process.env.mongoDBURL)
     .then(() => {
-        return db.query(`DROP TABLE IF EXISTS columns`);
+        return mongoose.connection.db.dropDatabase();
     })
     .then(() => {
-        return db.query(`DROP TABLE IF EXISTS projects`);
+        return UserModel.create(usersData);
     })
     .then(() => {
-        return db.query(`DROP TABLE IF EXISTS users`);
+        return seedProjectsData(projectsData);
     })
     .then(() => {
-        return createUsersTable();
+        return seedColumnsData(columnsData)
+        return UserModel.findOneAndUpdate({name: "test", projects: {$elemMatch: {projectName: "project1For1"}}},{
+            $push: {
+                "projects.$.columns": {columnName: "test"}
+            }
+        })
     })
-    .then(() => {
-        return insertUsersData(usersData);
+    .then(res => {
+        console.log(res)
     })
-    .then(() => {
-        return createProjectsTable();
+    .catch(err => {
+        console.log(err)
     })
-    .then(() => {
-        return insertProjectsData(projectsData);
-    })
-    .then(() => {
-        return createColumnsTable();
-    })
-    .then(() => {
-        return insertColumnsData(columnsData);
-    })
-    .then(() => {
-        return createCardsTable();
-    })
-    .then(() => {
-        return insertCardsData(cardsData);
-    })
-}
+    .finally(() => {
+        mongoose.connection.close();
+    });
+};
 
-
-//create users table
-function createUsersTable() {
-    return db
-    .query(`
-        CREATE TABLE users(
-            user_id SERIAL PRIMARY KEY,
-            name VARCHAR NOT NULL,
-            username VARCHAR NOT NULL,
-            email VARCHAR NOT NULL,
-            password VARCHAR NOT NULL
-        );`
-    );
-}
-
-//create projects table
-function createProjectsTable() {
-    return db
-    .query(`CREATE TABLE projects(
-        project_id SERIAL PRIMARY KEY,
-        project_name VARCHAR NOT NULL,
-        for_owner_id INT NOT NULL REFERENCES users(user_id)
-        );`
-    );
-}
-
-//create columns table
-function createColumnsTable() {
-    return db
-    .query(`CREATE TABLE columns(
-        column_id SERIAL PRIMARY KEY,
-        column_name VARCHAR NOT NULL,
-        for_project_id INT NOT NULL REFERENCES projects(project_id)
-    );`);
-}
-
-//create cards table
-function createCardsTable() {
-    return db.query(`CREATE TABLE cards(
-        cards_id SERIAL PRIMARY KEY,
-        title VARCHAR NOT NULL,
-        body VARCHAR NOT NULL,
-        created_at TIMESTAMP DEFAULT NOW(),
-        status bool NOT NULL,
-        for_column_id INT NOT NULL REFERENCES columns(column_id)
-    );`);
-}
-
-
-//insert dev data into users table
-function insertUsersData(usersData) {
-    const insertUsersQueryStr = format(
-        `INSERT INTO users(name, username, email, password) VALUES %L;`,
-        usersData.map(({name, username, email, password}) => [name, username, email, password])
-    );
-    return db.query(insertUsersQueryStr);
-}
-
-//insert dev data into projects table
-function insertProjectsData(projectsData) {
-    const insertProjectsQueryStr = format(
-        `INSERT INTO projects(project_name, for_owner_id) VALUES %L;`,
-        projectsData.map(({projectName, owner}) => [projectName, owner])
-    );
-
-    return db.query(insertProjectsQueryStr);
-}
-
-//insert dev data into columns table
-function insertColumnsData(columnsData) {
-    const insertColumnsQueryStr = format(
-        `INSERT INTO columns(column_name, for_project_id) VALUES %L;`,
-        columnsData.map(({columnName, projectId}) => [columnName, projectId])
-    );
-
-    return db.query(insertColumnsQueryStr);
-}
-
-//insert dev data into cards table
-function insertCardsData(cardsData) {
-    const formattedCardsData = cardsData.map(({created_at, ...otherProperties}) => {
-        return { created_at: new Date(created_at), ...otherProperties };
+function seedProjectsData(projectsData) {
+    const projectPromises = projectsData.map(({projectName, owner}) => {
+        return UserModel.findOneAndUpdate({name: owner}, {$push: {projects: {projectName}}})
     });
 
-    const insertCardsQueryStr = format(
-        `INSERT INTO cards(title, body, created_at, status, for_column_id) VALUES %L;`,
-        formattedCardsData.map(({title, body, created_at, status, for_column_id}) => [title, body, created_at, status, for_column_id])
-    );
-
-    return db.query(insertCardsQueryStr);
+    return Promise.all(projectPromises)
 }
 
+function seedColumnsData(columnsData) {
+    const columnPromises = columnsData.map(({columnName, forProject, owner}) => {
+        return UserModel.findOneAndUpdate({name: owner, projects: {$elemMatch: {projectName: forProject}}}, {
+            $push: {
+                "projects.$.columns": {columnName}
+            }
+        })
+    });
+
+    return Promise.all(columnPromises);
+}
 
 module.exports = seed;
