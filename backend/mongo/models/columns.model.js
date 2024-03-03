@@ -7,6 +7,7 @@ const columnSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        cards: [cardSchema]
     },
     {
         timestamps: true

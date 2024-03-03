@@ -1,6 +1,6 @@
 module.exports = [
     {
-        projectName: "project1For1",
+        projectName: "project1Fortest",
         owner: "test"
     },
     {

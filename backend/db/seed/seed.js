@@ -18,15 +18,10 @@ function seed({usersData, projectsData, columnsData, cardsData}) {
         return seedProjectsData(projectsData);
     })
     .then(() => {
-        return seedColumnsData(columnsData)
-        return UserModel.findOneAndUpdate({name: "test", projects: {$elemMatch: {projectName: "project1For1"}}},{
-            $push: {
-                "projects.$.columns": {columnName: "test"}
-            }
-        })
+        return seedColumnsData(columnsData);
     })
-    .then(res => {
-        console.log(res)
+    .then(() => {
+        return seedCardsData(cardsData);
     })
     .catch(err => {
         console.log(err)
@@ -38,7 +33,13 @@ function seed({usersData, projectsData, columnsData, cardsData}) {
 
 function seedProjectsData(projectsData) {
     const projectPromises = projectsData.map(({projectName, owner}) => {
-        return UserModel.findOneAndUpdate({name: owner}, {$push: {projects: {projectName}}})
+        return UserModel.findOneAndUpdate(
+            {
+                name: owner
+            },
+            {
+                $push: {projects: {projectName}}
+            })
     });
 
     return Promise.all(projectPromises)
@@ -46,14 +47,40 @@ function seedProjectsData(projectsData) {
 
 function seedColumnsData(columnsData) {
     const columnPromises = columnsData.map(({columnName, forProject, owner}) => {
-        return UserModel.findOneAndUpdate({name: owner, projects: {$elemMatch: {projectName: forProject}}}, {
-            $push: {
-                "projects.$.columns": {columnName}
-            }
-        })
+        return UserModel.findOneAndUpdate(
+            {
+                name: owner
+            },
+            {
+                $push: {
+                    "projects.$[a].columns": {columnName}
+                }
+            },
+            {
+                arrayFilters: [{"a.projectName": forProject}]
+            })
     });
 
     return Promise.all(columnPromises);
+}
+
+function seedCardsData(cardsData) {
+    const cardPromises = cardsData.map(({for_column, for_project, owner, title}) => {
+        return UserModel.findOneAndUpdate(
+            {
+                name: owner
+            },
+            {
+                $push: {
+                    "projects.$[a].columns.$[b].cards": {cardName: title}
+                }
+            },
+            {
+                arrayFilters: [{"a.projectName": for_project}, {"b.columnName": for_column}]
+            })
+    });
+
+    return Promise.all(cardPromises);
 }
 
 module.exports = seed;
