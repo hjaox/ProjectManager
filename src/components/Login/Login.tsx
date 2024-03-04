@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loginUser from "../../lib/axios/login";
+import loginUser from "../../utils/axios/login";
 
 export default function Login() {
     let [username, setUsername] = useState("");

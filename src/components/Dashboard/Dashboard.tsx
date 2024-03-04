@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getProjectsByUserID } from "../../lib/axios/projects";
+import { getProjectsByUserID } from "../../utils/axios/projects";
 
 type ProjectList = {
     project_id: number,
