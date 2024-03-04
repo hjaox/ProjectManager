@@ -2,12 +2,12 @@ const UserModel = require("../mongo/models/user.model");
 const { sanitizeFilter } = require('mongoose');
 
 function selectProjectsByUserID(userID) {
-    const formatUserId = sanitizeFilter({_id: userID});
+    const formatQuery = sanitizeFilter({_id: userID});
 
-    return UserModel.findById(formatUserId, "projects")
+    return UserModel.findById(formatQuery, "projects")
     .setOptions({sanitizeFilter: true})
-    .then(res => {
-        console.log(res)
+    .then(({projects}) => {
+        return projects
     })
 }
 

@@ -1,3 +1,4 @@
+const { sanitizeFilter } = require("mongoose");
 const UserModel = require("../mongo/models/user.model");
 
 function allUsersData() {
@@ -8,7 +9,9 @@ function allUsersData() {
 }
 
 function userData(username) {
-    return UserModel.find({username}, "name email username")
+    const sanitizedQuery = sanitizeFilter({username});
+
+    return UserModel.find(sanitizedQuery, "name email username")
     .then(user => {
         return user[0]
     })
