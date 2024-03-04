@@ -6,6 +6,7 @@ require('dotenv').config({
     path:`${__dirname}/../.env.${ENV}`
 })
 
+console.log(process.env.mongoDBURL)
 const db = mongoose
 .connect(process.env.mongoDBURL)
 .catch(err => {

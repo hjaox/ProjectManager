@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # mine
-.env.development
+.env.*

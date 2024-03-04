@@ -6,6 +6,9 @@ function allUsersData() {
     .then(allUsers => {
         return allUsers;
     })
+    .catch(err => {
+        return Promise.reject(err)
+    })
 }
 
 function userData(username) {
@@ -14,6 +17,9 @@ function userData(username) {
     return UserModel.find(sanitizedQuery, "name email username")
     .then(user => {
         return user[0]
+    })
+    .catch(err => {
+        return Promise.reject(err)
     })
 }
 
