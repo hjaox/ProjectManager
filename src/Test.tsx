@@ -1,4 +1,4 @@
-import { getProjectsByUserID } from "./lib/axios/projects";
+import { getProjectsByUserID } from "./utils/axios/projects";
 
 export default function Test() {
 

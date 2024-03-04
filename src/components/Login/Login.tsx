@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loginUser from "../../lib/axios/login";
+import loginUser from "../../utils/axios/login";
+import { useDispatch } from "react-redux";
+import { actions } from "../../utils/redux";
 
 export default function Login() {
     let [username, setUsername] = useState("");
     let [password, setPassword] = useState("");
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     function handleUsernameInput(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -17,9 +20,11 @@ export default function Login() {
 
     function handleSubmit(event : React.FormEvent<HTMLFormElement>): void {
         event.preventDefault();
+
         loginUser(username, password)
         .then(loginDetails => {
-            navigate(`/Dashboard`, {state: loginDetails})
+            dispatch(actions.login(loginDetails))
+            navigate(`/Dashboard`)
         })
         .catch(err => {
             console.log(err)

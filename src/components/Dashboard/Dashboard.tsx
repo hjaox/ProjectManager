@@ -1,22 +1,34 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { getProjectsByUserID } from "../../lib/axios/projects";
+import { getProjectsByUserID } from "../../utils/axios/projects";
+import { useSelector } from "react-redux";
 
 type ProjectList = {
     project_id: number,
     project_name: string,
     for_owner_id: number
+};
+
+type userDetailsState = {
+    userDetails: {
+        id: string,
+        name: string,
+        username: string,
+        email: string,
+        accessToken: string
+    }
+};
+
+type isLoggedInState = {
+    isLoggedIn: boolean
 }
 
 export default function Dashboard() {
-    const { state: {user_id} } = useLocation();
     let [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
+    let status = useSelector((state: isLoggedInState) => state.isLoggedIn);
+    let user = useSelector((state: userDetailsState) => state.userDetails);
 
     useEffect(() => {
-        getProjectsByUserID(user_id)
-        .then(projects => {
-            setProjectListData(() => [...projects])
-        })
+        console.log(user)
     }, [])
 
     function handleProjectList(projects: ProjectList[]) {
@@ -30,7 +42,6 @@ export default function Dashboard() {
     function handleProjectItem(project_id: number) {
 
     }
-
 
 
 
