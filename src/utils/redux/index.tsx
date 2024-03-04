@@ -1,24 +1,27 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    userDetails: {},
+    userDetails: {
+        id: "",
+        name: "",
+        username: "",
+        email: "",
+        accessToken: "",
+    },
     isLoggedIn: false,
-    accessToken: "",
 }
 
 const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers: {
-        login: (state, {payload: {userDetails, authorization}}) => {
+        login: (state, {payload}) => {
             state.isLoggedIn = true;
-            state.userDetails = {...userDetails};
-            state.accessToken = authorization;
+            state.userDetails = {...payload};
         },
-        logout: (state, action) => {
+        logout: (state) => {
             state.isLoggedIn = false;
             state.userDetails = {...initialState.userDetails};
-            state.accessToken = "";
         }
     }
 });

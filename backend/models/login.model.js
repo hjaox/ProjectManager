@@ -8,7 +8,7 @@ function authenticateUser(name, password) {
     .then(user => {
         if(!user.length) return Promise.reject({status: 401, msg: "Incorrect email or password"});
 
-        return user;
+        return user[0];
     })
 }
 
