@@ -1,12 +1,9 @@
 const UserModel = require("../models/user.model");
 const mongoose = require("mongoose");
-require("dotenv").config({
-    path: `${__dirname}/../../.env.development`
-});
+const db = require("../connection");
 
 function seed({usersData, projectsData, columnsData, cardsData}) {
-    return mongoose
-    .connect(process.env.mongoDBURL)
+    return db
     .then(() => {
         return mongoose.connection.db.dropDatabase();
     })
@@ -25,9 +22,6 @@ function seed({usersData, projectsData, columnsData, cardsData}) {
     .catch(err => {
         console.log(err)
     })
-    .finally(() => {
-        mongoose.connection.close();
-    });
 };
 
 function seedProjectsData(projectsData) {
