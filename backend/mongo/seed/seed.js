@@ -1,5 +1,4 @@
-const { ProjectModel } = require("../../mongo/models/projects.model");
-const UserModel = require("../../mongo/models/user.model");
+const UserModel = require("../models/user.model");
 const mongoose = require("mongoose");
 require("dotenv").config({
     path: `${__dirname}/../../.env.development`

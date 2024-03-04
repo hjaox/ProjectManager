@@ -1,4 +1,4 @@
-const connectDB = require('./db/connection');
+const connectDB = require('./mongo/connection');
 const {serverErrorHandler, customErrorHandler} = require('./error-handlers');
 const apiRouter = require('./router/api.router');
 const cors = require("cors");

@@ -1,13 +1,11 @@
-const db = require('../db/connection');
 const format = require('pg-format');
+const UserModel = require("../mongo/models/user.model");
 
 function allUsersData() {
-    return db
-    .query(`SELECT * FROM users`)
-    .then(({rows}) => {
-        return rows;
+    return UserModel.find({}, "name email username")
+    .then(allUsers => {
+        return allUsers;
     })
-
 }
 
 function userData(username) {

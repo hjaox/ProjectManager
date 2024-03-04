@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "server": "nodemon server-listen.js",
-    "seed": "node ./db/seed/run-seed.js",
-    "setup-dbs": "psql -f ./db/setup.sql"
+    "seed": "node ./mongo/seed/run-seed.js",
+    "setup-dbs": "psql -f ./mongo/setup.sql"
   },
   "keywords": [],
   "author": "",

@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "seed": "node ./backend/db/seed/run-seed.js",
+    "seed": "node ./backend/mongo/seed/run-seed.js",
     "server": "nodemon ./backend/app.js",
     "app": "concurrently \"npm run server\" \"npm run dev\""
   },

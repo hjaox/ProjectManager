@@ -1,4 +1,4 @@
-const db = require("../db/connection");
+//const db = require("../mongo/connection");
 const format = require("pg-format");
 
 function authenticateUser(name, password) {
