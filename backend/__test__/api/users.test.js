@@ -1,9 +1,9 @@
-const app = require("../app");
-const UserModel = require("../mongo/models/user.model");
-const testData = require("../mongo/seed/data/test-data");
-const seed = require("../mongo/seed/seed");
-const mongoose = require("mongoose");
-const request = require("supertest");
+const { app,
+    testData,
+    seed,
+    mongoose,
+    request,
+    UserModel} = require("./config");
 
 beforeAll(() => jest.clearAllMocks);
 beforeEach(() => seed(testData));
