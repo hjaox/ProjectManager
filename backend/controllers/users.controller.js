@@ -3,16 +3,16 @@ const { allUsersData,
 
 function getAllUsersData(_ , response, next) {
     return allUsersData()
-    .then((usersData) => {
-        response.status(200).send({users: usersData});
+    .then(allUsers => {
+        response.status(200).send({allUsers});
     });
 };
 
 function getUserData(request, response, next) {
     const { username } = request.params;
     return userData(username)
-    .then((userDataResult) => {
-        return response.status(200).send({user: userDataResult})
+    .then(user => {
+        return response.status(200).send({user})
     })
     .catch(next)
 }

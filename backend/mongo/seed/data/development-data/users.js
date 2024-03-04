@@ -6,13 +6,13 @@ module.exports = [
         password: "test"
     },
     {
-        name: "name2",
+        name: "2",
         username: "username2",
         email: "email@2",
         password: "passname2"
     },
     {
-        name: "name3",
+        name: "3",
         username: "username3",
         email: "email@3",
         password: "passname3"

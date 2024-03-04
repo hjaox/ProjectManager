@@ -1,26 +1,19 @@
-const db = require('../db/connection');
-const format = require('pg-format');
+const { sanitizeFilter } = require("mongoose");
+const UserModel = require("../mongo/models/user.model");
 
 function allUsersData() {
-    return db
-    .query(`SELECT * FROM users`)
-    .then(({rows}) => {
-        return rows;
+    return UserModel.find({}, "name email username")
+    .then(allUsers => {
+        return allUsers;
     })
-
 }
 
 function userData(username) {
-    const userDataQueryStr = format(
-        `SELECT * FROM users WHERE username = %L`, [username]
-    );
+    const sanitizedQuery = sanitizeFilter({username});
 
-    return db
-    .query(userDataQueryStr)
-    .then(({rows}) => {
-        if(!rows.length) return Promise.reject({status: 400, msg: "Not Found"});
-
-        return rows[0];
+    return UserModel.find(sanitizedQuery, "name email username")
+    .then(user => {
+        return user[0]
     })
 }
 
