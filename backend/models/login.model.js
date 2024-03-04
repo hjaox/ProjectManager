@@ -1,18 +1,11 @@
-//const db = require("../mongo/connection");
-const format = require("pg-format");
+const UserModel = require("../mongo/models/user.model");
 
 function authenticateUser(name, password) {
-    const queryStr = format("SELECT * FROM users WHERE name = %L", [name]);
+    return UserModel.find({name, password}, "name username email")
+    .then(user => {
+        if(!user.length) return Promise.reject({status: 401, msg: "Incorrect email or password"});
 
-    return db
-    .query(queryStr)
-    .then(({rows}) => {
-        if(!rows.length || rows[0]?.password !== password) return Promise.reject({status: 401, msg: "Incorrect email or password"});
-
-        return rows[0];
-    })
-    .catch(err => {
-        return Promise.reject(err)
+        return user;
     })
 }
 
