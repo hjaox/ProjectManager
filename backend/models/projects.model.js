@@ -1,14 +1,13 @@
 const UserModel = require("../mongo/models/user.model");
 const { sanitizeFilter } = require('mongoose');
 
-function selectProjectsByUserID(userID) {
-    const formatQuery = sanitizeFilter({_id: userID});
+function findProjectsByUserId(userId) {
+    const formatQuery = sanitizeFilter({_id: userId});
 
     return UserModel.findById(formatQuery, "projects")
-    .setOptions({sanitizeFilter: true})
     .then(({projects}) => {
         return projects
     })
 }
 
-module.exports = { selectProjectsByUserID }
+module.exports = { findProjectsByUserId }
