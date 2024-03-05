@@ -1,12 +1,72 @@
-import { useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom"
+import getProjectByProjectId from "../../utils/axios/project";
+import { useSelector } from "react-redux";
+import { CardDetails, ColumnDetails, ProfileState, ProjectDetails } from "../../common/types";
+
+
 
 export default function ProjectPage() {
-    const {state: {project_id}} = useLocation();
-    const params = useParams();
+    const {state: {projectId}} = useLocation();
+    const userDetails = useSelector((state: ProfileState) => state.userDetails);
+    let [projectDetails, setProjectDetails] = useState<null | ProjectDetails>(null);
 
     useEffect(() => {
-        console.log(project_id, params)
+        getProjectByProjectId(userDetails._id, projectId)
+        .then(projectDetails => {
+            setProjectDetails(() => ({...projectDetails}))
+        })
     }, [])
-    return <p>Project Card</p>
+
+    function handleColumns(columns: ColumnDetails[]) {
+        return columns.map(({columnName, cards}, i) => {
+            return (
+                <li key={i}>
+                    <span>{columnName}</span>
+                    {
+                    !!cards.length && (<ul>{handleCards(cards)}</ul>)
+                    }
+
+                </li>
+            )
+        });
+    }
+
+    function handleCards(cards: CardDetails[]) {
+        return cards.map(({cardName}, i) => {
+            return (
+                <li key={i}>
+                    <span>{cardName}</span>
+                </li>
+            )
+        })
+    }
+
+    return (
+        <div>
+        {
+            !projectDetails
+            ? (<>isLoading</>)
+            : (
+            <>
+            <div>
+                <h2>{projectDetails.projectName}</h2>
+            </div>
+            <div>
+                {
+                    !projectDetails.columns.length
+                    ? (<>isEmpty</>)
+                    : (
+                        <ul>
+                            {handleColumns(projectDetails.columns)}
+                        </ul>
+                        )
+                }
+            </div>
+            </>
+            )
+        }
+        </div>
+
+    )
 }

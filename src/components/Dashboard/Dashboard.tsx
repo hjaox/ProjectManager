@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getProjectsByUserID } from "../../utils/axios/projects";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ProfileState } from "../../common/types";
 
 type ProjectList = {
     _id: string,
@@ -9,16 +10,6 @@ type ProjectList = {
     createdAt: string,
     updatedAt: string,
     columns: []
-};
-
-type userDetailsState = {
-    userDetails: {
-        _id: string,
-        name: string,
-        username: string,
-        email: string,
-        accessToken: string
-    }
 };
 
 type isLoggedInState = {
@@ -29,7 +20,7 @@ export default function Dashboard() {
     let [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
     const navigate = useNavigate();
     let status = useSelector((state: isLoggedInState) => state.isLoggedIn);
-    let userDetails = useSelector((state: userDetailsState) => state.userDetails);
+    let userDetails = useSelector((state: ProfileState) => state.userDetails);
 
     useEffect(() => {
         console.log(userDetails)
@@ -48,8 +39,8 @@ export default function Dashboard() {
         })
     }
 
-    function handleProjectItem(project_id: string, projectName: string) {
-        navigate(`/Project/${projectName}`, {state: {project_id}})
+    function handleProjectItem(projectId: string, projectName: string) {
+        navigate(`/Project/${projectName}`, {state: {projectId}})
     }
 
 

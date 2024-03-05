@@ -2,7 +2,7 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     userDetails: {
-        id: "",
+        _id: "",
         name: "",
         username: "",
         email: "",
