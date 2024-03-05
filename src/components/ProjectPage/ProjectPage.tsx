@@ -3,8 +3,8 @@ import { useLocation } from "react-router-dom"
 import getProjectByProjectId from "../../utils/axios/project";
 import { useSelector } from "react-redux";
 import { CardDetails, ColumnDetails, ProfileState, ProjectDetails } from "../../common/types";
-
-
+import Header from "../subcomponent/Header/Header";
+import Footer from "../subcomponent/Footer.tsx/Footer";
 
 export default function ProjectPage() {
     const {state: {projectId}} = useLocation();
@@ -44,6 +44,7 @@ export default function ProjectPage() {
 
     return (
         <div>
+            <Header />
         {
             !projectDetails
             ? (<>isLoading</>)
@@ -66,7 +67,7 @@ export default function ProjectPage() {
             </>
             )
         }
+        <Footer />
         </div>
-
     )
 }
