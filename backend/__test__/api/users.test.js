@@ -1,9 +1,9 @@
-const { app,
-    testData,
-    seed,
-    mongoose,
-    request,
-    UserModel} = require("./config");
+const app = require("../../app");
+const testData = require("../../mongo/seed/data/test-data");
+const seed = require("../../mongo/seed/seed");
+const mongoose = require("mongoose");
+const request = require("supertest");
+const UserModel = require("../../mongo/models/user.model");
 
 beforeAll(() => jest.clearAllMocks);
 beforeEach(() => seed(testData));
@@ -39,7 +39,7 @@ describe("users API tests", () => {
             .get(`/api/users/${testUser}`)
             .expect(200);
         });
-        test("200: returns user detailes upon successful request", () => {
+        test("200: returns user details upon successful request", () => {
             const testUser = "test";
 
             return request(app)
@@ -50,9 +50,24 @@ describe("users API tests", () => {
                 return UserModel.find({username: testUser}, "name email username")
                 .then(result => {
                     const expected = result.map(({name, email, username}) => [name, email, username]);
-
-                    expect(testInput).toEqual(expected)
+                    expect(testInput).toEqual(expected);
                 })
+            })
+        });
+        test("404: returns status code 400 if user does not exist", () => {
+            const testUser = "notAUser";
+
+            return request(app)
+            .get(`/api/users/${testUser}`)
+            .expect(404)
+        });
+        test("404: returns msg User not found if user does not exist", () => {
+            const testUser = "notAUser"
+
+            return request(app)
+            .get(`/api/users/${testUser}`)
+            .then(({body: {msg}}) => {
+                expect(msg).toBe("User not found");
             })
         });
     });

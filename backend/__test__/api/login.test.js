@@ -1,9 +1,9 @@
-const { app,
-    request,
-    seed,
-    mongoose,
-    testData,
-    UserModel} = require("./config");
+const app = require("../../app");
+const testData = require("../../mongo/seed/data/test-data");
+const seed = require("../../mongo/seed/seed");
+const mongoose = require("mongoose");
+const request = require("supertest");
+const UserModel = require("../../mongo/models/user.model");
 
 beforeAll(() => jest.clearAllMocks);
 beforeEach(() => seed(testData));
@@ -30,12 +30,12 @@ describe("POST /api/login tests", () => {
         return request(app)
         .post("/api/login")
         .send(testUserCredentials)
-        .then(({body: {loginDetails}}) => {
-            const testVal = loginDetails.map(({name, email, username}) => [name, username, email]);
+        .then(({body: {loginDetails: {name, email, username}}}) => {
+            const testVal = [name, email, username];
 
-            return UserModel.find(testUserCredentials, "name username email")
-            .then(result => {
-                const expected = result.map(({name, username, email}) => [name, username, email]);
+            return UserModel.find(testUserCredentials, "name username email").exec()
+            .then(([{name, email, username}]) => {
+                const expected = [name, email, username];
 
                 expect(testVal).toEqual(expected);
             })
