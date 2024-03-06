@@ -1,12 +1,8 @@
 const UserModel = require("../models/user.model");
 const mongoose = require("mongoose");
-const db = require("../connection");
 
 function seed({usersData, projectsData, columnsData, cardsData}) {
-    return db
-    .then(() => {
-        return mongoose.connection.dropDatabase();
-    })
+    return mongoose.connection.dropDatabase()
     .then(() => {
         return UserModel.create(usersData);
     })
