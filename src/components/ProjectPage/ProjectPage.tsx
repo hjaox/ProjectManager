@@ -21,10 +21,17 @@ export default function ProjectPage() {
     function handleColumns(columns: ColumnDetails[]) {
         return columns.map(({columnName, cards}, i) => {
             return (
-                <li key={i}>
-                    <span>{columnName}</span>
+                <li key={i} className="p-2 border">
+                    <span className="">
+                        {columnName}
+                    </span>
+
                     {
-                    !!cards.length && (<ul>{handleCards(cards)}</ul>)
+                    !!cards.length && (
+                        <ul className="flex pt-2">
+                            {handleCards(cards)}
+                        </ul>
+                    )
                     }
 
                 </li>
@@ -43,31 +50,34 @@ export default function ProjectPage() {
     }
 
     return (
-        <div>
+        <div className="flex flex-col h-screen">
             <Header />
-        {
-            !projectDetails
-            ? (<>isLoading</>)
-            : (
-            <>
-            <div>
-                <h2>{projectDetails.projectName}</h2>
-            </div>
-            <div>
+
+            <div className="h-full">
                 {
-                    !projectDetails.columns.length
-                    ? (<>isEmpty</>)
-                    : (
-                        <ul>
-                            {handleColumns(projectDetails.columns)}
-                        </ul>
-                        )
+                !projectDetails
+                ? (<>isLoading</>)
+                : (
+                <>
+                <div className="bg-gray-400 h-10">
+                    <h2>{projectDetails.projectName}</h2>
+                </div>
+                <div>
+                    {
+                        !projectDetails.columns.length
+                        ? (<>isEmpty</>)
+                        : (
+                            <ul className="flex gap-6 p-1">
+                                {handleColumns(projectDetails.columns)}
+                            </ul>
+                            )
+                    }
+                </div>
+                </>
+                )
                 }
             </div>
-            </>
-            )
-        }
-        <Footer />
+            <Footer />
         </div>
     )
 }
