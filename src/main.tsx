@@ -16,6 +16,7 @@ import Homepage from './components/Homepage/Homepage.tsx';
 import Test from './Test.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import App from './App.tsx';
+import ProjectPage from './components/ProjectPage/ProjectPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -39,13 +40,17 @@ const router = createBrowserRouter([
     element: <Register/>
   },
   {
+    path: "/Dashboard",
+    element: <Dashboard/>
+  },
+  {
+    path: "/Project/:projectName",
+    element: <ProjectPage />
+  },
+  {
     path: "/Test",
     element: <Test/>
   },
-  {
-    path: "/Dashboard",
-    element: <Dashboard/>
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

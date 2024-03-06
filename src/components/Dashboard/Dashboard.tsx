@@ -1,21 +1,15 @@
 import { useEffect, useState } from "react";
 import { getProjectsByUserID } from "../../utils/axios/projects";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ProfileState } from "../../common/types";
 
 type ProjectList = {
-    project_id: number,
-    project_name: string,
-    for_owner_id: number
-};
-
-type userDetailsState = {
-    userDetails: {
-        id: string,
-        name: string,
-        username: string,
-        email: string,
-        accessToken: string
-    }
+    _id: string,
+    projectName: string,
+    createdAt: string,
+    updatedAt: string,
+    columns: []
 };
 
 type isLoggedInState = {
@@ -24,23 +18,29 @@ type isLoggedInState = {
 
 export default function Dashboard() {
     let [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
+    const navigate = useNavigate();
     let status = useSelector((state: isLoggedInState) => state.isLoggedIn);
-    let user = useSelector((state: userDetailsState) => state.userDetails);
+    let userDetails = useSelector((state: ProfileState) => state.userDetails);
 
     useEffect(() => {
-        console.log(user)
+        console.log(userDetails)
+        getProjectsByUserID(userDetails._id)
+        .then(projectList => {
+            console.log(projectList)
+            setProjectListData(() => [...projectList]);
+        })
     }, [])
 
     function handleProjectList(projects: ProjectList[]) {
-        return projects.map(({project_id, project_name}, i) => {
-            return <li key={i} className="itemContainer" onClick={() => handleProjectItem(project_id)}>
-                {project_id}{project_name}
+        return projects.map(({_id, projectName}, i) => {
+            return <li key={i} className="itemContainer" onClick={() => handleProjectItem(_id, projectName)}>
+                {projectName}
                 </li>
         })
     }
 
-    function handleProjectItem(project_id: number) {
-
+    function handleProjectItem(projectId: string, projectName: string) {
+        navigate(`/Project/${projectName}`, {state: {projectId}})
     }
 
 
