@@ -9,8 +9,8 @@ function getAllUsersData(_ , response, next) {
 };
 
 function getUserData(request, response, next) {
-    const { username } = request.params;
-    return userData(username)
+    const { name } = request.params;
+    return userData(name)
     .then(user => {
         return response.status(200).send({user})
     })

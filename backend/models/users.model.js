@@ -2,7 +2,7 @@ const { sanitizeFilter } = require("mongoose");
 const UserModel = require("../mongo/models/user.model");
 
 function allUsersData() {
-    return UserModel.find({}, "name email username")
+    return UserModel.find({}, "name email")
     .then(allUsers => {
         return allUsers;
     })
@@ -11,10 +11,10 @@ function allUsersData() {
     })
 }
 
-function userData(username) {
-    const sanitizedQuery = sanitizeFilter({username});
+function userData(name) {
+    const sanitizedQuery = sanitizeFilter({name});
 
-    return UserModel.find(sanitizedQuery, "name email username")
+    return UserModel.find(sanitizedQuery, "name email")
     .then(user => {
         if(!user.length) return Promise.reject({status: 404, msg: "User not found"});
 

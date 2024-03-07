@@ -46,11 +46,11 @@ describe("users API tests", () => {
             return request(app)
             .get(`/api/users/${testUser}`)
             .then(({body: {user}}) => {
-                const testInput = [user].map(({name, email, username}) => [name, email, username]);
+                const testInput = [user].map(({name, email}) => [name, email]);
 
-                return UserModel.find({username: testUser}, "name email username")
+                return UserModel.find({name: testUser}, "name email")
                 .then(result => {
-                    const expected = result.map(({name, email, username}) => [name, email, username]);
+                    const expected = result.map(({name, email}) => [name, email]);
                     expect(testInput).toEqual(expected);
                 })
             })
