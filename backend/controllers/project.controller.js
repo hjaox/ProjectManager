@@ -1,4 +1,5 @@
-const { findProjectByProjectId } = require('../models/project.model');
+const { findProjectByProjectId,
+    insertColumnInProject } = require('../models/project.model');
 
 function getProjectByProjectId(request, response, next) {
     const { projectId, userId } = request.params;
@@ -9,4 +10,16 @@ function getProjectByProjectId(request, response, next) {
     })
 }
 
-module.exports = { getProjectByProjectId }
+function postColumnInProject(request, response, next) {
+    const { userId, projectId, columnName } = request.body;
+
+    return insertColumnInProject(userId, projectId, columnName)
+    .then(updatedDocument => {
+        return response.status(201).send({updatedDocument});
+    })
+    .catch(err => {
+        next(err);
+    })
+}
+
+module.exports = { getProjectByProjectId, postColumnInProject }
