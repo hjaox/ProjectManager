@@ -16,6 +16,8 @@ function userData(username) {
 
     return UserModel.find(sanitizedQuery, "name email username")
     .then(user => {
+        if(!user.length) return Promise.reject({status: 404, msg: "User not found"});
+
         return user[0]
     })
     .catch(err => {

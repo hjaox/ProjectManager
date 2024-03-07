@@ -1,12 +1,8 @@
 const UserModel = require("../models/user.model");
 const mongoose = require("mongoose");
-const db = require("../connection");
 
 function seed({usersData, projectsData, columnsData, cardsData}) {
-    return db
-    .then(() => {
-        return mongoose.connection.db.dropDatabase();
-    })
+    return mongoose.connection.dropDatabase()
     .then(() => {
         return UserModel.create(usersData);
     })
@@ -32,7 +28,7 @@ function seedProjectsData(projectsData) {
             },
             {
                 $push: {projects: {projectName}}
-            })
+            }).exec()
     });
 
     return Promise.all(projectPromises)
@@ -51,7 +47,7 @@ function seedColumnsData(columnsData) {
             },
             {
                 arrayFilters: [{"a.projectName": forProject}]
-            })
+            }).exec()
     });
 
     return Promise.all(columnPromises);
@@ -70,7 +66,7 @@ function seedCardsData(cardsData) {
             },
             {
                 arrayFilters: [{"a.projectName": for_project}, {"b.columnName": for_column}]
-            })
+            }).exec()
     });
 
     return Promise.all(cardPromises);
