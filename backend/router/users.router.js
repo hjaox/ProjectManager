@@ -4,6 +4,6 @@ const usersRouter = require("express").Router();
 
 usersRouter
 .get("/", getAllUsersData)
-.get("/:username", getUserData);
+.get("/:name", getUserData);
 
 module.exports = usersRouter;
