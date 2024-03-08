@@ -8,6 +8,9 @@ function findProjectsByUserId(userId) {
     .then(({projects}) => {
         return projects
     })
+    .catch(() => {
+        return Promise.reject({status: 400, msg: "Invalid UserId"});
+    })
 }
 
 module.exports = { findProjectsByUserId }

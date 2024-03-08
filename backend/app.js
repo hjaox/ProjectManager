@@ -1,4 +1,4 @@
-const {serverErrorHandler, customErrorHandler} = require('./error-handlers');
+const {serverErrorHandler, customErrorHandler, mongoDBErrorHandler} = require('./error-handlers');
 const apiRouter = require('./router/api.router');
 const cors = require("cors");
 const express = require('express');
@@ -12,6 +12,8 @@ app.use(cors());
 app.use("/api", apiRouter);
 
 app.use(customErrorHandler);
+
+app.use(mongoDBErrorHandler);
 
 app.use(serverErrorHandler);
 
