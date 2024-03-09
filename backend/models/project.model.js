@@ -13,7 +13,9 @@ function findProjectByProjectId(userId, projectId) {
     .then(([{projects}]) => {
         return projects[0]
     })
-
+    .catch(err => {
+        return Promise.reject({status: 404, msg: "User or project not found"})
+    })
 }
 
 function insertColumnInProject(userId, projectId, columnName) {

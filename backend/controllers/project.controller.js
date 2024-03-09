@@ -1,12 +1,18 @@
+const mongoose = require('mongoose');
 const { findProjectByProjectId,
     insertColumnInProject } = require('../models/project.model');
 
 function getProjectByProjectId(request, response, next) {
     const { projectId, userId } = request.params;
 
+    if(!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId)) return response.status(400).send({msg: "Invalid userId or projectId"});
+
     return findProjectByProjectId(userId, projectId)
-    .then(project => {
-        return response.status(200).send({project})
+    .then(projectDetails => {
+        return response.status(200).send({projectDetails})
+    })
+    .catch(err => {
+        next(err)
     })
 }
 

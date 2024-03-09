@@ -3,7 +3,8 @@ const { getProjectByProjectId,
 
 const projectRouter = require("express").Router();
 
-projectRouter.get("/:userId/:projectId", getProjectByProjectId)
+projectRouter
+.get("/:userId/:projectId", getProjectByProjectId)
 .post("/column", postColumnInProject);
 
 module.exports = projectRouter;
