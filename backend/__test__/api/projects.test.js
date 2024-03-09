@@ -60,4 +60,10 @@ describe("GET /api/projects/:userId", () => {
             expect(msg).toBe("Invalid UserId");
         })
     });
+    test("404: returns status code 404 when userId does not exist", () => {
+
+        return request(app)
+        .get(`/api/projects/65e9d762727636586ecbb000`)
+        .expect(404)
+    });
 });

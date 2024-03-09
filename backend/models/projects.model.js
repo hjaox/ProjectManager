@@ -9,7 +9,7 @@ function findProjectsByUserId(userId) {
         return projects
     })
     .catch(() => {
-        return Promise.reject({status: 400, msg: "Invalid UserId"});
+        return Promise.reject({status: 404, msg: "Not Found"});
     })
 }
 
