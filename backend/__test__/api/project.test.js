@@ -78,4 +78,65 @@ describe("project endpoint tests", () => {
             .expect(404)
         });
     });
+    describe("POST /api/projects/column tests", () => {
+        test("201: returns status code 201 upon successful request", () => {
+            return UserModel.find({name: "test"}, {projects: {$elemMatch: {projectName: "project1Fortest"}}})
+            .then(([{_id, projects}]) => {
+                const testUserId = { userId: _id.toString() };
+                const testProjectId = { projectId: projects[0]._id.toString() };
+                const testColumnName = { columnName: "newColumnName" };
+
+                return request(app)
+                .post("/api/project/column")
+                .send({...testUserId, ...testProjectId, ...testColumnName})
+                .expect(201)
+            })
+        });
+        test("201: returns the updated document upon successful request", () => {
+            return UserModel.find({name: "test"}, {projects: {$elemMatch: {projectName: "project1Fortest"}}})
+            .then(([{_id, projects}]) => {
+                const testUserId = { userId: _id.toString() };
+                const testProjectId = { projectId: projects[0]._id.toString() };
+                const testColumnName = { columnName: "newColumnName" };
+
+                return request(app)
+                .post("/api/project/column")
+                .send({...testUserId, ...testProjectId, ...testColumnName})
+                .then(({body: {updatedDocument}}) => {
+
+                    return UserModel.find({_id: testUserId.userId}, {projects: {$elemMatch: {_id: testProjectId.projectId}}}, {lean: true})
+                    .then(([result]) => {
+
+                        expect(JSON.stringify(updatedDocument)).toEqual(JSON.stringify(result));
+                    })
+                })
+            })
+        });
+        test("400: returns status code 400 when userId or projectId is not a valid ObjectId", () => {
+            return UserModel.find({name: "test"}, {projects: {$elemMatch: {projectName: "project1Fortest"}}})
+            .then(([{_id, projects}]) => {
+                const testUserId = { userId: "notAValidObjectId" };
+                const testProjectId = { projectId: projects[0]._id.toString() };
+                const testColumnName = { columnName: "newColumnName" };
+
+                return request(app)
+                .post("/api/project/column")
+                .send({...testUserId, ...testProjectId, ...testColumnName})
+                .expect(400)
+            })
+        });
+        test("404: returns status code 404 when userId or projectId does not exist", () => {
+            return UserModel.find({name: "test"}, {projects: {$elemMatch: {projectName: "project1Fortest"}}})
+            .then(([{_id, projects}]) => {
+                const testUserId = { userId: "65ebabf56dbb30c2c0000000" };
+                const testProjectId = { projectId: projects[0]._id.toString() };
+                const testColumnName = { columnName: "newColumnName" };
+
+                return request(app)
+                .post("/api/project/column")
+                .send({...testUserId, ...testProjectId, ...testColumnName})
+                .expect(404)
+            })
+        });
+    });
 });
