@@ -19,6 +19,8 @@ function getProjectByProjectId(request, response, next) {
 function postColumnInProject(request, response, next) {
     const { userId, projectId, columnName } = request.body;
 
+    if(!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId)) return response.status(400).send({msg: "Invalid userId or projectId"});
+
     return insertColumnInProject(userId, projectId, columnName)
     .then(updatedDocument => {
         return response.status(201).send({updatedDocument});

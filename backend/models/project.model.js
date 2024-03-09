@@ -35,6 +35,8 @@ function insertColumnInProject(userId, projectId, columnName) {
             projection: {projects: {$elemMatch: formatFilter}}
         })
     .then(updatedDocument => {
+        if(!updatedDocument) return Promise.reject({status: 404, msg: "UserId or ProjectId not found"})
+
         return updatedDocument;
     })
     .catch(err => {
