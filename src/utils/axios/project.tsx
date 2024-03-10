@@ -1,9 +1,24 @@
 import { instance } from "./instance";
 
-export default function getProjectByProjectId(userId: string, projectId: string) {
+export function getProjectByProjectId(userId: string, projectId: string) {
     return instance
     .get(`/api/project/${userId}/${projectId}`)
-    .then(({data: {project}}) => {
-        return project
+    .then(({data: {projectDetails}}) => {
+        return projectDetails
     })
+}
+
+export function postColumnInProject(userId: string, projectId: string, columnName: string) {
+    const body = {
+        userId,
+        projectId,
+        columnName
+    };
+
+    return instance
+    .post("/api/project/column", body)
+    .then(({data: {updatedDocument}}) => {
+        return updatedDocument;
+    })
+
 }

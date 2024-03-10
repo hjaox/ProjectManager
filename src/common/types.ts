@@ -19,6 +19,7 @@ export type ProjectDetails = {
 
 export type ColumnDetails = {
     columnName: string,
+    _id: string,
     cards: CardDetails[]
 };
 

@@ -23,10 +23,8 @@ export default function Dashboard() {
     let userDetails = useSelector((state: ProfileState) => state.userDetails);
 
     useEffect(() => {
-        console.log(userDetails)
         getProjectsByUserID(userDetails._id)
         .then(projectList => {
-            console.log(projectList)
             setProjectListData(() => [...projectList]);
         })
     }, [])
