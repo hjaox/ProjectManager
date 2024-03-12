@@ -37,7 +37,7 @@ function insertColumnInProject(userId, projectId, columnName) {
     .then(updatedDocument => {
         if(!updatedDocument) return Promise.reject({status: 404, msg: "UserId or ProjectId not found"})
 
-        return updatedDocument;
+        return updatedDocument.projects[0];
     })
     .catch(err => {
         return Promise.reject(err);
