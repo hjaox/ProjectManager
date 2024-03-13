@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom"
-import { getProjectByProjectId, postColumnInProject } from "../../utils/axios/project";
+import { getProjectByProjectId, postColumnInProject, postCardInColumn } from "../../utils/axios/project";
 import { useSelector } from "react-redux";
 import { CardDetails, ColumnDetails, ProfileState, ProjectDetails } from "../../common/types";
 import Header from "../subcomponent/Header/Header";
@@ -9,11 +9,11 @@ import Footer from "../subcomponent/Footer.tsx/Footer";
 export default function ProjectPage() {
     const { state: { projectId } } = useLocation();
     const userDetails = useSelector((state: ProfileState) => state.userDetails);
-    const [newColumnName, setNewColumnName] = useState<null | string>(null);
-    let [projectDetails, setProjectDetails] = useState<null | ProjectDetails>(null);
+    const [newColumnName, setNewColumnName] = useState<string>("");
+    const [newCardName, setNewCardName] = useState<string>("");
+    const [projectDetails, setProjectDetails] = useState<null | ProjectDetails>(null);
 
     useEffect(() => {
-        console.log("test")
         getProjectByProjectId(userDetails._id, projectId)
             .then(projectDetails => {
                 setProjectDetails(() => ({ ...projectDetails }))
@@ -21,12 +21,8 @@ export default function ProjectPage() {
 
     }, [])
 
-    useEffect(() => {
-        setNewColumnName("");
-    }, [projectDetails])
-
     function handleColumns(columns: ColumnDetails[]) {
-        return columns.map(({ columnName, cards }, i) => {
+        return columns.map(({ columnName, cards, _id }, i) => {
             return (
                 <li key={i} className="p-2 border">
                     <span className="">
@@ -37,7 +33,12 @@ export default function ProjectPage() {
                         !!cards.length && (
                             <ul className="flex pt-2 flex-col">
                                 {handleCards(cards)}
-                                <li>add card</li>
+                                <li className="border h-fit p-1">
+                                    <form id="addCardForm" onSubmit={e => handleAddCard(e, _id)}>
+                                        <input type="text" value={newCardName || ""} placeholder="Add Card" onChange={e => setNewCardName(e.target.value)} />
+                                        <button type="submit" form="addCardForm">+</button>
+                                    </form>
+                                </li>
                             </ul>
                         )
                     }
@@ -62,8 +63,19 @@ export default function ProjectPage() {
         if (projectDetails?._id && newColumnName) {
             postColumnInProject(userDetails._id, projectDetails._id, newColumnName)
                 .then(updatedProject => {
-                    console.log("test")
                     setNewColumnName(() => "");
+                    setProjectDetails(() => ({ ...updatedProject }));
+
+                })
+        }
+    }
+
+    function handleAddCard(e: React.FormEvent, columnId: string) {
+        e.preventDefault();
+        if (projectDetails?._id && newCardName) {
+            postCardInColumn(userDetails._id, projectDetails._id, columnId, newCardName)
+                .then(updatedProject => {
+                    setNewCardName(() => "");
                     setProjectDetails(() => ({ ...updatedProject }));
 
                 })

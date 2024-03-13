@@ -22,3 +22,18 @@ export function postColumnInProject(userId: string, projectId: string, columnNam
     })
 
 }
+
+export function postCardInColumn(userId: string, projectId: string, columnId: string, cardName: string) {
+    const body = {
+        userId,
+        projectId,
+        columnId,
+        cardName
+    };
+
+    return instance
+    .post("/api/project/column/card", body)
+    .then(({data: {updatedDocument}}) => {
+        return updatedDocument;
+    })
+}
