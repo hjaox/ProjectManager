@@ -107,7 +107,7 @@ describe("project endpoint tests", () => {
                     return UserModel.find({_id: testUserId.userId}, {projects: {$elemMatch: {_id: testProjectId.projectId}}}, {lean: true})
                     .then(([result]) => {
 
-                        expect(JSON.stringify(updatedDocument)).toEqual(JSON.stringify(result));
+                        expect(JSON.stringify(updatedDocument)).toEqual(JSON.stringify(result.projects[0]));
                     })
                 })
             })
