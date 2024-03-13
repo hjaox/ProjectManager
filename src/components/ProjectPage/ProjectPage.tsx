@@ -7,20 +7,26 @@ import Header from "../subcomponent/Header/Header";
 import Footer from "../subcomponent/Footer.tsx/Footer";
 
 export default function ProjectPage() {
-    const {state: {projectId}} = useLocation();
+    const { state: { projectId } } = useLocation();
     const userDetails = useSelector((state: ProfileState) => state.userDetails);
     const [newColumnName, setNewColumnName] = useState<null | string>(null);
     let [projectDetails, setProjectDetails] = useState<null | ProjectDetails>(null);
 
     useEffect(() => {
+        console.log("test")
         getProjectByProjectId(userDetails._id, projectId)
-        .then(projectDetails => {
-            setProjectDetails(() => ({...projectDetails}))
-        })
+            .then(projectDetails => {
+                setProjectDetails(() => ({ ...projectDetails }))
+            })
+
     }, [])
 
+    useEffect(() => {
+        setNewColumnName("");
+    }, [projectDetails])
+
     function handleColumns(columns: ColumnDetails[]) {
-        return columns.map(({columnName, cards}, i) => {
+        return columns.map(({ columnName, cards }, i) => {
             return (
                 <li key={i} className="p-2 border">
                     <span className="">
@@ -28,12 +34,12 @@ export default function ProjectPage() {
                     </span>
 
                     {
-                    !!cards.length && (
-                        <ul className="flex pt-2 flex-col">
-                            {handleCards(cards)}
-                            <li>add card</li>
-                        </ul>
-                    )
+                        !!cards.length && (
+                            <ul className="flex pt-2 flex-col">
+                                {handleCards(cards)}
+                                <li>add card</li>
+                            </ul>
+                        )
                     }
 
                 </li>
@@ -42,7 +48,7 @@ export default function ProjectPage() {
     }
 
     function handleCards(cards: CardDetails[]) {
-        return cards.map(({cardName}, i) => {
+        return cards.map(({ cardName }, i) => {
             return (
                 <li key={i}>
                     <span>{cardName}</span>
@@ -53,12 +59,14 @@ export default function ProjectPage() {
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
-
-        if(projectDetails?._id && newColumnName) {
+        if (projectDetails?._id && newColumnName) {
             postColumnInProject(userDetails._id, projectDetails._id, newColumnName)
-            .then(res => {
-                console.log(res)
-            })
+                .then(updatedProject => {
+                    console.log("test")
+                    setNewColumnName(() => "");
+                    setProjectDetails(() => ({ ...updatedProject }));
+
+                })
         }
     }
 
@@ -68,32 +76,32 @@ export default function ProjectPage() {
 
             <div className="h-full">
                 {
-                !projectDetails
-                ? (<>isLoading</>)
-                : (
-                <>
-                <div className="bg-gray-400 h-10">
-                    <h2>{projectDetails.projectName}</h2>
-                </div>
-                <div>
-                    {
-                        !projectDetails.columns.length
-                        ? (<>isEmpty</>)
+                    !projectDetails
+                        ? (<>isLoading</>)
                         : (
-                            <ul className="flex gap-6 p-1">
-                                {handleColumns(projectDetails.columns)}
-                                <li className="border h-fit p-1">
-                                    <form id="addColumnForm" onSubmit={e =>handleAddColumn(e)}>
-                                        <input type="text" placeholder="Add column" onChange={e => setNewColumnName(e.target.value)}/>
-                                        <button type="submit" form="addColumnForm">+</button>
-                                    </form>
-                                </li>
-                            </ul>
-                            )
-                    }
-                </div>
-                </>
-                )
+                            <>
+                                <div className="bg-gray-400 h-10">
+                                    <h2>{projectDetails.projectName}</h2>
+                                </div>
+                                <div>
+                                    {
+                                        !projectDetails.columns.length
+                                            ? (<>isEmpty</>)
+                                            : (
+                                                <ul className="flex gap-6 p-1">
+                                                    {handleColumns(projectDetails.columns)}
+                                                    <li className="border h-fit p-1">
+                                                        <form id="addColumnForm" onSubmit={e => handleAddColumn(e)}>
+                                                            <input type="text" value={newColumnName || ""} placeholder="Add column" onChange={e => setNewColumnName(e.target.value)} />
+                                                            <button type="submit" form="addColumnForm">+</button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            )
+                                    }
+                                </div>
+                            </>
+                        )
                 }
             </div>
             <Footer />
