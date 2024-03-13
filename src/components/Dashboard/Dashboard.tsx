@@ -12,15 +12,15 @@ type ProjectList = {
     columns: []
 };
 
-type isLoggedInState = {
-    isLoggedIn: boolean
-}
+// type isLoggedInState = {
+//     isLoggedIn: boolean
+// }
 
 export default function Dashboard() {
-    let [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
+    const [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
     const navigate = useNavigate();
-    let status = useSelector((state: isLoggedInState) => state.isLoggedIn);
-    let userDetails = useSelector((state: ProfileState) => state.userDetails);
+    //const status = useSelector((state: isLoggedInState) => state.isLoggedIn);
+    const userDetails = useSelector((state: ProfileState) => state.userDetails);
 
     useEffect(() => {
         getProjectsByUserID(userDetails._id)
