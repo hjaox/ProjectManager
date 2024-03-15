@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import store from './utils/redux/index.tsx';
+import { store, persistor } from './utils/redux/store.tsx';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import {
   createBrowserRouter,
@@ -33,15 +34,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/Guest",
-    element: <Guest/>
+    element: <Guest />
   },
   {
     path: "/Register",
-    element: <Register/>
+    element: <Register />
   },
   {
     path: "/Dashboard",
-    element: <Dashboard/>
+    element: <Dashboard />
   },
   {
     path: "/Project/:projectName/:projectId",
@@ -49,14 +50,18 @@ const router = createBrowserRouter([
   },
   {
     path: "/Test",
-    element: <Test/>
+    element: <Test />
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <PersistGate loading={null} persistor={persistor}>
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+
+    </PersistGate>
   </Provider>
+
 )
