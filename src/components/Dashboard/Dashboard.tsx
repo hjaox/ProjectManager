@@ -38,7 +38,7 @@ export default function Dashboard() {
     }
 
     function handleProjectItem(projectId: string, projectName: string) {
-        navigate(`/Project/${projectName}`, {state: {projectId}})
+        navigate(`/Project/${projectName}/${projectId}`);
     }
 
 

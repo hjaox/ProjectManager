@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { getProjectByProjectId, postColumnInProject, postCardInColumn } from "../../utils/axios/project";
 import { useSelector } from "react-redux";
 import { CardDetails, ColumnDetails, ProfileState, ProjectDetails } from "../../common/types";
@@ -7,18 +7,20 @@ import Header from "../subcomponent/Header/Header";
 import Footer from "../subcomponent/Footer.tsx/Footer";
 
 export default function ProjectPage() {
-    const { state: { projectId } } = useLocation();
+    const { projectId } = useParams();
     const userDetails = useSelector((state: ProfileState) => state.userDetails);
     const [newColumnName, setNewColumnName] = useState<string>("");
     const [newCardName, setNewCardName] = useState<string>("");
     const [projectDetails, setProjectDetails] = useState<null | ProjectDetails>(null);
 
     useEffect(() => {
-        getProjectByProjectId(userDetails._id, projectId)
-            .then(projectDetails => {
-                setProjectDetails(() => ({ ...projectDetails }))
-            })
-
+        if (projectId) {
+            console.log(projectId)
+            getProjectByProjectId(userDetails._id, projectId)
+                .then(projectDetails => {
+                    setProjectDetails(() => ({ ...projectDetails }))
+                })
+        }
     }, [])
 
     function handleColumns(columns: ColumnDetails[]) {
