@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { findProjectsByUserId } = require('../models/projects.model');
+const { findProjectsByUserId,
+    deleteProjectById } = require('../models/projects.model');
 
 function getProjectsByUserId(request , response, next) {
     const { userId } = request.params;
@@ -15,4 +16,18 @@ function getProjectsByUserId(request , response, next) {
     })
 }
 
-module.exports = { getProjectsByUserId }
+function removeProject(request, response, next) {
+    const { userId, projectId } = request.params;
+
+    if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId)) return response.status(400).send({ msg: "Invalid userId, projectId or columnId" });
+
+    return deleteProjectById(userId, projectId)
+        .then(projectDetails => {
+            return response.status(202).send({ projectDetails })
+        })
+        .catch(err => {
+            next(err)
+        })
+}
+
+module.exports = { getProjectsByUserId, removeProject }
