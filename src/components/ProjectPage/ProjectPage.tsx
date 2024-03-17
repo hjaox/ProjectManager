@@ -15,7 +15,6 @@ export default function ProjectPage() {
 
     useEffect(() => {
         if (projectId) {
-            console.log(projectId)
             getProjectByProjectId(userDetails._id, projectId)
                 .then(projectDetails => {
                     setProjectDetails(() => ({ ...projectDetails }))
@@ -26,17 +25,17 @@ export default function ProjectPage() {
     function handleColumns(columns: ColumnDetails[]) {
         return columns.map(({ columnName, cards, _id }, i) => {
             return (
-                <li key={i} className="p-2 border">
-                    <span className="">
+                <li key={i} className="p-2 border rounded-lg h-fit max-w-64 break-words">
+                    <span>
                         {columnName}
                     </span>
 
                     {
                         !!cards.length && (
-                            <ul className="flex pt-2 flex-col">
+                            <ul className="flex pt-2 flex-col gap-2">
                                 {handleCards(cards)}
-                                <li className="border h-fit p-1">
-                                    <form id="addCardForm" onSubmit={e => handleAddCard(e, _id)}>
+                                <li className="border rounded-lg p-1">
+                                    <form id="addCardForm" onSubmit={e => handleAddCard(e, _id)} className="flex justify-between">
                                         <input type="text" value={newCardName || ""} placeholder="Add Card" onChange={e => setNewCardName(e.target.value)} />
                                         <button type="submit" form="addCardForm">+</button>
                                     </form>
@@ -53,7 +52,7 @@ export default function ProjectPage() {
     function handleCards(cards: CardDetails[]) {
         return cards.map(({ cardName }, i) => {
             return (
-                <li key={i}>
+                <li key={i} className="border rounded-lg p-1">
                     <span>{cardName}</span>
                 </li>
             )
@@ -104,8 +103,8 @@ export default function ProjectPage() {
                                             : (
                                                 <ul className="flex gap-6 p-1">
                                                     {handleColumns(projectDetails.columns)}
-                                                    <li className="border h-fit p-1">
-                                                        <form id="addColumnForm" onSubmit={e => handleAddColumn(e)}>
+                                                    <li className="p-2 border rounded-lg h-fit">
+                                                        <form id="addColumnForm" onSubmit={e => handleAddColumn(e)} className="flex justify-between">
                                                             <input type="text" value={newColumnName || ""} placeholder="Add column" onChange={e => setNewColumnName(e.target.value)} />
                                                             <button type="submit" form="addColumnForm">+</button>
                                                         </form>
