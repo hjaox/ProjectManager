@@ -24,8 +24,23 @@ const deleteProjectById = async (userId, projectId) => {
         await doc.save();
         return [doc.projects];
     } catch (err) {
+        return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" });
+    }
+}
+
+const insertProject = async (userId, projectName) => {
+    const formatQuery = sanitizeFilter({ _id: userId });
+    const formatUpdate = sanitizeFilter({ projectName });
+    let doc;
+
+    try {
+        doc = await UserModel.findById(formatQuery);
+        doc.projects.push(formatUpdate);
+        await doc.save();
+        return doc.projects;
+    } catch (err) {
         return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" })
     }
 }
 
-module.exports = { findProjectsByUserId, deleteProjectById }
+module.exports = { findProjectsByUserId, deleteProjectById, insertProject }
