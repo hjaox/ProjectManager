@@ -38,7 +38,7 @@ async function addProject(request, response, next) {
 
     try {
         const updatedProjectList = await insertProject(userId, projectName);
-        return response.status(201).send({projects: updatedProjectList})
+        return response.status(201).send({ projects: updatedProjectList })
     } catch (err) {
         next(err);
     }
