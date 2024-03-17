@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { findProjectsByUserId,
-    deleteProjectById } = require('../models/projects.model');
+    deleteProjectById,
+    insertProject } = require('../models/projects.model');
 
 function getProjectsByUserId(request, response, next) {
     const { userId } = request.params;
@@ -30,4 +31,17 @@ function removeProject(request, response, next) {
         })
 }
 
-module.exports = { getProjectsByUserId, removeProject }
+async function addProject(request, response, next) {
+    const { userId, projectName } = request.body;
+
+    if (!mongoose.isValidObjectId(userId)) return response.status(400).send({ msg: "Invalid userId" });
+
+    try {
+        const updatedProjectList = await insertProject(userId, projectName);
+        return response.status(201).send({ projects: updatedProjectList })
+    } catch (err) {
+        next(err);
+    }
+}
+
+module.exports = { getProjectsByUserId, removeProject, addProject }

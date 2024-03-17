@@ -81,13 +81,14 @@ describe("GET /api/projects/:userId", () => {
             const testUserId = doc[0]._id.toString();
             const testProjectId = doc[0].projects[0]._id.toString();
 
-            const { body: { projectDetails } } = await request(app)
+            const { body: { projects } } = await request(app)
                 .delete(`/api/projects/${testUserId}/${testProjectId}`)
                 .expect(202);
 
             const expected = await UserModel.find({ name: "test" });
-            expect(JSON.stringify(projectDetails)).toEqual(JSON.stringify(expected[0]));
-            expect(projectDetails.projects).not.toContain(testProjectId);
+
+            expect(JSON.stringify(projects)).toEqual(JSON.stringify(expected[0].projects));
+            expect(projects).not.toContain(testProjectId);
         });
         test("400: returns status code 400 if userId or projectId is not a valid ObjectId", async () => {
             const doc = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
@@ -106,6 +107,45 @@ describe("GET /api/projects/:userId", () => {
             await request(app)
                 .delete(`/api/projects/${testUserId}/${testProjectId}`)
                 .expect(404);
+        });
+    });
+    describe("POST /api/projects tests", () => {
+        test("201: returns status code 201 upon successful request", async () => {
+            const testUserId = (await UserModel.find({ name: "test" }))[0]._id.toString();
+            const testProjectName = { projectName: "testPostProjectName" };
+
+            await request(app)
+                .post("/api/projects")
+                .send({ userId: testUserId, ...testProjectName })
+                .expect(201)
+        });
+        test("201: returns updated project list upon successful request", async () => {
+            const testUserId = (await UserModel.find({ name: "test" }))[0]._id.toString();
+            const testProjectName = { projectName: "testPostProjectName" };
+
+            const { body: { projects } } = await request(app)
+                .post("/api/projects")
+                .send({ userId: testUserId, ...testProjectName })
+
+            expect(projects.some(item => item.projectName === testProjectName.projectName)).toBeTruthy();
+        });
+        test("400: returns status code 400 when userId is not a valid ObjectId", async () => {
+            const testUserId = "notAValidObjectId";
+            const testProjectName = { projectName: "testPostProjectName" };
+
+            await request(app)
+                .post("/api/projects")
+                .send({ userId: testUserId, ...testProjectName })
+                .expect(400)
+        });
+        test("404: returns status code 404 when userId does not exist", async () => {
+            const testUserId = "65f716ead3f847fd67b00000";
+            const testProjectName = { projectName: "testPostProjectName" };
+
+            await request(app)
+                .post("/api/projects")
+                .send({ userId: testUserId, ...testProjectName })
+                .expect(404)
         });
     });
 });
