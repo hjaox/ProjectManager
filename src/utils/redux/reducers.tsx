@@ -15,13 +15,13 @@ const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers: {
-        login: (state, {payload}) => {
+        login: (state, { payload }) => {
             state.isLoggedIn = true;
-            state.userDetails = {...payload};
+            state.userDetails = { ...payload };
         },
         logout: (state) => {
             state.isLoggedIn = false;
-            state.userDetails = {...initialState.userDetails};
+            state.userDetails = { ...initialState.userDetails };
         }
     }
 });
