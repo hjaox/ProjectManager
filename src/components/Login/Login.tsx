@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loginUser from "../../utils/axios/login";
 import { useDispatch } from "react-redux";
-import { actions } from "../../utils/redux";
+import { actions } from "../../utils/redux/reducers";
 
 export default function Login() {
     const [username, setUsername] = useState("");
