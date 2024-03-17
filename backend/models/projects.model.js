@@ -22,7 +22,7 @@ const deleteProjectById = async (userId, projectId) => {
         doc = await UserModel.findById(formatQuery);
         doc.projects.id(formatProjId).deleteOne();
         await doc.save();
-        return doc.projects;
+        return [doc.projects];
     } catch (err) {
         return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" })
     }

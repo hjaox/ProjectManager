@@ -3,6 +3,7 @@ import { getProjectsByUserID } from "../../utils/axios/projects";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ProfileState } from "../../common/types";
+import { removeProject } from "../../utils/axios/projects";
 
 type ProjectList = {
     _id: string,
@@ -25,15 +26,26 @@ export default function Dashboard() {
     useEffect(() => {
         getProjectsByUserID(userDetails._id)
         .then(projectList => {
+            console.log(projectList)
             setProjectListData(() => [...projectList]);
         })
     }, [])
 
     function handleProjectList(projects: ProjectList[]) {
         return projects.map(({_id, projectName}, i) => {
-            return <li key={i} className="itemContainer" onClick={() => handleProjectItem(_id, projectName)}>
-                {projectName}
+            return <li key={i} className="itemContainer block relative" onClick={() => handleProjectItem(_id, projectName)}>
+                <span>{projectName}</span>
+                <span className="absolute top-0 right-0" onClick={e => handleProjectDelete(e, userDetails._id, _id)}>x</span>
                 </li>
+        })
+    }
+
+    function handleProjectDelete(e: React.MouseEvent, userId: string, projectId: string) {
+        e.preventDefault();
+        e.stopPropagation();
+        return removeProject(userId, projectId)
+        .then(projectList => {
+            setProjectListData(() => [...projectList]);
         })
     }
 
