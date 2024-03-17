@@ -23,7 +23,7 @@ function insertColumnInProject(userId, projectId, columnName) {
     const formatFilter = sanitizeFilter({ _id: projectId });
     const formatInsert = sanitizeFilter({ columnName });
 
-    return UserModel.findOneAndUpdate({ ...formatQuery },
+    return UserModel.findOneAndUpdate(formatQuery,
         {
             $push: {
                 "projects.$[a].columns": formatInsert
@@ -57,7 +57,7 @@ function insertCardInColumn(userId, projectId, columnId, cardName) {
             }
         }
         , {
-            arrayFilters: [{ "a._id": formatFilterProjId }, {"b._id": formatFilterColId}],
+            arrayFilters: [{ "a._id": formatFilterProjId }, { "b._id": formatFilterColId }],
             new: true,
             projection: { projects: { $elemMatch: formatFilterProjId } }
         })
@@ -71,8 +71,24 @@ function insertCardInColumn(userId, projectId, columnId, cardName) {
         })
 }
 
+const deleteProjectById = async (userId, projectId) => {
+    const formatQuery = sanitizeFilter({ _id: userId });
+    const formatProjId = sanitizeFilter({ _id: projectId });
+    let doc;
+
+    try {
+        doc = await UserModel.findById(formatQuery);
+        doc.projects.id(formatProjId).deleteOne();
+        await doc.save();
+        return doc;
+    } catch (err) {
+        return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" })
+    }
+}
+
 module.exports = {
     findProjectByProjectId,
     insertColumnInProject,
-    insertCardInColumn
+    insertCardInColumn,
+    deleteProjectById
 }

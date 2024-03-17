@@ -1,12 +1,15 @@
 const { getProjectByProjectId,
     postColumnInProject,
-    postCardInColumn } = require("../controllers/project.controller");
+    postCardInColumn,
+    removeProject } = require("../controllers/project.controller");
 
 const projectRouter = require("express").Router();
 
 projectRouter
-.get("/:userId/:projectId", getProjectByProjectId)
-.post("/column", postColumnInProject)
-.post("/column/card", postCardInColumn);
+    .get("/:userId/:projectId", getProjectByProjectId)
+    .delete("/:userId/:projectId", removeProject)
+    .post("/column", postColumnInProject)
+    .post("/column/card", postCardInColumn)
+
 
 module.exports = projectRouter;
