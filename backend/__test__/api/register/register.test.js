@@ -1,10 +1,10 @@
-const app = require("../../app");
-const testData = require("../../mongo/seed/data/test-data");
-const seed = require("../../mongo/seed/seed");
+const app = require("../../../app");
+const testData = require("../../../mongo/seed/data/test-data");
+const seed = require("../../../mongo/seed/seed");
 const mongoose = require("mongoose");
 const request = require("supertest");
-const UserModel = require("../../mongo/models/user.model");
-require("../../mongo/connection");
+const UserModel = require("../../../mongo/models/user.model");
+require("../../../mongo/connection");
 
 beforeEach(() => seed(testData));
 afterAll(() => mongoose.connection.close());
