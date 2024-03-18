@@ -1,30 +1,149 @@
-# React + TypeScript + Vite
+## Endpoints
+- ### GET /api/projects/:userId
+    Returns the list of projects of the user.The endpoint accepts ObjectId as params userId:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+    `/api/projects/65f8af219dc70e58fef84af3`
 
-Currently, two official plugins are available:
+    Returns an the list of projects with the following structure:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    ```
+    {
+	"projects": [
+            {
+                "projectName": "project1Fortest",
+                "_id": "65f8af229dc70e58fef84af9",
+                "createdAt": "2024-03-18T21:16:18.004Z",
+                "updatedAt": "2024-03-18T21:16:18.004Z",
+                "columns": [
+                    {
+                        "columnName": "column1ForProject1Fortest",
+                        "_id": "65f8af229dc70e58fef84b09",
+                        "cards": [
+                            {
+                                "cardName": "P1C1",
+                                "_id": "65f8af229dc70e58fef84b26"
+                            },
+                            {
+                                "cardName": "P1C1",
+                                "_id": "65f8af229dc70e58fef84b28"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "projectName": "project2For1",
+                "_id": "65f8af229dc70e58fef84afb",
+                "createdAt": "2024-03-18T21:16:18.004Z",
+                "updatedAt": "2024-03-18T21:16:18.004Z",
+                "columns": []
+            }
+        ]
+    }
+    ```
 
-## Expanding the ESLint configuration
+- ### POST /api/projects
+    Adds a project for a user that requires the following key-value pairs:
+    ```
+    {
+        "userId": "65f8af219dc70e58fef84af3",
+        "projectName": "testPostNewProject"
+    }
+    ```
+    Returns the updated list of projects of the user:
+    ```
+    {
+	"projects": [
+            {
+                "projectName": "project1Fortest",
+                "_id": "65f8af229dc70e58fef84af9",
+                "createdAt": "2024-03-18T21:16:18.004Z",
+                "updatedAt": "2024-03-18T21:20:34.563Z",
+                "columns": [
+                    {
+                        "columnName": "column1ForProject1Fortest",
+                        "_id": "65f8af229dc70e58fef84b09",
+                        "cards": [
+                            {
+                                "cardName": "P1C1",
+                                "_id": "65f8af229dc70e58fef84b26",
+                                "createdAt": "2024-03-18T21:20:34.562Z",
+                                "updatedAt": "2024-03-18T21:20:34.562Z"
+                            },
+                            {
+                                "cardName": "P1C1",
+                                "_id": "65f8af229dc70e58fef84b28",
+                                "createdAt": "2024-03-18T21:20:34.563Z",
+                                "updatedAt": "2024-03-18T21:20:34.563Z"
+                            }
+                        ],
+                        "createdAt": "2024-03-18T21:20:34.563Z",
+                        "updatedAt": "2024-03-18T21:20:34.563Z"
+                    }
+                ]
+            },
+            {
+                "projectName": "project2For1",
+                "_id": "65f8af229dc70e58fef84afb",
+                "createdAt": "2024-03-18T21:16:18.004Z",
+                "updatedAt": "2024-03-18T21:16:18.004Z",
+                "columns": []
+            },
+            {
+                "projectName": "testPostNewProject",
+                "_id": "65f8b02257f2006ecc679fb5",
+                "columns": [],
+                "createdAt": "2024-03-18T21:20:34.563Z",
+                "updatedAt": "2024-03-18T21:20:34.563Z"
+            }
+        ]
+    }
+    ```
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- ### DELETE /api/projects/:userId/:projectId
+    Deletes a project of a user. It accepts ObjectId for userId and projectId params:
 
-- Configure the top-level `parserOptions` property like this:
+    `http://localhost:9090/api/projects/65f8af219dc70e58fef84af3/65f8b02257f2006ecc679fb5`
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+    Returns an updated list of projects of the user:
+    ```
+    {
+	"projects": [
+            {
+                "projectName": "project1Fortest",
+                "_id": "65f8af229dc70e58fef84af9",
+                "createdAt": "2024-03-18T21:16:18.004Z",
+                "updatedAt": "2024-03-18T21:20:34.563Z",
+                "columns": [
+                    {
+                        "columnName": "column1ForProject1Fortest",
+                        "_id": "65f8af229dc70e58fef84b09",
+                        "cards": [
+                            {
+                                "cardName": "P1C1",
+                                "_id": "65f8af229dc70e58fef84b26",
+                                "createdAt": "2024-03-18T21:20:34.562Z",
+                                "updatedAt": "2024-03-18T21:20:34.562Z"
+                            },
+                            {
+                                "cardName": "P1C1",
+                                "_id": "65f8af229dc70e58fef84b28",
+                                "createdAt": "2024-03-18T21:20:34.563Z",
+                                "updatedAt": "2024-03-18T21:20:34.563Z"
+                            }
+                        ],
+                        "createdAt": "2024-03-18T21:20:34.563Z",
+                        "updatedAt": "2024-03-18T21:20:34.563Z"
+                    }
+                ]
+            },
+            {
+                "projectName": "project2For1",
+                "_id": "65f8af229dc70e58fef84afb",
+                "createdAt": "2024-03-18T21:16:18.004Z",
+                "updatedAt": "2024-03-18T21:16:18.004Z",
+                "columns": []
+            }
+        ]
+    }
+    ```

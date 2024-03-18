@@ -14,3 +14,16 @@ export function removeProject(userId: string, projectId: string) {
             return projects
         })
 }
+
+export function addProject(userId: string, projectName: string) {
+    const body = {
+        userId,
+        projectName
+    }
+
+    return instance
+    .post("/api/projects", body)
+    .then(({data: {projects}}) => {
+        return projects
+    })
+}
