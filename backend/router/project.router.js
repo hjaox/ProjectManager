@@ -1,7 +1,8 @@
 const { getProjectByProjectId,
     postColumnInProject,
     postCardInColumn,
-    removeColumn } = require("../controllers/project.controller");
+    removeColumn,
+    removeCard } = require("../controllers/project.controller");
 
 const projectRouter = require("express").Router();
 
@@ -10,6 +11,7 @@ projectRouter
     .post("/column", postColumnInProject)
     .delete("/column", removeColumn)
     .post("/column/card", postCardInColumn)
+    .delete("/column/card", removeCard)
 
 
 module.exports = projectRouter;
