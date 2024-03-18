@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const { findProjectByProjectId,
     insertColumnInProject,
-    insertCardInColumn } = require('../models/project.model');
+    insertCardInColumn,
+    deleteColumn } = require('../models/project.model');
 
 function getProjectByProjectId(request, response, next) {
     const { projectId, userId } = request.params;
@@ -45,6 +46,24 @@ function postCardInColumn(request, response, next) {
         })
 }
 
+const removeColumn = async (request, response, next) => {
+    const { userId, projectId, columnId } = request.body;
+
+    if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId) || !mongoose.isValidObjectId(columnId)) return response.status(400).send({ msg: "Invalid userId, projectId or columnId" });
+
+    try {
+        const updatedProjectDetails = await deleteColumn(userId, projectId, columnId);
+
+        return response.status(201).send({ projects: updatedProjectDetails });
+    } catch (err) {
+        next(err);
+    }
+}
 
 
-module.exports = { getProjectByProjectId, postColumnInProject, postCardInColumn }
+module.exports = {
+    getProjectByProjectId,
+    postColumnInProject,
+    postCardInColumn,
+    removeColumn
+}

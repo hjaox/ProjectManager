@@ -20,7 +20,7 @@ function getProjectsByUserId(request, response, next) {
 function removeProject(request, response, next) {
     const { userId, projectId } = request.params;
 
-    if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId)) return response.status(400).send({ msg: "Invalid userId, projectId or columnId" });
+    if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId)) return response.status(400).send({ msg: "Invalid userId or projectId" });
 
     return deleteProjectById(userId, projectId)
         .then(([projects]) => {
