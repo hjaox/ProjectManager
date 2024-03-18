@@ -74,15 +74,15 @@ function insertCardInColumn(userId, projectId, columnId, cardName) {
 const deleteColumn = async (userId, projectId, columnId) => {
     const sanitizedUserId = sanitizeFilter({_id: userId});
     const sanitizedProjectId = sanitizeFilter({_id: projectId});
-    const sanitizedcolumnId = sanitizeFilter({_id: columnId});
+    const sanitizedColumnId = sanitizeFilter({_id: columnId});
     let doc;
 
     try {
         doc = await UserModel.findById(sanitizedUserId);
 
         doc
-        .projects.id(sanitizedProjectId._id)
-        .columns.id(sanitizedcolumnId._id).deleteOne();
+        .projects.id(sanitizedProjectId)
+        .columns.id(sanitizedColumnId).deleteOne();
 
         await doc.save();
 
@@ -92,10 +92,34 @@ const deleteColumn = async (userId, projectId, columnId) => {
     }
 }
 
+const deleteCard = async(userId, projectId, columnId, cardId) => {
+    const sanitizedUserId = sanitizeFilter({_id: userId});
+    const sanitizedProjectId = sanitizeFilter({_id: projectId});
+    const sanitizedColumnId = sanitizeFilter({_id: columnId});
+    const sanitizedCardId = sanitizeFilter({_id: cardId});
+    let doc;
+
+    try {
+        doc = await UserModel.findById(sanitizedUserId);
+
+        doc
+        .projects.id(sanitizedProjectId)
+        .columns.id(sanitizedColumnId)
+        .cards.id(sanitizedCardId).deleteOne();
+
+        await doc.save();
+
+        return doc.projects
+    } catch (err) {
+        return Promise.reject({ status: 404, msg: "UserId, ProjectId or CardId not found" })
+    }
+}
+
 
 module.exports = {
     findProjectByProjectId,
     insertColumnInProject,
     insertCardInColumn,
-    deleteColumn
+    deleteColumn,
+    deleteCard
 }

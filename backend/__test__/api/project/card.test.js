@@ -76,4 +76,65 @@ describe("project endpoint tests", () => {
                 })
         });
     });
+    describe("DELETE /api/projects/column/card tests", () => {
+        test("202: returns status code 202 upon successful request", async () => {
+            const [{ _id, projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
+            const testBody = {
+                userId: _id.toString(),
+                projectId: projects[0]._id.toString(),
+                columnId: projects[0].columns[0]._id.toString(),
+                cardId: projects[0].columns[0].cards[0]._id.toString()
+            };
+
+            await request(app)
+                .delete("/api/project/column/card")
+                .send(testBody)
+                .expect(202);
+        });
+        test("202: returns the updated document upon successful request", async () => {
+            const [{ _id, projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
+            const testBody = {
+                userId: _id.toString(),
+                projectId: projects[0]._id.toString(),
+                columnId: projects[0].columns[0]._id.toString(),
+                cardId: projects[0].columns[0].cards[0]._id.toString()
+            };
+
+            const testValue = await request(app)
+                .delete("/api/project/column/card")
+                .send(testBody)
+
+            const [expected] = await UserModel.find({ _id: testBody.userId }, {}, { lean: true });
+
+            expect(JSON.stringify(testValue.body.projects)).toEqual(JSON.stringify(expected.projects));
+        });
+        test("400: returns status code 400 when userId, projectId, columnId or cardId is not a valid ObjectId", async () => {
+            const [{ _id, projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
+            const testBody = {
+                userId: _id.toString(),
+                projectId: projects[0]._id.toString(),
+                columnId: projects[0].columns[0]._id.toString(),
+                cardId: "notAValidObjectId"
+            };
+
+            await request(app)
+                .delete("/api/project/column/card")
+                .send(testBody)
+                .expect(400)
+        });
+        test("404: returns status code 404 when userId or projectId does not exist", async () => {
+            const [{ _id, projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
+            const testBody = {
+                userId: _id.toString(),
+                projectId: projects[0]._id.toString(),
+                columnId: projects[0].columns[0]._id.toString(),
+                cardId: "65ebabf56dbb30c2c0000000"
+            };
+
+            await request(app)
+                .delete("/api/project/column/card")
+                .send(testBody)
+                .expect(404)
+        });
+    });
 });
