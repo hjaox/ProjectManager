@@ -104,7 +104,7 @@ describe("project endpoint tests", () => {
 
             expect(JSON.stringify(testValue.body.projects)).toEqual(JSON.stringify(expected.projects));
         })
-        test("400: returns status code 400 when userId or projectId is not a valid ObjectId", async () => {
+        test("400: returns status code 400 when userId, projectId or columnId is not a valid ObjectId", async () => {
             const [{ projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
 
             const testBody = {
