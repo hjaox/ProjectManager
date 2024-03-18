@@ -54,7 +54,7 @@ const removeColumn = async (request, response, next) => {
     try {
         const updatedProjectDetails = await deleteColumn(userId, projectId, columnId);
 
-        return response.status(201).send({ projects: updatedProjectDetails });
+        return response.status(202).send({ projects: updatedProjectDetails });
     } catch (err) {
         next(err);
     }

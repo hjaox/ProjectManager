@@ -78,7 +78,7 @@ describe("project endpoint tests", () => {
                 .expect(404)
         });
     });
-    describe("POST /api/projects/column tests", () => {
+    describe("POST /api/project/column tests", () => {
         test("201: returns status code 201 upon successful request", () => {
             return UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } })
                 .then(([{ _id, projects }]) => {
@@ -203,5 +203,68 @@ describe("project endpoint tests", () => {
                         .expect(404)
                 })
         });
+    });
+    describe("DELETE /api/project/column tests", () => {
+        test("202: returns status code 202 upon successful request", async () => {
+            const [{ _id, projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
+            const testBody = {
+                userId: _id.toString(),
+                projectId: projects[0]._id.toString(),
+                columnId: projects[0].columns[0]._id
+            };
+
+            await request(app)
+                .delete("/api/project/column")
+                .send(testBody)
+                .expect(202)
+        });
+        test("202: returns the updated document upon successful request", async () => {
+            const [{ _id, projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
+
+            const testBody = {
+                userId: _id.toString(),
+                projectId: projects[0]._id.toString(),
+                columnId: projects[0].columns[0]._id
+            };
+
+
+            const testValue = await request(app)
+                .delete("/api/project/column/")
+                .send(testBody)
+
+            const expected = await UserModel.findById({ _id: testBody.userId }, {}, { lean: true });
+
+            expect(JSON.stringify(testValue.body.projects)).toEqual(JSON.stringify(expected.projects));
+        })
+    });
+    test("400: returns status code 400 when userId or projectId is not a valid ObjectId", async () => {
+        const [{ projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
+
+        const testBody = {
+            userId: "notAValidObjectId",
+            projectId: projects[0]._id.toString(),
+            columnId: projects[0].columns[0]._id
+        };
+
+        await request(app)
+            .delete("/api/project/column")
+            .send(testBody)
+            .expect(400)
+
+    });
+    test("404: returns status code 404 when userId or projectId does not exist", async () => {
+        const [{ projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
+
+        const testBody = {
+            userId: "65f8ba8d45f5e2112ad00000",
+            projectId: projects[0]._id.toString(),
+            columnId: projects[0].columns[0]._id
+        };
+
+        await request(app)
+            .delete("/api/project/column")
+            .send(testBody)
+            .expect(404)
+
     });
 });
