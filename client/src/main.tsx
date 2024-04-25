@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
+import "../style/index.scss";
 import { store, persistor } from './utils/redux/store.tsx';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -11,9 +11,8 @@ import {
 } from "react-router-dom";
 
 import Login from './components/Login/Login.tsx';
-import Guest from './components/Homepage/components/Guest.tsx';
 import Register from './components/Register/Register.tsx';
-import Homepage from './components/Homepage/Homepage.tsx';
+import Home from './components/Home/Home.tsx';
 import Test from './Test.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import App from './App.tsx';
@@ -25,16 +24,12 @@ const router = createBrowserRouter([
     element: <App />
   },
   {
-    path: "/Homepage",
-    element: <Homepage />
+    path: "/Home",
+    element: <Home />
   },
   {
     path: "/Login",
     element: <Login />
-  },
-  {
-    path: "/Guest",
-    element: <Guest />
   },
   {
     path: "/Register",
