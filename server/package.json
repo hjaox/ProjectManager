@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "server": "nodemon server-listen.js",
-    "seed": "node ./mongo/seed/run-seed.js",
-    "setup-dbs": "psql -f ./mongo/setup.sql"
+    "seed": "node ./mongo/seed/run-seed.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +14,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",
