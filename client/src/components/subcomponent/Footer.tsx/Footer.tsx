@@ -1,6 +1,8 @@
+import "../../../style/subcomponents/footer.scss";
+
 export default function Footer() {
     return (
-        <div className="h-10 bg-slate-500">
+        <div className="footer">
             Made by hjao
         </div>
     )
