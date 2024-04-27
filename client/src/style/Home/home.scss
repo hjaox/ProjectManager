@@ -1,0 +1,67 @@
+@use "../index.scss";
+
+
+.home-layout {
+    @include index.page-layout;
+
+    .home-header {
+        height: 3.5rem;
+        background-color: index.$platinum;
+        position: fixed;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+
+        .home-header-title {
+            font-size: xx-large;
+            font-weight: bold;
+            align-self: center;
+            cursor: pointer;
+        }
+
+        .home-header-navigation {
+            display: flex;
+            gap: 1rem;
+
+            .home-header-navigation-option {
+                padding: 0 1rem;
+                border: 1px solid transparent;
+                cursor: pointer;
+                background-color: index.$platinum;
+                font-size: large;
+            }
+
+            .home-header-navigation-option:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+
+            }
+        }
+    }
+
+    .home-display {
+        @include index.page-display;
+    }
+}
+
+// .light {
+//     .home-header {
+//         background-color: index.$platinum;
+
+//         .home-header-navigation {
+
+//             .home-header-navigation-option {
+//                 background-color: index.$platinum;
+//             }
+
+//             .home-header-navigation-option:hover {
+//                 background-color: index.$oxford-blue;
+//                 color: white;
+//             }
+//         }
+//     }
+// }

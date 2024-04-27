@@ -1,7 +1,10 @@
+@import "./index.css";
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Poppins-Light;
 }
 
 @mixin page-layout {
@@ -13,5 +16,11 @@
 }
 
 @mixin page-display {
-
+    flex: 1;
+    position: relative;
+    top: 3.5rem
 }
+
+//colors
+$oxford-blue: rgb(20, 33, 61);
+$platinum: rgb(229, 229, 229);
