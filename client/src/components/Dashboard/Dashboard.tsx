@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ProfileState } from "../../common/types";
 import Header from "../subcomponent/Header/Header";
 import "../../style/Dashboard/dashboard.scss";
+import Footer from "../subcomponent/Footer.tsx/Footer";
 
 type ProjectList = {
     _id: string,
@@ -22,10 +23,15 @@ export default function Dashboard() {
     const [newProjectName, setNewProjectName] = useState<string>("")
 
     useEffect(() => {
-        getProjectsByUserID(userDetails._id)
-            .then(projectList => {
+
+        (async () => {
+            try {
+                const projectList = await getProjectsByUserID(userDetails._id);
                 setProjectListData(() => [...projectList]);
-            })
+            } catch {
+
+            }
+        })();
     }, [])
 
     function handleProjectList(projects: ProjectList[]) {
@@ -37,26 +43,32 @@ export default function Dashboard() {
         })
     }
 
-    function handleProjectDelete(e: React.MouseEvent, userId: string, projectId: string) {
+    async function handleProjectDelete(e: React.MouseEvent, userId: string, projectId: string) {
         e.preventDefault();
         e.stopPropagation();
-        return removeProject(userId, projectId)
-            .then(projectList => {
-                setProjectListData(() => [...projectList]);
-            })
+
+        try {
+            const projectList = await removeProject(userId, projectId);
+            setProjectListData(() => [...projectList]);
+        } catch {
+
+        }
     }
 
     function handleProjectItem(projectId: string, projectName: string) {
         navigate(`/Project/${projectName}/${projectId}`);
     }
 
-    function handleAddProject(e: React.FormEvent, userId: string, projectName: string) {
+    async function handleAddProject(e: React.FormEvent, userId: string, projectName: string) {
         e.preventDefault();
-        return addProject(userId, projectName)
-            .then(projectList => {
-                setProjectListData(() => [...projectList]);
-                setNewProjectName(() => "");
-            })
+
+        try {
+            const projectList = await addProject(userId, projectName);
+            setProjectListData(() => [...projectList]);
+            setNewProjectName(() => "");
+        } catch {
+
+        }
     }
 
     return (
@@ -84,6 +96,8 @@ export default function Dashboard() {
 
                 }
             </section>
+
+            <Footer />
         </section>
     )
 }
