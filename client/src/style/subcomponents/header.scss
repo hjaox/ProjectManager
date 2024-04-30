@@ -1,0 +1,18 @@
+@use "../index.scss";
+
+.header {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-left: 10px;
+    height: 3rem;
+    background-color: index.$platinum;
+    z-index: 2;
+
+    .header-title {
+        font-size: xx-large;
+        font-weight: bold;
+        cursor: pointer;
+    }
+}

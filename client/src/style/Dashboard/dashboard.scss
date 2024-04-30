@@ -1,0 +1,9 @@
+@use "../index.scss";
+
+.dashboard-page {
+    @include index.page-layout;
+
+    .dashboard-display {
+        @include index.page-display;
+    }
+}

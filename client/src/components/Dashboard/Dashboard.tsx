@@ -3,6 +3,8 @@ import { getProjectsByUserID, removeProject, addProject } from "../../utils/axio
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ProfileState } from "../../common/types";
+import Header from "../subcomponent/Header/Header";
+import "../../style/Dashboard/dashboard.scss";
 
 type ProjectList = {
     _id: string,
@@ -11,10 +13,6 @@ type ProjectList = {
     updatedAt: string,
     columns: []
 };
-
-// type isLoggedInState = {
-//     isLoggedIn: boolean
-// }
 
 export default function Dashboard() {
     const [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
@@ -55,33 +53,37 @@ export default function Dashboard() {
     function handleAddProject(e: React.FormEvent, userId: string, projectName: string) {
         e.preventDefault();
         return addProject(userId, projectName)
-        .then(projectList => {
-            setProjectListData(() => [...projectList]);
-            setNewProjectName(() => "");
-        })
+            .then(projectList => {
+                setProjectListData(() => [...projectList]);
+                setNewProjectName(() => "");
+            })
     }
 
     return (
-        <>
-            {
-                projectListData === null ?
-                    (
-                        <p>...isLoading</p>
-                    )
-                    :
-                    (
-                        <ul className="flex gap-2 flex-wrap">
-                            {handleProjectList(projectListData)}
-                            <li className="itemContainer block relative">
-                                <form id="addProjectForm" onSubmit={e => handleAddProject(e, userDetails._id, newProjectName)} className="flex justify-between">
-                                    <input type="text" value={newProjectName || ""} placeholder="Add Project" onChange={e => setNewProjectName(e.target.value)} />
-                                    <button type="submit" form="addProjectForm">+</button>
-                                </form>
-                            </li>
-                        </ul>
-                    )
+        <section className="dashboard-page">
+            <Header />
 
-            }
-        </>
+            <section className="dashboard-display">
+                {
+                    projectListData === null ?
+                        (
+                            <p>...isLoading</p>
+                        )
+                        :
+                        (
+                            <ul className="flex gap-2 flex-wrap">
+                                {handleProjectList(projectListData)}
+                                <li className="itemContainer block relative">
+                                    <form id="addProjectForm" onSubmit={e => handleAddProject(e, userDetails._id, newProjectName)} className="flex justify-between">
+                                        <input type="text" value={newProjectName || ""} placeholder="Add Project" onChange={e => setNewProjectName(e.target.value)} />
+                                        <button type="submit" form="addProjectForm">+</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        )
+
+                }
+            </section>
+        </section>
     )
 }

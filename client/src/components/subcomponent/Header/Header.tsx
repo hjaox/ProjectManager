@@ -1,14 +1,17 @@
-import { useEffect } from "react";
 import SettingsSideBar from "./component/SettingsSideBar";
+import "../../../style/subcomponents/header.scss"
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-
-    useEffect(() => {}, []);
+    const navigate = useNavigate();
 
     return (
-        <div className="text-red-500 border-black border h-12 flex justify-between">
-            ProjectManager
+        <section className="header">
+            <div className="header-title" onClick={() => navigate("/Home")}>
+                ProjectManager
+            </div>
+
             <SettingsSideBar />
-        </div>
+        </section>
     )
 }

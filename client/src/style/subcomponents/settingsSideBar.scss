@@ -1,0 +1,130 @@
+@use "../index.scss";
+
+.settings {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+
+    .settings-user {
+        border: 1px solid black;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        @include index.center-elements;
+        background-color: index.$platinum;
+        z-index: 2;
+    }
+
+    .settings-icon {
+        width: 3rem;
+        height: 3rem;
+        border: 1px solid black;
+        cursor: pointer;
+        padding: 0.5rem;
+        transition:
+            color 0.3s ease,
+            background-color 0.3s ease;
+        z-index: 2;
+
+        .settings-open {
+            width: 100%;
+            height: 100%;
+            @include index.center-elements;
+
+            .settings-open-line {
+                position: absolute;
+                border: 1px solid black;
+                width: 2.5rem;
+                content: "";
+            }
+
+            .slash {
+                transform: rotate(45deg);
+            }
+
+            .backslash {
+                transform: rotate(-45deg);
+            }
+        }
+
+        .settings-closed {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 100%;
+
+            .settings-closed-line {
+                border: 1px solid black;
+                width: 2.5rem;
+                content: "";
+            }
+        }
+    }
+
+    .settings-icon:hover {
+        background-color: index.$oxford-blue;
+        color: white;
+        transition:
+            color 0.3s ease,
+            background-color 0.3s ease;
+
+        .settings-open {
+            .settings-open-line {
+                border: 1px solid white;
+            }
+        }
+
+        .settings-closed {
+            .settings-closed-line {
+                border: 1px solid white;
+            }
+        }
+    }
+
+    .settings-dropdown {
+        position: absolute;
+        right: 0px;
+        top: 3rem;
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+
+        .settings-dropdown-option {
+            border: 1px solid transparent;
+            width: fit-content;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        .settings-dropdown-option:hover {
+            background-color: index.$oxford-blue;
+            color: white;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+        }
+    }
+
+    .dropdown-show {
+        background-color: index.$platinum;
+        transition:
+            background-color 0.3s ease,
+            transform 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-hide {
+        color: transparent;
+        background-color: transparent;
+        transition:
+            background-color 0.3s ease,
+            transform 0.3s ease;
+        pointer-events: none;
+        transform: translateY(-100%);
+    }
+}
