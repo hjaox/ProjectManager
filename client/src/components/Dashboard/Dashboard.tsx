@@ -2,32 +2,30 @@ import { useEffect, useState } from "react";
 import { getProjectsByUserID, removeProject, addProject } from "../../utils/axios/projects";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ProfileState } from "../../common/types";
+import { ProfileState, ProjectList } from "../../common/types";
 import Header from "../subcomponent/Header/Header";
 import "../../style/Dashboard/dashboard.scss";
 import Footer from "../subcomponent/Footer.tsx/Footer";
+import { Rings } from "react-loader-spinner";
+import { RiDeleteBin2Fill } from "react-icons/ri";
 
-type ProjectList = {
-    _id: string,
-    projectName: string,
-    createdAt: string,
-    updatedAt: string,
-    columns: []
-};
 
 export default function Dashboard() {
-    const [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
+    const [projectListData, setProjectListData] = useState<ProjectList[]>([]);
     const navigate = useNavigate();
     //const status = useSelector((state: isLoggedInState) => state.isLoggedIn);
     const userDetails = useSelector((state: ProfileState) => state.userDetails);
-    const [newProjectName, setNewProjectName] = useState<string>("")
+    const [newProjectName, setNewProjectName] = useState<string>("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
 
         (async () => {
             try {
+                setLoading(true);
                 const projectList = await getProjectsByUserID(userDetails._id);
                 setProjectListData(() => [...projectList]);
+                setLoading(false);
             } catch {
 
             }
@@ -36,9 +34,11 @@ export default function Dashboard() {
 
     function handleProjectList(projects: ProjectList[]) {
         return projects.map(({ _id, projectName }, i) => {
-            return <li key={i} className="itemContainer block relative" onClick={() => handleProjectItem(_id, projectName)}>
-                <span>{projectName}</span>
-                <span className="absolute top-0 right-0" onClick={e => handleProjectDelete(e, userDetails._id, _id)}>x</span>
+            return <li key={i} className="dashboard-projects-list-item" onClick={() => handleProjectItem(_id, projectName)}>
+                <div className="projects-list-item-title">{projectName}</div>
+                <div className="projects-list-item-delete" onClick={e => handleProjectDelete(e, userDetails._id, _id)}>
+                <RiDeleteBin2Fill className="projects-list-item-delete-icon" size={20}/>
+                </div>
             </li>
         })
     }
@@ -76,24 +76,27 @@ export default function Dashboard() {
             <Header />
 
             <section className="dashboard-display">
+                <h1 className="dashboard-header">Dashboard</h1>
                 {
-                    projectListData === null ?
-                        (
-                            <p>...isLoading</p>
+                    loading
+                        ? (
+                            <>
+                                <Rings />
+                            </>
                         )
-                        :
-                        (
-                            <ul className="flex gap-2 flex-wrap">
-                                {handleProjectList(projectListData)}
-                                <li className="itemContainer block relative">
-                                    <form id="addProjectForm" onSubmit={e => handleAddProject(e, userDetails._id, newProjectName)} className="flex justify-between">
-                                        <input type="text" value={newProjectName || ""} placeholder="Add Project" onChange={e => setNewProjectName(e.target.value)} />
-                                        <button type="submit" form="addProjectForm">+</button>
-                                    </form>
-                                </li>
-                            </ul>
+                        : (
+                            <section className="dashboard-projects">
+                                <ul className="dashboard-projects-list">
+                                    {handleProjectList(projectListData)}
+                                    <li className="dashboard-addProject">
+                                        <form id="addProjectForm" onSubmit={e => handleAddProject(e, userDetails._id, newProjectName)}>
+                                            <input type="text" value={newProjectName || ""} placeholder="Add Project" onChange={e => setNewProjectName(e.target.value)} />
+                                            <button type="submit" form="addProjectForm">+</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </section>
                         )
-
                 }
             </section>
 

@@ -2,8 +2,64 @@
 
 .dashboard-page {
     @include index.page-layout;
+    align-items: center;
 
     .dashboard-display {
         @include index.page-display;
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+
+        .dashboard-header {
+            font-size: xx-large;
+            width: 100%;
+            border-bottom: 1px solid index.$platinum;
+        }
+
+        .dashboard-projects {
+            flex: 1;
+
+            .dashboard-projects-list {
+                list-style: none;
+                display: flex;
+                gap: 1rem;
+                padding: 1rem 0;
+                flex-wrap: wrap;
+
+                .dashboard-projects-list-item {
+                    background-color: index.$oxford-blue;
+                    color: white;
+                    width: 15rem;
+                    height: 8rem;
+                    border-radius: 0.5rem;
+                    position: relative;
+                    padding: 1rem;
+                    cursor: pointer;
+
+                    .projects-list-item-delete {
+                        position: absolute;
+                        color: white;
+                        top: 5px;
+                        right: 5px;
+                        border: 1px solid transparent;
+                        @include index.center-elements;
+                        border-radius: 50%;
+                        transition:
+                            color 0.3s ease,
+                            background-color 0.3s ease;
+                    }
+
+                    .projects-list-item-delete:hover {
+                        background-color: white;
+                        transition: background-color 0.3s ease;
+
+                        .projects-list-item-delete-icon {
+                            color: index.$oxford-blue;
+                            transition: color 0.3s ease;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

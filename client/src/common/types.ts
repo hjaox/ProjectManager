@@ -26,3 +26,11 @@ export type ColumnDetails = {
 export type CardDetails = {
     cardName: string,
 };
+
+export type ProjectList = {
+    _id: string,
+    projectName: string,
+    createdAt: string,
+    updatedAt: string,
+    columns: []
+};
