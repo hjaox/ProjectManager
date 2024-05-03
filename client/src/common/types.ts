@@ -34,5 +34,5 @@ export type TProjects = {
 
 export type TProfileOverview = {
     projects: TProject[],
-    project: TProject | null
+    project: TProject,
 }

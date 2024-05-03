@@ -68,8 +68,8 @@
             padding-left: 0.5rem;
             font-size: small;
             transition:
-            color 0.3s ease,
-            background-color 0.3s ease;
+                color 0.3s ease,
+                background-color 0.3s ease;
             cursor: pointer;
         }
 
@@ -77,8 +77,13 @@
             background-color: index.$oxford-blue;
             color: white;
             transition:
-            color 0.3s ease,
-            background-color 0.3s ease;
+                color 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        .item-active {
+            background-color: rgba(20, 33, 61, 0.5);
+            color: white;
         }
     }
 }

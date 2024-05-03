@@ -11,10 +11,10 @@ import { getProjectsByUserID } from "../../utils/axios/projects";
 
 export default function Project() {
     const { projectId } = useParams();
-    const userDetails = useSelector((state: TProfileState) => state.userDetails);
+    const userId = useSelector((state: TProfileState) => state.userDetails._id);
     const [newColumnName, setNewColumnName] = useState<string>("");
     const [newCardName, setNewCardName] = useState<string>("");
-    const [project, setProject] = useState<null | TProject>(null);
+    const [project, setProject] = useState<TProject | null>(null);
     const [pageLoading, setPageLoading] = useState(false);
     const [projects, setProjects] = useState<TProject[]>([]);
 
@@ -23,9 +23,9 @@ export default function Project() {
             setPageLoading(true);
             (async () => {
                 try {
-                    const projectDetails = await getProjectByProjectId(userDetails._id, projectId);
-                    const userProjectlist = await getProjectsByUserID(userDetails._id);
-                    setProjects(() => ([ ...userProjectlist ]));
+                    const projectDetails = await getProjectByProjectId(userId, projectId);
+                    const userProjectlist = await getProjectsByUserID(userId);
+                    setProjects(() => ([...userProjectlist]));
                     setProject(() => ({ ...projectDetails }));
                 } catch {
 
@@ -35,6 +35,16 @@ export default function Project() {
             setPageLoading(false);
         }
     }, [])
+
+    useEffect(() => {
+        if (projectId) {
+            (async () => {
+                const projectDetails = await getProjectByProjectId(userId, projectId);
+                setProject(() => ({ ...projectDetails }));
+            })();
+        }
+
+    }, [projectId]);
 
     function handleColumns(columns: ColumnDetails[]) {
         return columns.map(({ columnName, cards, _id }, i) => {
@@ -76,7 +86,7 @@ export default function Project() {
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
         if (project?._id && newColumnName) {
-            postColumnInProject(userDetails._id, project._id, newColumnName)
+            postColumnInProject(userId, project._id, newColumnName)
                 .then(updatedProject => {
                     setNewColumnName(() => "");
                     setProject(() => ({ ...updatedProject }));
@@ -88,7 +98,7 @@ export default function Project() {
     function handleAddCard(e: React.FormEvent, columnId: string) {
         e.preventDefault();
         if (project?._id && newCardName) {
-            postCardInColumn(userDetails._id, project._id, columnId, newCardName)
+            postCardInColumn(userId, project._id, columnId, newCardName)
                 .then(updatedProject => {
                     setNewCardName(() => "");
                     setProject(() => ({ ...updatedProject }));
@@ -96,7 +106,7 @@ export default function Project() {
                 })
         }
     }
-    console.log(projects)
+
     return (
         <section className="project-page">
             <Header />
@@ -109,12 +119,19 @@ export default function Project() {
                         )
                         : (
                             <>
-                                <ProfileOverview
-                                projects={projects}
-                                project={project}
-                                />
-                                <section className="project-board">
-                                </section>
+                                {
+                                    project && (
+                                        <>
+                                            <ProfileOverview
+                                                projects={projects}
+                                                project={project}
+                                            />
+                                            <section className="project-board">
+                                            </section>
+                                        </>
+
+                                    )
+                                }
                             </>
 
                         )

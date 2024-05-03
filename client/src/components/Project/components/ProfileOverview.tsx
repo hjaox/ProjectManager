@@ -3,18 +3,24 @@ import { TfiArrowCircleLeft } from "react-icons/tfi";
 import { TfiArrowCircleRight } from "react-icons/tfi";
 import "../../../style/Project/projectOverview.scss";
 import { TProfileOverview } from "../../../common/types";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileOverview({ projects, project }: TProfileOverview) {
     const [expandOverview, setExpandOverview] = useState(true);
+    const navigate = useNavigate();
 
     function displayProjects() {
-        return projects.map(({ projectName }, i) => {
+        return projects.map((item, i) => {
             return (
-                <li key={i} className="profile-overview-projects-list-item">
-                    {projectName}
+                <li key={i} className={`profile-overview-projects-list-item ${checkActiveProject(item._id, project._id) ? "item-active" : ""}`} onClick={() => navigate(`/Project/${item.projectName}/${item._id}`)}>
+                    {item.projectName}
                 </li>
             )
         })
+    }
+
+    function checkActiveProject(projectId: string, currProjectId: string) {
+        return projectId === currProjectId;
     }
 
     return (
