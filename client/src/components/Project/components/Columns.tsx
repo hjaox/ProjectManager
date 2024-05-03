@@ -29,28 +29,13 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                     </h3>
                     {
                         <Cards
-                        userId={userId}
-                        projectId={project._id}
-                        setProject={setProject}
-                        cards={cards}
-                        columnId={_id}
+                            userId={userId}
+                            projectId={project._id}
+                            setProject={setProject}
+                            cards={cards}
+                            columnId={_id}
                         />
                     }
-                    {/*
-                    {
-                        !!cards.length && (
-                            <ul className="flex pt-2 flex-col gap-2">
-                                {handleCards(cards)}
-                                <li className="border rounded-lg p-1">
-                                    <form id="addCardForm" onSubmit={e => handleAddCard(e, _id)} className="flex justify-between">
-                                        <input type="text" value={newCardName || ""} placeholder="Add Card" onChange={e => setNewCardName(e.target.value)} />
-                                        <button type="submit" form="addCardForm">+</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        )
-                    } */}
-
                 </li>
             )
         });
