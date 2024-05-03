@@ -44,7 +44,7 @@ export default function Columns({ columns, setProject, userId, project }: TColum
     return (
         <ul className="project-board-column-list">
             {
-                columns.length && (
+                !!columns.length && (
                     <>
                         {handleColumns(columns)}
                     </>
