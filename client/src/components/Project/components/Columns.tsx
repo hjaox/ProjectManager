@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { TColumns, TProjectCards, TProjectColumn } from "../../../common/types";
 import { postCardInColumn, postColumnInProject } from "../../../utils/axios/project";
+import "../../../style/Project/columns.scss";
 
 export default function Columns({ columns, setProject, userId, project }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
@@ -21,10 +22,10 @@ export default function Columns({ columns, setProject, userId, project }: TColum
     function handleColumns(columns: TProjectColumn[]) {
         return columns.map(({ columnName, cards, _id }, i) => {
             return (
-                <li key={i} className="p-2 border rounded-lg h-fit max-w-64 break-words">
-                    <span>
+                <li key={i} className="project-board-column-list-item">
+                    <h3>
                         {columnName}
-                    </span>
+                    </h3>
                     {/*
                     {
                         !!cards.length && (
@@ -70,7 +71,7 @@ export default function Columns({ columns, setProject, userId, project }: TColum
     }
 
     return (
-        <ul className="project-board-columns">
+        <ul className="project-board-column-list">
             {
                 columns.length && (
                     <>
@@ -78,11 +79,12 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                     </>
                 )
             }
-            <form id="addColumnForm" onSubmit={e => handleAddColumn(e)} className="flex justify-between">
-                <input type="text" value={newColumnName || ""} placeholder="Add column" onChange={e => setNewColumnName(e.target.value)} />
-                <button type="submit" form="addColumnForm">+</button>
-            </form>
-
+            <li className="project-board-column-list-item add-column">
+                <form id="column-add-form" onSubmit={e => handleAddColumn(e)} className="flex justify-between">
+                    <input type="text" value={newColumnName || ""} placeholder="Add column" onChange={e => setNewColumnName(e.target.value)} />
+                    <button type="submit" form="column-add-form">+</button>
+                </form>
+            </li>
         </ul>
     )
 }
