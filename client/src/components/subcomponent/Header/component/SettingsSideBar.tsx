@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux"
-import { ProfileState } from "../../../../common/types";
+import { TProfileState } from "../../../../common/types";
 import { useState } from "react";
 import "../../../../style/subcomponents/settingsSideBar.scss";
 
 export default function SettingsSideBar() {
-    const userDetails = useSelector((state: ProfileState) => state.userDetails);
+    const userDetails = useSelector((state: TProfileState) => state.userDetails);
     const [showSettings, setShowSettings] = useState(false);
 
     function handleName(name: string) {

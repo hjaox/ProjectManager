@@ -2,8 +2,30 @@
 
 .dashboard-page {
     @include index.page-layout;
+    align-items: center;
 
     .dashboard-display {
         @include index.page-display;
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+
+        .dashboard-header {
+            font-size: xx-large;
+            width: 100%;
+            border-bottom: 1px solid index.$platinum;
+        }
+
+        .dashboard-projects {
+            flex: 1;
+
+            .dashboard-projects-list {
+                list-style: none;
+                display: flex;
+                gap: 1rem;
+                padding: 1rem 0;
+                flex-wrap: wrap;
+            }
+        }
     }
 }

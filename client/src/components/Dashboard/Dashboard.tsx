@@ -1,62 +1,44 @@
 import { useEffect, useState } from "react";
-import { getProjectsByUserID, removeProject, addProject } from "../../utils/axios/projects";
+import { getProjectsByUserID, addProject } from "../../utils/axios/projects";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { ProfileState } from "../../common/types";
+import { TProfileState, TProject } from "../../common/types";
 import Header from "../subcomponent/Header/Header";
 import "../../style/Dashboard/dashboard.scss";
-
-type ProjectList = {
-    _id: string,
-    projectName: string,
-    createdAt: string,
-    updatedAt: string,
-    columns: []
-};
+import Footer from "../subcomponent/Footer.tsx/Footer";
+import { Rings } from "react-loader-spinner";
+import Projects from "./components/Projects";
 
 export default function Dashboard() {
-    const [projectListData, setProjectListData] = useState<ProjectList[] | null>(null);
-    const navigate = useNavigate();
+    const [projects, setProjects] = useState<TProject[]>([]);
     //const status = useSelector((state: isLoggedInState) => state.isLoggedIn);
-    const userDetails = useSelector((state: ProfileState) => state.userDetails);
-    const [newProjectName, setNewProjectName] = useState<string>("")
+    const userDetails = useSelector((state: TProfileState) => state.userDetails);
+    const [newProjectName, setNewProjectName] = useState<string>("");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        getProjectsByUserID(userDetails._id)
-            .then(projectList => {
-                setProjectListData(() => [...projectList]);
-            })
+
+        (async () => {
+            try {
+                setLoading(true);
+                const userProjectlist = await getProjectsByUserID(userDetails._id);
+                setProjects(() => [...userProjectlist]);
+                setLoading(false);
+            } catch {
+
+            }
+        })();
     }, [])
 
-    function handleProjectList(projects: ProjectList[]) {
-        return projects.map(({ _id, projectName }, i) => {
-            return <li key={i} className="itemContainer block relative" onClick={() => handleProjectItem(_id, projectName)}>
-                <span>{projectName}</span>
-                <span className="absolute top-0 right-0" onClick={e => handleProjectDelete(e, userDetails._id, _id)}>x</span>
-            </li>
-        })
-    }
-
-    function handleProjectDelete(e: React.MouseEvent, userId: string, projectId: string) {
+    async function handleAddProject(e: React.FormEvent, userId: string, projectName: string) {
         e.preventDefault();
-        e.stopPropagation();
-        return removeProject(userId, projectId)
-            .then(projectList => {
-                setProjectListData(() => [...projectList]);
-            })
-    }
 
-    function handleProjectItem(projectId: string, projectName: string) {
-        navigate(`/Project/${projectName}/${projectId}`);
-    }
+        try {
+            const updatedProjectList = await addProject(userId, projectName);
+            setProjects(() => [...updatedProjectList]);
+            setNewProjectName(() => "");
+        } catch {
 
-    function handleAddProject(e: React.FormEvent, userId: string, projectName: string) {
-        e.preventDefault();
-        return addProject(userId, projectName)
-            .then(projectList => {
-                setProjectListData(() => [...projectList]);
-                setNewProjectName(() => "");
-            })
+        }
     }
 
     return (
@@ -64,26 +46,34 @@ export default function Dashboard() {
             <Header />
 
             <section className="dashboard-display">
+                <h1 className="dashboard-header">Dashboard</h1>
                 {
-                    projectListData === null ?
-                        (
-                            <p>...isLoading</p>
+                    loading
+                        ? (
+                            <>
+                                <Rings />
+                            </>
                         )
-                        :
-                        (
-                            <ul className="flex gap-2 flex-wrap">
-                                {handleProjectList(projectListData)}
-                                <li className="itemContainer block relative">
-                                    <form id="addProjectForm" onSubmit={e => handleAddProject(e, userDetails._id, newProjectName)} className="flex justify-between">
-                                        <input type="text" value={newProjectName || ""} placeholder="Add Project" onChange={e => setNewProjectName(e.target.value)} />
-                                        <button type="submit" form="addProjectForm">+</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        )
+                        : (
+                            <section className="dashboard-projects">
+                                <ul className="dashboard-projects-list">
+                                    <Projects
+                                        projects={projects}
+                                        setProjects={setProjects} />
 
+                                    <li className="dashboard-addProject">
+                                        <form id="addProjectForm" onSubmit={e => handleAddProject(e, userDetails._id, newProjectName)}>
+                                            <input type="text" value={newProjectName || ""} placeholder="Add Project" onChange={e => setNewProjectName(e.target.value)} />
+                                            <button type="submit" form="addProjectForm">+</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </section>
+                        )
                 }
             </section>
+
+            <Footer />
         </section>
     )
 }

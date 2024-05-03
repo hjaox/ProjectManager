@@ -1,4 +1,4 @@
-export type ProfileState = {
+export type TProfileState = {
     userDetails: {
         _id: string,
         name: string,
@@ -9,20 +9,37 @@ export type ProfileState = {
     isLoggedIn: boolean
 };
 
-export type ProjectDetails = {
+export type TProject = {
     projectName: string,
     _id: string,
     createdAt: string,
     updatedAt: string,
-    columns: ColumnDetails[]
+    columns: TProjectColumn[]
 };
 
-export type ColumnDetails = {
+export type TProjectColumn = {
     columnName: string,
     _id: string,
-    cards: CardDetails[]
+    cards: TProjectCards[]
 };
 
-export type CardDetails = {
+export type TProjectCards = {
     cardName: string,
 };
+
+export type TProjects = {
+    projects: TProject[],
+    setProjects: React.Dispatch<React.SetStateAction<TProject[]>>
+}
+
+export type TProfileOverview = {
+    projects: TProject[],
+    project: TProject,
+}
+
+export type TColumns = {
+    columns: TProjectColumn[],
+    userId: string,
+    setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
+    project: TProject
+}
