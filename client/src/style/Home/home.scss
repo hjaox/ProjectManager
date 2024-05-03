@@ -5,13 +5,14 @@
     @include index.page-layout;
 
     .home-header {
-        height: 3.5rem;
+        height: 3rem;
         background-color: index.$platinum;
         position: fixed;
         width: 100%;
         display: flex;
         justify-content: space-between;
         padding: 0 10px;
+        z-index: 2;
 
         .home-header-title {
             font-size: xx-large;
@@ -45,6 +46,7 @@
 
     .home-display {
         @include index.page-display;
+        z-index: 1;
     }
 }
 

@@ -13,6 +13,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    scrollbar-gutter: stable;
+    z-index: 1;
 }
 
 @mixin page-display {
