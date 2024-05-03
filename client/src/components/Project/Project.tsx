@@ -7,6 +7,7 @@ import Header from "../subcomponent/Header/Header";
 import "../../style/Project/project.scss";
 import { Rings } from "react-loader-spinner";
 import ProfileOverview from "./components/ProfileOverview";
+import { getProjectsByUserID } from "../../utils/axios/projects";
 
 export default function Project() {
     const { projectId } = useParams();
@@ -14,22 +15,24 @@ export default function Project() {
     const [newColumnName, setNewColumnName] = useState<string>("");
     const [newCardName, setNewCardName] = useState<string>("");
     const [project, setProject] = useState<null | TProject>(null);
-    const [loading, setLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(false);
     const [projects, setProjects] = useState<TProject[]>([]);
 
     useEffect(() => {
         if (projectId) {
-            setLoading(true);
+            setPageLoading(true);
             (async () => {
                 try {
                     const projectDetails = await getProjectByProjectId(userDetails._id, projectId);
+                    const userProjectlist = await getProjectsByUserID(userDetails._id);
+                    setProjects(() => ([ ...userProjectlist ]));
                     setProject(() => ({ ...projectDetails }));
                 } catch {
 
                 }
             })();
 
-            setLoading(false);
+            setPageLoading(false);
         }
     }, [])
 
@@ -93,20 +96,25 @@ export default function Project() {
                 })
         }
     }
-
+    console.log(projects)
     return (
         <section className="project-page">
             <Header />
 
             <section className="project-display">
                 {
-                    loading
+                    pageLoading
                         ? (
                             <Rings />
                         )
                         : (
                             <>
-                               <ProfileOverview />
+                                <ProfileOverview
+                                projects={projects}
+                                project={project}
+                                />
+                                <section className="project-board">
+                                </section>
                             </>
 
                         )

@@ -31,3 +31,8 @@ export type TProjects = {
     projects: TProject[],
     setProjects: React.Dispatch<React.SetStateAction<TProject[]>>
 }
+
+export type TProfileOverview = {
+    projects: TProject[],
+    project: TProject | null
+}

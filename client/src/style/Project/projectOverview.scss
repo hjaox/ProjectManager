@@ -33,6 +33,7 @@
     backdrop-filter: blur(5px);
     border: 1px solid index.$platinum;
     z-index: 2;
+    border-right: 1px solid gainsboro;
 
     .overview-expanded-expand-toggle {
         @include expand-toggle;
@@ -47,9 +48,39 @@
     }
 
     h2 {
-        font-size: medium;
+        font-size: large;
+        border-bottom: 1px solid index.$platinum;
+        padding-left: 0.5rem;
     }
 
+    h3 {
+        padding-left: 0.5rem;
+        font-size: medium;
+        border-bottom: 1px solid index.$platinum;
+    }
+
+    .profile-overview-projects-list {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+
+        .profile-overview-projects-list-item {
+            padding-left: 0.5rem;
+            font-size: small;
+            transition:
+            color 0.3s ease,
+            background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-overview-projects-list-item:hover {
+            background-color: index.$oxford-blue;
+            color: white;
+            transition:
+            color 0.3s ease,
+            background-color 0.3s ease;
+        }
+    }
 }
 
 .overview-show {
@@ -72,6 +103,7 @@
     left: 0;
     height: 100%;
     z-index: 2;
+    border-right: 1px solid gainsboro;
 
     .overview-minimized-expand-toggle {
         @include expand-toggle;
