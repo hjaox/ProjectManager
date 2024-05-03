@@ -16,7 +16,7 @@ import Home from './components/Home/Home.tsx';
 import Test from './Test.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import App from './App.tsx';
-import ProjectPage from './components/ProjectPage/ProjectPage.tsx';
+import ProjectPage from './components/Project/Project.tsx';
 
 const router = createBrowserRouter([
   {
