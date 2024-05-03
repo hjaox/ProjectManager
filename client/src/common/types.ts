@@ -43,3 +43,11 @@ export type TColumns = {
     setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
     project: TProject
 }
+
+export type TCards = {
+    userId: string,
+    projectId: string,
+    setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
+    cards: TProjectCards[],
+    columnId: string
+}

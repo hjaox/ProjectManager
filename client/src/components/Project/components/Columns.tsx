@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { TColumns, TProjectCards, TProjectColumn } from "../../../common/types";
-import { postCardInColumn, postColumnInProject } from "../../../utils/axios/project";
+import { TColumns, TProjectColumn } from "../../../common/types";
+import { postColumnInProject } from "../../../utils/axios/project";
 import "../../../style/Project/columns.scss";
+import Cards from "./Cards";
 
 export default function Columns({ columns, setProject, userId, project }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
-    const [newCardName, setNewCardName] = useState<string>("");
+
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
@@ -26,6 +27,15 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                     <h3>
                         {columnName}
                     </h3>
+                    {
+                        <Cards
+                        userId={userId}
+                        projectId={project._id}
+                        setProject={setProject}
+                        cards={cards}
+                        columnId={_id}
+                        />
+                    }
                     {/*
                     {
                         !!cards.length && (
@@ -44,30 +54,6 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                 </li>
             )
         });
-    }
-
-    function handleCards(cards: TProjectCards[]) {
-        return cards.map(({ cardName }, i) => {
-            return (
-                <li key={i} className="border rounded-lg p-1">
-                    <span>{cardName}</span>
-                </li>
-            )
-        })
-    }
-
-
-
-    function handleAddCard(e: React.FormEvent, columnId: string) {
-        e.preventDefault();
-        if (project?._id && newCardName) {
-            postCardInColumn(userId, project._id, columnId, newCardName)
-                .then(updatedProject => {
-                    setNewCardName(() => "");
-                    setProject(() => ({ ...updatedProject }));
-
-                })
-        }
     }
 
     return (
