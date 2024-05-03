@@ -14,16 +14,16 @@ export type TProject = {
     _id: string,
     createdAt: string,
     updatedAt: string,
-    columns: ColumnDetails[]
+    columns: TProjectColumn[]
 };
 
-export type ColumnDetails = {
+export type TProjectColumn = {
     columnName: string,
     _id: string,
-    cards: CardDetails[]
+    cards: TProjectCards[]
 };
 
-export type CardDetails = {
+export type TProjectCards = {
     cardName: string,
 };
 
@@ -35,4 +35,11 @@ export type TProjects = {
 export type TProfileOverview = {
     projects: TProject[],
     project: TProject,
+}
+
+export type TColumns = {
+    columns: TProjectColumn[],
+    userId: string,
+    setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
+    project: TProject
 }
