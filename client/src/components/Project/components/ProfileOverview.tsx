@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { TfiArrowCircleLeft } from "react-icons/tfi";
 import { TfiArrowCircleRight } from "react-icons/tfi";
 import "../../../style/Project/projectOverview.scss";
 import { TProfileOverview } from "../../../common/types";
 import { useNavigate } from "react-router-dom";
 
-export default function ProfileOverview({ projects, project }: TProfileOverview) {
-    const [expandOverview, setExpandOverview] = useState(true);
+export default function ProfileOverview({ projects, project, expandOverview, setExpandOverview}: TProfileOverview) {
     const navigate = useNavigate();
 
     function displayProjects() {
@@ -24,7 +22,7 @@ export default function ProfileOverview({ projects, project }: TProfileOverview)
     }
 
     return (
-        <>
+        <div className="profile-overview-container">
             <section className={`profile-overview ${expandOverview ? "overview-show" : "overview-hide"}`}>
                 <h2>User Workspace</h2>
                 <div className="profile-overview-projects">
@@ -53,6 +51,6 @@ export default function ProfileOverview({ projects, project }: TProfileOverview)
                     <TfiArrowCircleRight className="minimized-icon-right" />
                 </div>
             </div>
-        </>
+        </div>
     )
 }

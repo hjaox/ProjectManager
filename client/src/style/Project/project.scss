@@ -15,7 +15,7 @@
             z-index: 0;
 
             h2 {
-                padding-left: 2rem;
+                padding-left: 1rem;
                 border-bottom: 1px solid gainsboro;
                 backdrop-filter: blur(5px);
                 background-color: rgba(255, 255, 255, 0.5);
@@ -23,6 +23,16 @@
                 display: flex;
                 align-items: center;
             }
+        }
+
+        .p-left-15rem {
+            padding-left: 15rem;
+            transition: padding-left 0.3s ease;
+        }
+
+        .p-left-1rem {
+            padding-left: 1rem;
+            transition: padding-left 0.3s ease;
         }
     }
 }
