@@ -1,31 +1,5 @@
 @use "../index.scss";
 
-@mixin expand-toggle {
-    position: absolute;
-    background-color: white;
-    backdrop-filter: blur(5px);
-    top: 0.5rem;
-    right: -0.8rem;
-    border: 1px solid transparent;
-    border-radius: 50%;
-    width: fit-content;
-    height: fit-content;
-    cursor: pointer;
-    z-index: 2;
-    @include index.center-elements;
-    transition:
-        background-color 0.3s ease,
-        color 0.3s ease;
-}
-
-@mixin expand-toggle-hover {
-    background-color: index.$oxford-blue;
-    color: white;
-    transition:
-        background-color 0.3s ease,
-        color 0.3s ease;
-}
-
 .project-page {
     @include index.page-layout;
 
@@ -34,72 +8,6 @@
         display: flex;
         background-image: url("../../assets/media/1.jpg");
         background-size: contain;
-
-        .profile-overview {
-            position: relative;
-            white-space: nowrap;
-            background-color: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(5px);
-            border: 1px solid index.$platinum;
-            z-index: 2;
-
-            .overview-expanded-expand-toggle {
-                @include expand-toggle;
-
-                .expand-icon-left {
-                    font-size: 1.5rem;
-                }
-            }
-
-            .overview-expanded-expand-toggle:hover {
-                @include expand-toggle-hover;
-            }
-        }
-
-        .overview-show {
-            width: 15%;
-            transition: width 0.3s ease;
-        }
-
-        .overview-hide {
-            width: 0;
-            transition: width 0.3s ease;
-            overflow: hidden;
-        }
-
-        .overview-minimized {
-            background-color: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(5px);
-            border: 1px solid index.$platinum;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            z-index: 2;
-
-            .overview-minimized-expand-toggle {
-                @include expand-toggle;
-
-                .minimized-icon-right {
-                    font-size: 1.5rem;
-                }
-            }
-
-            .overview-minimized-expand-toggle:hover {
-                @include expand-toggle-hover;
-            }
-        }
-
-        .minimized-show {
-            width: 1rem;
-            transition: width 0.3s ease;
-        }
-
-        .minimized-hide {
-            width: 0;
-            transition: width 0.3s ease;
-            overflow: hidden;
-        }
 
         .project-board {
             position: relative;

@@ -6,8 +6,7 @@ import { CardDetails, ColumnDetails, TProfileState, TProject } from "../../commo
 import Header from "../subcomponent/Header/Header";
 import "../../style/Project/project.scss";
 import { Rings } from "react-loader-spinner";
-import { TfiArrowCircleLeft } from "react-icons/tfi";
-import { TfiArrowCircleRight } from "react-icons/tfi";
+import ProfileOverview from "./components/ProfileOverview";
 
 export default function Project() {
     const { projectId } = useParams();
@@ -16,7 +15,7 @@ export default function Project() {
     const [newCardName, setNewCardName] = useState<string>("");
     const [project, setProject] = useState<null | TProject>(null);
     const [loading, setLoading] = useState(false);
-    const [expandOverview, setExpandOverview] = useState(true);
+    const [projects, setProjects] = useState<TProject[]>([]);
 
     useEffect(() => {
         if (projectId) {
@@ -107,24 +106,7 @@ export default function Project() {
                         )
                         : (
                             <>
-                                <div className={`profile-overview ${expandOverview ? "overview-show" : "overview-hide"}`}>
-                                    <h2>User Workspace</h2>
-                                    <div className="overview-expanded-expand-toggle" onClick={() => setExpandOverview(false)}>
-                                        <TfiArrowCircleLeft className="expand-icon-left" />
-                                    </div>
-
-                                </div>
-
-                                <div className={`overview-minimized ${expandOverview ? "minimized-hide" : "minimized-show"}`}>
-                                    <div className="overview-minimized-expand-toggle" onClick={() => setExpandOverview(true)}>
-                                        <TfiArrowCircleRight className="minimized-icon-right" />
-                                    </div>
-                                </div>
-
-
-                                <section className="project-board">
-                                    {`${expandOverview}`}
-                                </section>
+                               <ProfileOverview />
                             </>
 
                         )
