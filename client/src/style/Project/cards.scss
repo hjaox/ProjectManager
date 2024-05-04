@@ -14,7 +14,39 @@
         backdrop-filter: blur(5px);
         cursor: pointer;
         transition: border 0.3s ease;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+
+        h4 {
+            font-weight: normal;
+            max-width: 15rem;
+            overflow: hidden;
+            transition: max-width 0.3s ease;
+            word-wrap: break-word;
+        }
+
+        .card-edit-container {
+            border: 1px solid transparent;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            flex-shrink: 0;
+            @include index.center-elements;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        .card-edit-container:hover {
+            background-color: index.$oxford-blue;
+            color: white;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+        }
     }
+
     .project-board-column-card-list-item:hover {
         border: 1px solid index.$oxford-blue;
         transition: border 0.3s ease;
