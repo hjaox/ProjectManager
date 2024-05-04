@@ -57,9 +57,9 @@ export default function Cards({ userId, projectId, setProject, cards, columnId }
                 )
             }
             <li className="project-board-column-card-list-item-add">
-                <form id={`add-card-form-${columnId}`} onSubmit={e => handleAddCard(e)}>
+                <form id={`form-${columnId}`} className="add-card-form" onSubmit={e => handleAddCard(e)}>
                     <input name="card-add-form-input" type="text" value={newCardName || ""} placeholder="Add Card" onChange={e => setNewCardName(e.target.value)} className={`card-add-form-input ${emptyCardError ? "input-error" : ""}`} />
-                    <button type="submit" form={`add-card-form-${columnId}`}>+</button>
+                    <button type="submit" form={`form-${columnId}`}>+</button>
                     {
                         addCardError && (
                             <div className="card-add-form-error">
