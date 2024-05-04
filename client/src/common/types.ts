@@ -35,6 +35,8 @@ export type TProjects = {
 export type TProfileOverview = {
     projects: TProject[],
     project: TProject,
+    setExpandOverview: React.Dispatch<React.SetStateAction<boolean>>,
+    expandOverview: boolean
 }
 
 export type TColumns = {
@@ -42,4 +44,12 @@ export type TColumns = {
     userId: string,
     setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
     project: TProject
+}
+
+export type TCards = {
+    userId: string,
+    projectId: string,
+    setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
+    cards: TProjectCards[],
+    columnId: string
 }

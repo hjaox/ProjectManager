@@ -16,6 +16,7 @@ export default function Project() {
     const [project, setProject] = useState<TProject | null>(null);
     const [pageLoading, setPageLoading] = useState(false);
     const [projects, setProjects] = useState<TProject[]>([]);
+    const [expandOverview, setExpandOverview] = useState(true);
 
     useEffect(() => {
         if (projectId) {
@@ -63,8 +64,11 @@ export default function Project() {
                                             <ProfileOverview
                                                 projects={projects}
                                                 project={project}
+                                                setExpandOverview={setExpandOverview}
+                                                expandOverview={expandOverview}
                                             />
-                                            <section className="project-board">
+
+                                            <section className={`project-board ${expandOverview ? "p-left-15rem" : "p-left-1rem"}`}>
                                                 <h2>
                                                     {project.projectName}
                                                 </h2>

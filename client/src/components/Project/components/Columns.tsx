@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { TColumns, TProjectCards, TProjectColumn } from "../../../common/types";
-import { postCardInColumn, postColumnInProject } from "../../../utils/axios/project";
+import { TColumns, TProjectColumn } from "../../../common/types";
+import { postColumnInProject } from "../../../utils/axios/project";
+import "../../../style/Project/columns.scss";
+import Cards from "./Cards";
 
 export default function Columns({ columns, setProject, userId, project }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
-    const [newCardName, setNewCardName] = useState<string>("");
+
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
@@ -21,68 +23,39 @@ export default function Columns({ columns, setProject, userId, project }: TColum
     function handleColumns(columns: TProjectColumn[]) {
         return columns.map(({ columnName, cards, _id }, i) => {
             return (
-                <li key={i} className="p-2 border rounded-lg h-fit max-w-64 break-words">
-                    <span>
+                <li key={i} className="project-board-column-list-item">
+                    <h3>
                         {columnName}
-                    </span>
-                    {/*
+                    </h3>
                     {
-                        !!cards.length && (
-                            <ul className="flex pt-2 flex-col gap-2">
-                                {handleCards(cards)}
-                                <li className="border rounded-lg p-1">
-                                    <form id="addCardForm" onSubmit={e => handleAddCard(e, _id)} className="flex justify-between">
-                                        <input type="text" value={newCardName || ""} placeholder="Add Card" onChange={e => setNewCardName(e.target.value)} />
-                                        <button type="submit" form="addCardForm">+</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        )
-                    } */}
-
+                        <Cards
+                            userId={userId}
+                            projectId={project._id}
+                            setProject={setProject}
+                            cards={cards}
+                            columnId={_id}
+                        />
+                    }
                 </li>
             )
         });
     }
 
-    function handleCards(cards: TProjectCards[]) {
-        return cards.map(({ cardName }, i) => {
-            return (
-                <li key={i} className="border rounded-lg p-1">
-                    <span>{cardName}</span>
-                </li>
-            )
-        })
-    }
-
-
-
-    function handleAddCard(e: React.FormEvent, columnId: string) {
-        e.preventDefault();
-        if (project?._id && newCardName) {
-            postCardInColumn(userId, project._id, columnId, newCardName)
-                .then(updatedProject => {
-                    setNewCardName(() => "");
-                    setProject(() => ({ ...updatedProject }));
-
-                })
-        }
-    }
-
     return (
-        <ul className="project-board-columns">
+        <ul className="project-board-column-list">
             {
-                columns.length && (
+                !!columns.length && (
                     <>
                         {handleColumns(columns)}
                     </>
                 )
             }
-            <form id="addColumnForm" onSubmit={e => handleAddColumn(e)} className="flex justify-between">
-                <input type="text" value={newColumnName || ""} placeholder="Add column" onChange={e => setNewColumnName(e.target.value)} />
-                <button type="submit" form="addColumnForm">+</button>
-            </form>
-
+            <li className="project-board-column-list-item add-column">
+                <form id="column-add-form" onSubmit={e => handleAddColumn(e)} className="flex justify-between">
+                    <input type="text" value={newColumnName || ""} placeholder="Add column" onChange={e => setNewColumnName(e.target.value)} />
+                    <button type="submit" form="column-add-form">+</button>
+                </form>
+            </li>
         </ul>
     )
 }

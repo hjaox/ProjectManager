@@ -26,110 +26,117 @@
         color 0.3s ease;
 }
 
-.profile-overview {
-    position: relative;
-    white-space: nowrap;
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(5px);
-    border: 1px solid index.$platinum;
-    z-index: 2;
-    border-right: 1px solid gainsboro;
+.profile-overview-container {
+    position: fixed;
+    z-index: 100;
+    height: calc(100vh - 3rem);
 
-    .overview-expanded-expand-toggle {
-        @include expand-toggle;
+    .profile-overview {
+        position: relative;
+        white-space: nowrap;
+        background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(5px);
+        border: 1px solid index.$platinum;
+        z-index: 2;
+        border-right: 1px solid gainsboro;
+        height: 100%;
 
-        .expand-icon-left {
-            font-size: 1.5rem;
+        .overview-expanded-expand-toggle {
+            @include expand-toggle;
+
+            .expand-icon-left {
+                font-size: 1.5rem;
+            }
         }
-    }
 
-    .overview-expanded-expand-toggle:hover {
-        @include expand-toggle-hover;
-    }
+        .overview-expanded-expand-toggle:hover {
+            @include expand-toggle-hover;
+        }
 
-    h2 {
-        font-size: large;
-        border-bottom: 1px solid index.$platinum;
-        padding-left: 0.5rem;
-    }
-
-    h3 {
-        padding-left: 0.5rem;
-        font-size: medium;
-        border-bottom: 1px solid index.$platinum;
-    }
-
-    .profile-overview-projects-list {
-        display: flex;
-        flex-direction: column;
-        list-style: none;
-
-        .profile-overview-projects-list-item {
+        h2 {
+            font-size: large;
+            border-bottom: 1px solid index.$platinum;
             padding-left: 0.5rem;
-            font-size: small;
-            transition:
-                color 0.3s ease,
-                background-color 0.3s ease;
-            cursor: pointer;
         }
 
-        .profile-overview-projects-list-item:hover {
-            background-color: index.$oxford-blue;
-            color: white;
-            transition:
-                color 0.3s ease,
-                background-color 0.3s ease;
+        h3 {
+            padding-left: 0.5rem;
+            font-size: medium;
+            border-bottom: 1px solid index.$platinum;
         }
 
-        .item-active {
-            background-color: rgba(20, 33, 61, 0.5);
-            color: white;
-        }
-    }
-}
+        .profile-overview-projects-list {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
 
-.overview-show {
-    width: 15%;
-    transition: width 0.3s ease;
-}
+            .profile-overview-projects-list-item {
+                padding-left: 0.5rem;
+                font-size: small;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+                cursor: pointer;
+            }
 
-.overview-hide {
-    width: 0;
-    transition: width 0.3s ease;
-    overflow: hidden;
-}
+            .profile-overview-projects-list-item:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
 
-.overview-minimized {
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(5px);
-    border: 1px solid index.$platinum;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    z-index: 2;
-    border-right: 1px solid gainsboro;
-
-    .overview-minimized-expand-toggle {
-        @include expand-toggle;
-
-        .minimized-icon-right {
-            font-size: 1.5rem;
+            .item-active {
+                background-color: rgba(20, 33, 61, 0.5);
+                color: white;
+            }
         }
     }
 
-    .overview-minimized-expand-toggle:hover {
-        @include expand-toggle-hover;
+    .overview-show {
+        width: 15rem;
+        transition: width 0.3s ease;
     }
-}
 
-.minimized-show {
-    width: 1rem;
-    transition: width 0.3s ease;
-}
+    .overview-hide {
+        width: 0;
+        transition: width 0.3s ease;
+        overflow: hidden;
+    }
 
-.minimized-hide {
-    width: 0;
-    transition: width 0.3s ease;
-    overflow: hidden;
+    .overview-minimized {
+        background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(5px);
+        border: 1px solid index.$platinum;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 2;
+        border-right: 1px solid gainsboro;
+
+        .overview-minimized-expand-toggle {
+            @include expand-toggle;
+
+            .minimized-icon-right {
+                font-size: 1.5rem;
+            }
+        }
+
+        .overview-minimized-expand-toggle:hover {
+            @include expand-toggle-hover;
+        }
+    }
+
+    .minimized-show {
+        width: 1rem;
+        transition: width 0.3s ease;
+    }
+
+    .minimized-hide {
+        width: 0;
+        transition: width 0.3s ease;
+        overflow: hidden;
+    }
 }

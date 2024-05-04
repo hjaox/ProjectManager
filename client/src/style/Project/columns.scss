@@ -1,0 +1,29 @@
+@use "../index.scss";
+
+.project-board-column-list {
+    display: flex;
+    list-style: none;
+    padding: 0.5rem;
+    gap: 1rem;
+
+    .project-board-column-list-item {
+        padding: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(5px);
+        border-radius: 0.5rem;
+        height: fit-content;
+
+        h3 {
+            font-size: medium;
+        }
+    }
+
+    .add-column {
+
+        #column-add-form {
+            input {
+                border: 1px solid transparent;
+            }
+        }
+    }
+}

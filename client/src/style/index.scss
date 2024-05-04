@@ -13,12 +13,15 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow: auto;
+    scrollbar-gutter: stable;
+    z-index: 1;
 }
 
 @mixin page-display {
     flex: 1;
     position: relative;
-    top: 3rem;
+    padding-top: 3rem;
 }
 
 @mixin center-elements {
