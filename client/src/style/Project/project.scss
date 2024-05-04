@@ -11,6 +11,7 @@
         background-size: contain;
         min-width: 100vw;
         width: fit-content;
+        clip-path: inset(0 0 0 0);
 
         .project-board {
             position: relative;
