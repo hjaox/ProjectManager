@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
-import { TColumns, TProjectColumn } from "../../../common/types";
+import { useState } from "react";
+import { TColumns, TProjectCard, TProjectColumn } from "../../../common/types";
 import { postColumnInProject } from "../../../utils/axios/project";
 import "../../../style/Project/columns.scss";
 import Cards from "./Cards";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import EditCard from "./EditCard";
 
 export default function Columns({ columns, setProject, userId, project }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
     const [showCardOptions, setShowcardOptions] = useState<{ [key: string]: boolean }>({ _id: true });
+    const [cardToEdit, setCardToEdit] = useState<TProjectCard>({cardName: "", _id: ""});
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
@@ -17,6 +19,10 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                 setProject(() => ({ ...updatedProject }));
 
             })
+    }
+
+    function handleCardOptionsClose(colId: string) {
+        setShowcardOptions(showCardOptions => ({ ...showCardOptions, [colId]: false }))
     }
 
     function handleColumns(columns: TProjectColumn[]) {
@@ -34,12 +40,17 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                             cards={cards}
                             columnId={_id}
                             setShowcardOptions={setShowcardOptions}
+                            setCardToEdit={setCardToEdit}
                         />
                     }
-                    <div className={`card-options ${showCardOptions[_id] ? "card-options-show" : "card-options-hide"}`} >
-                        <div className="card-edit-close-container" onClick={() => setShowcardOptions(showCardOptions => ({ ...showCardOptions, [_id]: false }))}>
+                    <div className={`card-options-container ${showCardOptions[_id] ? "card-options-show" : "card-options-hide"}`} >
+                        <div className="card-edit-close-container" onClick={() => handleCardOptionsClose(_id)}>
                             <IoCloseCircleOutline />
                         </div>
+                        {
+                            <EditCard
+                                cardToEdit={cardToEdit} />
+                        }
                     </div>
                 </li>
             )

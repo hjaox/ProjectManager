@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { postCardInColumn } from "../../../utils/axios/project";
-import { TCards, TProjectCards } from "../../../common/types";
+import { TCards, TProjectCard } from "../../../common/types";
 import "../../../style/Project/cards.scss";
 import { CiEdit } from "react-icons/ci";
 
-export default function Cards({ userId, projectId, setProject, cards, columnId, setShowcardOptions }: TCards) {
+export default function Cards({ userId, projectId, setProject, cards, columnId, setShowcardOptions, setCardToEdit }: TCards) {
     const [newCardName, setNewCardName] = useState<string>("");
     const [addCardError, setAddCardError] = useState(false);
     const [emptyCardError, setEmptyCardError] = useState(false);
 
     useEffect(() => {
-        setShowcardOptions(showCardOptions => ({...showCardOptions, [columnId]: false}))
+        setShowcardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: false }))
     }, []);
 
     async function handleAddCard(e: React.FormEvent) {
@@ -31,15 +31,19 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
         }
     }
 
-    function handleCards(cards: TProjectCards[]) {
-        return cards.map(({ cardName }, i) => {
+    function handleCardOptionsOpen(card: TProjectCard) {
+        setShowcardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: true }));
+        setCardToEdit(card);
+    }
+
+    function handleCards(cards: TProjectCard[]) {
+        return cards.map((card, i) => {
             return (
                 <li key={i} className="project-board-column-card-list-item">
                     <h4 className="card-display">
-                        {cardName}
-
+                        {card.cardName}
                     </h4>
-                    <div className="card-edit-open-container" onClick={() => setShowcardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: true }))}>
+                    <div className="card-edit-open-container" onClick={() => handleCardOptionsOpen(card)}>
                         <CiEdit />
                     </div>
                 </li>
