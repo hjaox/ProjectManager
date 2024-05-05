@@ -26,7 +26,7 @@
             word-wrap: break-word;
         }
 
-        .card-edit-container {
+        .card-edit-open-container {
             border: 1px solid transparent;
             width: 1.5rem;
             height: 1.5rem;
@@ -38,7 +38,7 @@
                 background-color 0.3s ease;
         }
 
-        .card-edit-container:hover {
+        .card-edit-open-container:hover {
             background-color: index.$oxford-blue;
             color: white;
             transition:

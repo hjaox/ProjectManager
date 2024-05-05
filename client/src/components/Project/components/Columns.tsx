@@ -1,23 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TColumns, TProjectColumn } from "../../../common/types";
 import { postColumnInProject } from "../../../utils/axios/project";
 import "../../../style/Project/columns.scss";
 import Cards from "./Cards";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 export default function Columns({ columns, setProject, userId, project }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
-
+    const [showCardOptions, setShowcardOptions] = useState<{ [key: string]: boolean }>({ _id: true });
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
-        if (project?._id && newColumnName) {
-            postColumnInProject(userId, project._id, newColumnName)
-                .then(updatedProject => {
-                    setNewColumnName(() => "");
-                    setProject(() => ({ ...updatedProject }));
+        postColumnInProject(userId, project._id, newColumnName)
+            .then(updatedProject => {
+                setNewColumnName(() => "");
+                setProject(() => ({ ...updatedProject }));
 
-                })
-        }
+            })
     }
 
     function handleColumns(columns: TProjectColumn[]) {
@@ -34,13 +33,19 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                             setProject={setProject}
                             cards={cards}
                             columnId={_id}
+                            setShowcardOptions={setShowcardOptions}
                         />
                     }
+                    <div className={`card-options ${showCardOptions[_id] ? "card-options-show" : "card-options-hide"}`} >
+                        <div className="card-edit-close-container" onClick={() => setShowcardOptions(showCardOptions => ({ ...showCardOptions, [_id]: false }))}>
+                            <IoCloseCircleOutline />
+                        </div>
+                    </div>
                 </li>
             )
         });
     }
-
+    // style={showCardOptions ? {visibility:"visible"} : {visibility: "hidden"}}
     return (
         <ul className="project-board-column-list">
             {
@@ -59,3 +64,4 @@ export default function Columns({ columns, setProject, userId, project }: TColum
         </ul>
     )
 }
+

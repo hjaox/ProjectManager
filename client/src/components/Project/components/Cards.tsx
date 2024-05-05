@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postCardInColumn } from "../../../utils/axios/project";
 import { TCards, TProjectCards } from "../../../common/types";
 import "../../../style/Project/cards.scss";
 import { CiEdit } from "react-icons/ci";
 
-export default function Cards({ userId, projectId, setProject, cards, columnId }: TCards) {
+export default function Cards({ userId, projectId, setProject, cards, columnId, setShowcardOptions }: TCards) {
     const [newCardName, setNewCardName] = useState<string>("");
     const [addCardError, setAddCardError] = useState(false);
     const [emptyCardError, setEmptyCardError] = useState(false);
-    const [showCardOptions, setShowcardOptions] = useState(false);
+
+    useEffect(() => {
+        setShowcardOptions(showCardOptions => ({...showCardOptions, [columnId]: false}))
+    }, []);
 
     async function handleAddCard(e: React.FormEvent) {
         e.preventDefault();
@@ -34,12 +37,10 @@ export default function Cards({ userId, projectId, setProject, cards, columnId }
                 <li key={i} className="project-board-column-card-list-item">
                     <h4 className="card-display">
                         {cardName}
-                        <CiEdit />
+
                     </h4>
-                    <div className="card-options">
-                        <ul className="card-options-items">
-                            Delete
-                        </ul>
+                    <div className="card-edit-open-container" onClick={() => setShowcardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: true }))}>
+                        <CiEdit />
                     </div>
                 </li>
             )

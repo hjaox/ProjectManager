@@ -51,5 +51,8 @@ export type TCards = {
     projectId: string,
     setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
     cards: TProjectCards[],
-    columnId: string
+    columnId: string,
+    setShowcardOptions: React.Dispatch<React.SetStateAction<{
+        [key: string]: boolean;
+    }>>
 }
