@@ -1,0 +1,71 @@
+@use "../index.scss";
+
+.card-options {
+    background-color: white;
+    margin: 2rem 1rem;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    border-radius: 0.5rem;
+    width: 70%;
+
+    #card-options-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        position: relative;
+
+        .card-options-cardName-input-container {
+            border: 1px solid black;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        button {
+            width: 40%;
+            border-radius: 0.5rem;
+            border: 1px solid black;
+            cursor: pointer;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: index.$oxford-blue;
+            color: white;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        .card-options-items-container {
+            position: absolute;
+            top: 0;
+            right: -1rem;
+
+            .card-options-item {
+                border: 1px solid transparent;
+                padding: 1px 5px;
+                border-radius: 5px;
+                position: absolute;
+                top: 0;
+                background-color: white;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+                cursor: pointer;
+            }
+
+            .card-options-item:hover {
+                border: 1px solid black;
+                padding: 1px 5px;
+                border-radius: 5px;
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+        }
+    }
+}

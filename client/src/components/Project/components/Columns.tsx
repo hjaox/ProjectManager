@@ -1,23 +1,28 @@
 import { useState } from "react";
-import { TColumns, TProjectColumn } from "../../../common/types";
+import { TColumns, TProjectCard, TProjectColumn } from "../../../common/types";
 import { postColumnInProject } from "../../../utils/axios/project";
 import "../../../style/Project/columns.scss";
 import Cards from "./Cards";
+import { IoCloseCircleOutline } from "react-icons/io5";
+import EditCard from "./EditCard";
 
 export default function Columns({ columns, setProject, userId, project }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
-
+    const [showCardOptions, setShowcardOptions] = useState<{ [key: string]: boolean }>({ _id: true });
+    const [cardToEdit, setCardToEdit] = useState<TProjectCard>({ cardName: "", _id: "" });
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
-        if (project?._id && newColumnName) {
-            postColumnInProject(userId, project._id, newColumnName)
-                .then(updatedProject => {
-                    setNewColumnName(() => "");
-                    setProject(() => ({ ...updatedProject }));
+        postColumnInProject(userId, project._id, newColumnName)
+            .then(updatedProject => {
+                setNewColumnName(() => "");
+                setProject(() => ({ ...updatedProject }));
 
-                })
-        }
+            })
+    }
+
+    function handleCardOptionsClose(colId: string) {
+        setShowcardOptions(showCardOptions => ({ ...showCardOptions, [colId]: false }))
     }
 
     function handleColumns(columns: TProjectColumn[]) {
@@ -34,13 +39,27 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                             setProject={setProject}
                             cards={cards}
                             columnId={_id}
+                            setShowcardOptions={setShowcardOptions}
+                            setCardToEdit={setCardToEdit}
                         />
                     }
+                    <div className={`card-options-container ${showCardOptions[_id] ? "card-options-show" : "card-options-hide"}`} >
+                        <div className="card-edit-close-container" onClick={() => handleCardOptionsClose(_id)}>
+                            <IoCloseCircleOutline />
+                        </div>
+                        {
+                            <EditCard
+                                projectId={project._id}
+                                columnId={_id}
+                                cardToEdit={cardToEdit}
+                                setProject={setProject}/>
+                        }
+                    </div>
                 </li>
             )
         });
     }
-
+    // style={showCardOptions ? {visibility:"visible"} : {visibility: "hidden"}}
     return (
         <ul className="project-board-column-list">
             {
@@ -59,3 +78,4 @@ export default function Columns({ columns, setProject, userId, project }: TColum
         </ul>
     )
 }
+
