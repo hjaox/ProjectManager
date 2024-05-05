@@ -60,5 +60,8 @@ export type TCards = {
 }
 
 export type TEditCard = {
+    columnId: string,
     cardToEdit: TProjectCard,
+    projectId: string,
+    setProject: React.Dispatch<React.SetStateAction<TProject | null>>
 }

@@ -1,3 +1,4 @@
+import { TProject } from "../../common/types";
 import { instance } from "./instance";
 
 export function getProjectByProjectId(userId: string, projectId: string) {
@@ -36,4 +37,25 @@ export function postCardInColumn(userId: string, projectId: string, columnId: st
         .then(({ data: { updatedDocument } }) => {
             return updatedDocument;
         })
+}
+
+export async function deleteCard(userId: string, projectId: string, columnId: string, cardId: string) {
+    const config = {
+        data: {
+            userId,
+            projectId,
+            columnId,
+            cardId
+        }
+    };
+
+    try {
+        const updatedDocument:TProject = await instance
+        .delete("/api/project/column/card", config)
+
+        return updatedDocument;
+    } catch(err) {
+        console.log(err)
+        return null;
+    }
 }

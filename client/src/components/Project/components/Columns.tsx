@@ -9,7 +9,7 @@ import EditCard from "./EditCard";
 export default function Columns({ columns, setProject, userId, project }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
     const [showCardOptions, setShowcardOptions] = useState<{ [key: string]: boolean }>({ _id: true });
-    const [cardToEdit, setCardToEdit] = useState<TProjectCard>({cardName: "", _id: ""});
+    const [cardToEdit, setCardToEdit] = useState<TProjectCard>({ cardName: "", _id: "" });
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
@@ -49,7 +49,10 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                         </div>
                         {
                             <EditCard
-                                cardToEdit={cardToEdit} />
+                                projectId={project._id}
+                                columnId={_id}
+                                cardToEdit={cardToEdit}
+                                setProject={setProject}/>
                         }
                     </div>
                 </li>
