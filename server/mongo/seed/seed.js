@@ -54,14 +54,14 @@ function seedColumnsData(columnsData) {
 }
 
 function seedCardsData(cardsData) {
-    const cardPromises = cardsData.map(({for_column, for_project, owner, title}) => {
+    const cardPromises = cardsData.map(({for_column, for_project, owner, title, details}) => {
         return UserModel.findOneAndUpdate(
             {
                 name: owner
             },
             {
                 $push: {
-                    "projects.$[a].columns.$[b].cards": {cardName: title}
+                    "projects.$[a].columns.$[b].cards": {cardName: title, details}
                 }
             },
             {
