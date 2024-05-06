@@ -5,6 +5,11 @@ const cardSchema = mongoose.Schema(
         cardName: {
             type: String,
             required: true
+        },
+        details: {
+            type: String,
+            required: true,
+            default: "",
         }
     },
     {
