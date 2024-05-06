@@ -3,8 +3,8 @@ const { sanitizeFilter } = require('mongoose');
 
 async function findProjectByProjectId(userId, projectId) {
     try {
-        const userProjects = await UserModel.findById(userId);
-        const project = userProjects
+        const document = await UserModel.findById(userId);
+        const project = document
             .projects.id(projectId)
             .toObject();
 
@@ -15,30 +15,22 @@ async function findProjectByProjectId(userId, projectId) {
     }
 }
 
-function insertColumnInProject(userId, projectId, columnName) {
-    const formatQuery = sanitizeFilter({ _id: userId });
-    const formatFilter = sanitizeFilter({ _id: projectId });
-    const formatInsert = sanitizeFilter({ columnName });
+async function insertColumnInProject(userId, projectId, columnName) {
 
-    return UserModel.findOneAndUpdate(formatQuery,
-        {
-            $push: {
-                "projects.$[a].columns": formatInsert
-            }
-        }
-        , {
-            arrayFilters: [{ "a._id": formatFilter }],
-            new: true,
-            projection: { projects: { $elemMatch: formatFilter } }
-        })
-        .then(updatedDocument => {
-            if (!updatedDocument) return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" })
+    try {
+        const document = await UserModel.findById(userId);
+        const project = document
+            .projects.id(projectId);
 
-            return updatedDocument.projects[0];
-        })
-        .catch(err => {
-            return Promise.reject(err);
-        })
+        project
+            .columns.push({ columnName });
+
+        await document.save();
+
+        return project;
+    } catch {
+        return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" });
+    }
 }
 
 function insertCardInColumn(userId, projectId, columnId, cardName) {

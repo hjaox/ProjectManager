@@ -16,22 +16,22 @@ async function getProjectByProjectId(request, response, next) {
 
         return response.status(200).send({ project });
     } catch (err) {
-        next(err)
+        next(err);
     }
 }
 
-function postColumnInProject(request, response, next) {
+async function postColumnInProject(request, response, next) {
     const { userId, projectId, columnName } = request.body;
 
     if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId)) return response.status(400).send({ msg: "Invalid userId or projectId" });
 
-    return insertColumnInProject(userId, projectId, columnName)
-        .then(updatedDocument => {
-            return response.status(201).send({ updatedDocument });
-        })
-        .catch(err => {
-            next(err);
-        })
+    try {
+        const updatedProject = await insertColumnInProject(userId, projectId, columnName);
+
+        return response.status(201).send({ updatedProject });
+    } catch (err) {
+        next(err);
+    }
 }
 
 function postCardInColumn(request, response, next) {
