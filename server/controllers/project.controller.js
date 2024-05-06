@@ -6,18 +6,18 @@ const { findProjectByProjectId,
     deleteCard,
     updateCard } = require('../models/project.model');
 
-function getProjectByProjectId(request, response, next) {
+async function getProjectByProjectId(request, response, next) {
     const { projectId, userId } = request.params;
 
     if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId)) return response.status(400).send({ msg: "Invalid userId or projectId" });
 
-    return findProjectByProjectId(userId, projectId)
-        .then(projectDetails => {
-            return response.status(200).send({ projectDetails })
-        })
-        .catch(err => {
-            next(err)
-        })
+    try {
+        const project = await findProjectByProjectId(userId, projectId);
+
+        return response.status(200).send({ project });
+    } catch (err) {
+        next(err)
+    }
 }
 
 function postColumnInProject(request, response, next) {

@@ -1,21 +1,18 @@
 const UserModel = require("../mongo/models/user.model");
 const { sanitizeFilter } = require('mongoose');
 
-function findProjectByProjectId(userId, projectId) {
-    const formatQuery = sanitizeFilter({ _id: userId });
-    const formatProjection = sanitizeFilter({ _id: projectId });
+async function findProjectByProjectId(userId, projectId) {
+    try {
+        const userProjects = await UserModel.findById(userId);
+        const project = userProjects
+            .projects.id(projectId)
+            .toObject();
 
-    return UserModel.find(formatQuery, {
-        projects: {
-            $elemMatch: formatProjection
-        }
-    })
-        .then(([{ projects }]) => {
-            return projects[0]
-        })
-        .catch(err => {
-            return Promise.reject({ status: 404, msg: "User or project not found" })
-        })
+        return project;
+    } catch {
+
+        return Promise.reject({ status: 404, msg: "User or project not found" })
+    }
 }
 
 function insertColumnInProject(userId, projectId, columnName) {
