@@ -35,8 +35,8 @@ describe("project endpoint tests", () => {
 
                     return request(app)
                         .get(`/api/project/${testUserId}/${testProjectId}`)
-                        .then(({ body: { projectDetails } }) => {
-                            const testVal = [projectDetails].map(item => ({
+                        .then(({ body: { project } }) => {
+                            const testVal = [project].map(item => ({
                                 _id: item._id,
                                 projectName: item.projectName,
                             }))
