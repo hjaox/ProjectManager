@@ -12,6 +12,7 @@
         backdrop-filter: blur(5px);
         border-radius: 0.5rem;
         height: fit-content;
+        min-width: 15rem;
 
         h3 {
             font-size: medium;
@@ -35,11 +36,13 @@
         border-radius: 0.5rem;
         background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(1rem) brightness(50%);
+        min-height: 10rem;
+        display: flex;
 
         .card-edit-close-container {
             position: absolute;
-            right: 5px;
-            top: 5px;
+            right: 2px;
+            top: 2px;
             color: white;
             border: 1px solid transparent;
             width: 1.5rem;
@@ -49,6 +52,7 @@
             transition:
                 color 0.3s ease,
                 background-color 0.3s ease;
+            cursor: pointer;
         }
 
         .card-edit-close-container:hover {

@@ -1,11 +1,10 @@
-import { TProject } from "../../common/types";
 import { instance } from "./instance";
 
 export function getProjectByProjectId(userId: string, projectId: string) {
     return instance
         .get(`/api/project/${userId}/${projectId}`)
-        .then(({ data: { projectDetails } }) => {
-            return projectDetails
+        .then(({ data: { project } }) => {
+            return project;
         })
 }
 
@@ -18,8 +17,8 @@ export function postColumnInProject(userId: string, projectId: string, columnNam
 
     return instance
         .post("/api/project/column", body)
-        .then(({ data: { updatedDocument } }) => {
-            return updatedDocument;
+        .then(({ data: { updatedProject } }) => {
+            return updatedProject;
         })
 
 }
@@ -34,8 +33,8 @@ export function postCardInColumn(userId: string, projectId: string, columnId: st
 
     return instance
         .post("/api/project/column/card", body)
-        .then(({ data: { updatedDocument } }) => {
-            return updatedDocument;
+        .then(({ data: { updatedProject } }) => {
+            return updatedProject;
         })
 }
 
@@ -50,12 +49,11 @@ export async function deleteCard(userId: string, projectId: string, columnId: st
     };
 
     try {
-        const updatedDocument:TProject = await instance
-        .delete("/api/project/column/card", config)
+        const { data: { updatedProject } } = await instance
+            .delete("/api/project/column/card", config);
 
-        return updatedDocument;
-    } catch(err) {
-        console.log(err)
+        return updatedProject;
+    } catch {
         return null;
     }
 }

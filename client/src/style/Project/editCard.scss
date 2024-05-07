@@ -2,10 +2,43 @@
 
 .card-options {
     background-color: white;
-    margin: 2rem 1rem;
+    margin: 2rem 4px;
     padding: 0.5rem 0.5rem 1rem 0.5rem;
     border-radius: 0.5rem;
     width: 70%;
+    align-self: center;
+    justify-self: center;
+
+    .card-options-delete-prompt {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        padding: 1rem;
+
+        .card-options-delete-prompt-select-container {
+            display: flex;
+            gap: 0.5rem;
+
+            .delete-prompt-select-option {
+                border: 1px solid gainsboro;
+                padding: 2px 5px;
+                border-radius: 5px;
+                transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+                cursor: pointer;
+            }
+
+            .delete-prompt-select-option:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+            }
+        }
+    }
 
     #card-options-form {
         display: flex;
@@ -41,11 +74,11 @@
         .card-options-items-container {
             position: absolute;
             top: 0;
-            right: -1rem;
+            right: -0.7rem;
 
             .card-options-item {
                 border: 1px solid transparent;
-                padding: 1px 5px;
+                padding: 1px 3px;
                 border-radius: 5px;
                 position: absolute;
                 top: 0;
@@ -58,7 +91,7 @@
 
             .card-options-item:hover {
                 border: 1px solid black;
-                padding: 1px 5px;
+                padding: 1px 3px;
                 border-radius: 5px;
                 background-color: index.$oxford-blue;
                 color: white;
@@ -68,4 +101,9 @@
             }
         }
     }
+}
+
+.delete-prompt-container {
+    width: 100%;
+    margin: 2rem 4px 1rem 4px;
 }

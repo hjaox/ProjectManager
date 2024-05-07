@@ -51,4 +51,52 @@
         border: 1px solid index.$oxford-blue;
         transition: border 0.3s ease;
     }
+
+    .project-board-column-card-list-item-add {
+        form {
+            display: flex;
+            gap: 0.5rem;
+
+            .card-add-form-input-container {
+                flex: 1;
+                border: 1px solid gainsboro;
+                border-radius: 5px;
+                padding: 3px;
+                max-width: 15rem;
+                height: fit-content;
+                position: relative;
+                z-index: 0;
+
+                .newCardNameEditor {
+                    height: fit-content;
+
+                }
+            }
+
+            .card-add-form-input-container:focus-within {
+                border: 1px solid black;
+            }
+
+            button {
+                align-self: center;
+                height: fit-content;
+                font-size: 1.5rem;
+                border: 1px solid transparent;
+                @include index.center-elements;
+                cursor: pointer;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+                border-radius: 5px;
+            }
+
+            button:hover {
+                color: white;
+                background-color: index.$oxford-blue;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+        }
+    }
 }
