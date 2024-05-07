@@ -40,9 +40,9 @@ async function postCardInColumn(request, response, next) {
     if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId) || !mongoose.isValidObjectId(columnId)) return response.status(400).send({ msg: "Invalid userId, projectId or columnId" });
 
     try {
-        const updatedDocument = await insertCardInColumn(userId, projectId, columnId, cardName);
+        const updatedProject = await insertCardInColumn(userId, projectId, columnId, cardName);
 
-        return response.status(201).send({ updatedDocument });
+        return response.status(201).send({ updatedProject });
 
     } catch (err) {
         next(err);
@@ -55,9 +55,9 @@ const removeColumn = async (request, response, next) => {
     if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId) || !mongoose.isValidObjectId(columnId)) return response.status(400).send({ msg: "Invalid userId, projectId or columnId" });
 
     try {
-        const updatedProjectDetails = await deleteColumn(userId, projectId, columnId);
+        const updatedProject = await deleteColumn(userId, projectId, columnId);
 
-        return response.status(202).send({ projects: updatedProjectDetails });
+        return response.status(202).send({ updatedProject });
     } catch (err) {
         next(err);
     }
@@ -69,9 +69,9 @@ const removeCard = async (request, response, next) => {
     if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId) || !mongoose.isValidObjectId(columnId) || !mongoose.isValidObjectId(cardId)) return response.status(400).send({ msg: "Invalid userId, projectId, columnId or cardId" });
 
     try {
-        const updatedProjectDetails = await deleteCard(userId, projectId, columnId, cardId);
+        const updatedProject = await deleteCard(userId, projectId, columnId, cardId);
 
-        return response.status(202).send({ projects: updatedProjectDetails });
+        return response.status(202).send({ updatedProject });
     } catch (err) {
         next(err)
     }

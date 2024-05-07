@@ -51,45 +51,37 @@ async function insertCardInColumn(userId, projectId, columnId, cardName) {
 }
 
 const deleteColumn = async (userId, projectId, columnId) => {
-    const sanitizedUserId = sanitizeFilter({ _id: userId });
-    const sanitizedProjectId = sanitizeFilter({ _id: projectId });
-    const sanitizedColumnId = sanitizeFilter({ _id: columnId });
-    let doc;
-
     try {
-        doc = await UserModel.findById(sanitizedUserId);
+        const document = await UserModel.findById(userId);
+        const project = document
+            .projects.id(projectId)
 
-        doc
-            .projects.id(sanitizedProjectId)
-            .columns.id(sanitizedColumnId).deleteOne();
+        project
+            .columns.id(columnId).deleteOne();
 
-        await doc.save();
+        await document.save();
 
-        return doc.projects
-    } catch (err) {
+        return project.toObject();
+    } catch {
         return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" })
     }
 }
 
 const deleteCard = async (userId, projectId, columnId, cardId) => {
-    const sanitizedUserId = sanitizeFilter({ _id: userId });
-    const sanitizedProjectId = sanitizeFilter({ _id: projectId });
-    const sanitizedColumnId = sanitizeFilter({ _id: columnId });
-    const sanitizedCardId = sanitizeFilter({ _id: cardId });
-    let doc;
-
     try {
-        doc = await UserModel.findById(sanitizedUserId);
+        const document = await UserModel.findById(userId);
+        const project = document
+            .projects.id(projectId);
 
-        doc
-            .projects.id(sanitizedProjectId)
-            .columns.id(sanitizedColumnId)
-            .cards.id(sanitizedCardId).deleteOne();
+        project
+            .columns.id(columnId)
+            .cards.id(cardId)
+            .deleteOne();
 
-        await doc.save();
+        await document.save();
 
-        return doc.projects
-    } catch (err) {
+        return project.toObject();
+    } catch {
         return Promise.reject({ status: 404, msg: "UserId, ProjectId or CardId not found" })
     }
 }

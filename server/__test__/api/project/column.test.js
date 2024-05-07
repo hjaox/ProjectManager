@@ -92,7 +92,7 @@ describe("project endpoint tests", () => {
             const testBody = {
                 userId: _id.toString(),
                 projectId: projects[0]._id.toString(),
-                columnId: projects[0].columns[0]._id
+                columnId: projects[0].columns[0]._id.toString()
             };
 
 
@@ -100,9 +100,9 @@ describe("project endpoint tests", () => {
                 .delete("/api/project/column/")
                 .send(testBody)
 
-            const expected = await UserModel.findById({ _id: testBody.userId }, {}, { lean: true });
+            const expected = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
 
-            expect(JSON.stringify(testValue.body.projects)).toEqual(JSON.stringify(expected.projects));
+            expect(JSON.stringify(testValue.body.updatedProject)).toEqual(JSON.stringify(expected[0].projects[0]));
         })
         test("400: returns status code 400 when userId, projectId or columnId is not a valid ObjectId", async () => {
             const [{ projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
