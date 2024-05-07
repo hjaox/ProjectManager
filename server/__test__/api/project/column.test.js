@@ -35,19 +35,19 @@ describe("project endpoint tests", () => {
                     return request(app)
                         .post("/api/project/column")
                         .send({ ...testUserId, ...testProjectId, ...testColumnName })
-                        .then(({ body: { updatedDocument } }) => {
+                        .then(({ body: { updatedProject } }) => {
 
                             return UserModel.find({ _id: testUserId.userId }, { projects: { $elemMatch: { _id: testProjectId.projectId } } }, { lean: true })
                                 .then(([result]) => {
 
-                                    expect(JSON.stringify(updatedDocument)).toEqual(JSON.stringify(result.projects[0]));
+                                    expect(JSON.stringify(updatedProject)).toEqual(JSON.stringify(result.projects[0]));
                                 })
                         })
                 })
         });
         test("400: returns status code 400 when userId or projectId is not a valid ObjectId", () => {
             return UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } })
-                .then(([{ _id, projects }]) => {
+                .then(([{ projects }]) => {
                     const testUserId = { userId: "notAValidObjectId" };
                     const testProjectId = { projectId: projects[0]._id.toString() };
                     const testColumnName = { columnName: "newColumnName" };
@@ -60,7 +60,7 @@ describe("project endpoint tests", () => {
         });
         test("404: returns status code 404 when userId or projectId does not exist", () => {
             return UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } })
-                .then(([{ _id, projects }]) => {
+                .then(([{ projects }]) => {
                     const testUserId = { userId: "65ebabf56dbb30c2c0000000" };
                     const testProjectId = { projectId: projects[0]._id.toString() };
                     const testColumnName = { columnName: "newColumnName" };
@@ -92,7 +92,7 @@ describe("project endpoint tests", () => {
             const testBody = {
                 userId: _id.toString(),
                 projectId: projects[0]._id.toString(),
-                columnId: projects[0].columns[0]._id
+                columnId: projects[0].columns[0]._id.toString()
             };
 
 
@@ -100,9 +100,9 @@ describe("project endpoint tests", () => {
                 .delete("/api/project/column/")
                 .send(testBody)
 
-            const expected = await UserModel.findById({ _id: testBody.userId }, {}, { lean: true });
+            const expected = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
 
-            expect(JSON.stringify(testValue.body.projects)).toEqual(JSON.stringify(expected.projects));
+            expect(JSON.stringify(testValue.body.updatedProject)).toEqual(JSON.stringify(expected[0].projects[0]));
         })
         test("400: returns status code 400 when userId, projectId or columnId is not a valid ObjectId", async () => {
             const [{ projects }] = await UserModel.find({ name: "test" }, { projects: { $elemMatch: { projectName: "project1Fortest" } } });
