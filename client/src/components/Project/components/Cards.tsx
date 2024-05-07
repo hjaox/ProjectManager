@@ -3,9 +3,12 @@ import { postCardInColumn } from "../../../utils/axios/project";
 import { TCards, TProjectCard } from "../../../common/types";
 import "../../../style/Project/cards.scss";
 import { CiEdit } from "react-icons/ci";
+import { MdOutlineLibraryAdd } from "react-icons/md";
+import { Editor, EditorState } from "draft-js";
+import 'draft-js/dist/Draft.css';
 
 export default function Cards({ userId, projectId, setProject, cards, columnId, setShowCardOptions, setCardToEdit }: TCards) {
-    const [newCardName, setNewCardName] = useState<string>("");
+    const [editorCardName, setEditorCardName] = useState(EditorState.createEmpty());
     const [addCardError, setAddCardError] = useState(false);
     const [emptyCardError, setEmptyCardError] = useState(false);
 
@@ -15,16 +18,18 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
 
     async function handleAddCard(e: React.FormEvent) {
         e.preventDefault();
-        if (!newCardName.trim().length) {
+        const cardName = editorCardName.getCurrentContent().getPlainText("\u000A");
+
+        if (!cardName.trim().length) {
             setEmptyCardError(true);
             return;
         }
         setEmptyCardError(false);
 
         try {
-            const updatedProject = await postCardInColumn(userId, projectId, columnId, newCardName);
+            const updatedProject = await postCardInColumn(userId, projectId, columnId, cardName);
 
-            setNewCardName(() => "");
+            setEditorCardName(EditorState.createEmpty());
             setProject(() => ({ ...updatedProject }))
         } catch {
             setAddCardError(true);
@@ -63,8 +68,17 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
             }
             <li className="project-board-column-card-list-item-add">
                 <form id={`form-${columnId}`} className="add-card-form" onSubmit={e => handleAddCard(e)}>
-                    <input name="card-add-form-input" type="text" value={newCardName || ""} placeholder="Add Card" onChange={e => setNewCardName(e.target.value)} className={`card-add-form-input ${emptyCardError ? "input-error" : ""}`} />
-                    <button type="submit" form={`form-${columnId}`}>+</button>
+                    <div className="card-add-form-input-container">
+                        <Editor
+                            editorState={editorCardName}
+                            onChange={setEditorCardName}
+                            blockStyleFn={() => `newCardNameEditor column-${columnId}`}
+                            placeholder={emptyCardError ? "Cannot be empty" : "Add Card"}
+                        />
+                    </div>
+                    <button type="submit" form={`form-${columnId}`}>
+                        <MdOutlineLibraryAdd />
+                    </button>
                     {
                         addCardError && (
                             <div className="card-add-form-error">
