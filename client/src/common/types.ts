@@ -66,5 +66,7 @@ export type TEditCard = {
     setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
     setShowCardOptions: React.Dispatch<React.SetStateAction<{
         [key: string]: boolean;
-    }>>
+    }>>,
+    setShowDeletePrompt: React.Dispatch<React.SetStateAction<boolean>>,
+    showDeletePrompt: boolean
 }

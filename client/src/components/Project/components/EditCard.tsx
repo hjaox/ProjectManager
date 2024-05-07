@@ -5,7 +5,7 @@ import { ContentState, Editor, EditorState } from "draft-js";
 import { deleteCard } from "../../../utils/axios/project";
 import { useSelector } from "react-redux";
 
-export default function EditCard({ cardToEdit, projectId, columnId, setProject, setShowCardOptions }: TEditCard) {
+export default function EditCard({ cardToEdit, projectId, columnId, setProject, setShowCardOptions, setShowDeletePrompt, showDeletePrompt }: TEditCard) {
     const userId = useSelector((state: TProfileState) => state.userDetails._id);
     const [cardName, setCardName] = useState(EditorState.createEmpty());
 
@@ -34,22 +34,34 @@ export default function EditCard({ cardToEdit, projectId, columnId, setProject, 
                 setProject(() => ({ ...updatedProject }));
             }
         } catch {
-
         }
     }
 
     return (
-        <div className="card-options">
-            <form id="card-options-form">
-                <div className="card-options-cardName-input-container">
-                    <Editor editorState={cardName} onChange={setCardName} />
-                </div>
-                <ul className="card-options-items-container">
-                    <div className="card-options-item" onClick={() => handleDeleteCard()}>Delete</div>
-                </ul>
-                <button form="card-options-form">Save</button>
-            </form>
-
+        <div className={`card-options ${showDeletePrompt ? "delete-prompt-container" : ""}`}>
+            {
+                showDeletePrompt
+                    ? (
+                        <div className="card-options-delete-prompt">
+                            <div>Delete Card?</div>
+                            <div className="card-options-delete-prompt-select">
+                                <button onClick={() => handleDeleteCard()}>Confirm</button>
+                                <button onClick={() => setShowDeletePrompt(false)}>Cancel</button>
+                            </div>
+                        </div>
+                    )
+                    : (
+                        <form id="card-options-form">
+                            <div className="card-options-cardName-input-container">
+                                <Editor editorState={cardName} onChange={setCardName} />
+                            </div>
+                            <ul className="card-options-items-container">
+                                <div className="card-options-item" onClick={() => setShowDeletePrompt(true)}>Delete</div>
+                            </ul>
+                            <button form="card-options-form">Save</button>
+                        </form>
+                    )
+            }
         </div>
     )
 }

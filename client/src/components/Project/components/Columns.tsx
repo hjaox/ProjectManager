@@ -8,7 +8,9 @@ import EditCard from "./EditCard";
 
 export default function Columns({ columns, setProject, userId, project }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
-    const [showCardOptions, setShowCardOptions] = useState<{ [key: string]: boolean }>({ _id: true });
+    const [showCardOptions, setShowCardOptions] = useState<{ [key: string]: boolean }>
+        ({ _id: true });
+    const [showDeletePrompt, setShowDeletePrompt] = useState(false);
     const [cardToEdit, setCardToEdit] = useState<TProjectCard>({ cardName: "", _id: "" });
 
     function handleAddColumn(e: React.FormEvent) {
@@ -22,7 +24,8 @@ export default function Columns({ columns, setProject, userId, project }: TColum
     }
 
     function handleCardOptionsClose(colId: string) {
-        setShowCardOptions(showCardOptions => ({ ...showCardOptions, [colId]: false }))
+        setShowCardOptions(showCardOptions => ({ ...showCardOptions, [colId]: false }));
+        setShowDeletePrompt(false);
     }
 
     function handleColumns(columns: TProjectColumn[]) {
@@ -54,6 +57,8 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                                 cardToEdit={cardToEdit}
                                 setProject={setProject}
                                 setShowCardOptions={setShowCardOptions}
+                                setShowDeletePrompt={setShowDeletePrompt}
+                                showDeletePrompt={showDeletePrompt}
                             />
                         }
                     </div>
@@ -61,7 +66,7 @@ export default function Columns({ columns, setProject, userId, project }: TColum
             )
         });
     }
-    // style={showCardOptions ? {visibility:"visible"} : {visibility: "hidden"}}
+
     return (
         <ul className="project-board-column-list">
             {
