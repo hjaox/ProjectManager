@@ -4,13 +4,13 @@ import { TCards, TProjectCard } from "../../../common/types";
 import "../../../style/Project/cards.scss";
 import { CiEdit } from "react-icons/ci";
 
-export default function Cards({ userId, projectId, setProject, cards, columnId, setShowcardOptions, setCardToEdit }: TCards) {
+export default function Cards({ userId, projectId, setProject, cards, columnId, setShowCardOptions, setCardToEdit }: TCards) {
     const [newCardName, setNewCardName] = useState<string>("");
     const [addCardError, setAddCardError] = useState(false);
     const [emptyCardError, setEmptyCardError] = useState(false);
 
     useEffect(() => {
-        setShowcardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: false }))
+        setShowCardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: false }))
     }, []);
 
     async function handleAddCard(e: React.FormEvent) {
@@ -32,7 +32,7 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
     }
 
     function handleCardOptionsOpen(card: TProjectCard) {
-        setShowcardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: true }));
+        setShowCardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: true }));
         setCardToEdit(card);
     }
 

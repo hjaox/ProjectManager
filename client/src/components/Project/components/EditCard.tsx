@@ -4,7 +4,8 @@ import "../../../style/Project/editCard.scss";
 import { ContentState, Editor, EditorState } from "draft-js";
 import { deleteCard } from "../../../utils/axios/project";
 import { useSelector } from "react-redux";
-export default function EditCard({ cardToEdit, projectId, columnId, setProject }: TEditCard) {
+
+export default function EditCard({ cardToEdit, projectId, columnId, setProject, setShowCardOptions }: TEditCard) {
     const userId = useSelector((state: TProfileState) => state.userDetails._id);
     const [cardName, setCardName] = useState(EditorState.createEmpty());
 
@@ -15,10 +16,22 @@ export default function EditCard({ cardToEdit, projectId, columnId, setProject }
 
     async function handleDeleteCard() {
         try {
-            console.log(userId, projectId, columnId, cardToEdit._id)
             const updatedProject = await deleteCard(userId, projectId, columnId, cardToEdit._id)
+
             if (updatedProject) {
-                setProject(() => ({ ...updatedProject }))
+                setShowCardOptions(showCardOptions => {
+                    return Object.entries(showCardOptions).reduce((newOptions, option: [string, boolean]) => {
+                        const key = option[0];
+                        const value = option[1];
+
+                        if (key !== cardToEdit._id) {
+                            return { ...newOptions, key: false };
+                        }
+                        return { ...newOptions, key: value };
+                    }, {});
+                });
+
+                setProject(() => ({ ...updatedProject }));
             }
         } catch {
 
