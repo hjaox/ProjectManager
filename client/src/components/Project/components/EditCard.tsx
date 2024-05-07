@@ -44,9 +44,9 @@ export default function EditCard({ cardToEdit, projectId, columnId, setProject, 
                     ? (
                         <div className="card-options-delete-prompt">
                             <div>Delete Card?</div>
-                            <div className="card-options-delete-prompt-select">
-                                <button onClick={() => handleDeleteCard()}>Confirm</button>
-                                <button onClick={() => setShowDeletePrompt(false)}>Cancel</button>
+                            <div className="card-options-delete-prompt-select-container">
+                                <button className="delete-prompt-select-option" onClick={() => handleDeleteCard()}>Confirm</button>
+                                <button className="delete-prompt-select-option" onClick={() => setShowDeletePrompt(false)}>Cancel</button>
                             </div>
                         </div>
                     )

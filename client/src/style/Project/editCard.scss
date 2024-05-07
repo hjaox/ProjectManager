@@ -15,6 +15,29 @@
         gap: 1rem;
         align-items: center;
         padding: 1rem;
+
+        .card-options-delete-prompt-select-container {
+            display: flex;
+            gap: 0.5rem;
+
+            .delete-prompt-select-option {
+                border: 1px solid gainsboro;
+                padding: 2px 5px;
+                border-radius: 5px;
+                transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+                cursor: pointer;
+            }
+
+            .delete-prompt-select-option:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+            }
+        }
     }
 
     #card-options-form {
