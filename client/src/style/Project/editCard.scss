@@ -2,7 +2,7 @@
 
 .card-options {
     background-color: white;
-    margin: 2rem 1rem;
+    margin: 2rem 4px;
     padding: 0.5rem 0.5rem 1rem 0.5rem;
     border-radius: 0.5rem;
     width: 70%;
@@ -41,11 +41,11 @@
         .card-options-items-container {
             position: absolute;
             top: 0;
-            right: -1rem;
+            right: -0.7rem;
 
             .card-options-item {
                 border: 1px solid transparent;
-                padding: 1px 5px;
+                padding: 1px 3px;
                 border-radius: 5px;
                 position: absolute;
                 top: 0;
@@ -58,7 +58,7 @@
 
             .card-options-item:hover {
                 border: 1px solid black;
-                padding: 1px 5px;
+                padding: 1px 3px;
                 border-radius: 5px;
                 background-color: index.$oxford-blue;
                 color: white;

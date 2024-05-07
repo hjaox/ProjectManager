@@ -53,8 +53,7 @@ export async function deleteCard(userId: string, projectId: string, columnId: st
             .delete("/api/project/column/card", config);
 
         return updatedProject;
-    } catch (err) {
-        console.log(err)
+    } catch {
         return null;
     }
 }
