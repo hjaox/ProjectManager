@@ -5,10 +5,9 @@ async function findProjectByProjectId(userId, projectId) {
     try {
         const document = await UserModel.findById(userId);
         const project = document
-            .projects.id(projectId)
-            .toObject();
+            .projects.id(projectId);
 
-        return project;
+        return project.toObject();
     } catch {
 
         return Promise.reject({ status: 404, msg: "User or project not found" })
@@ -27,37 +26,28 @@ async function insertColumnInProject(userId, projectId, columnName) {
 
         await document.save();
 
-        return project;
+        return project.toObject();
     } catch {
         return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" });
     }
 }
 
-function insertCardInColumn(userId, projectId, columnId, cardName) {
-    const formatQuery = sanitizeFilter({ _id: userId });
-    const formatFilterProjId = sanitizeFilter({ _id: projectId });
-    const formatFilterColId = sanitizeFilter({ _id: columnId });
-    const formatInsert = sanitizeFilter({ cardName });
+async function insertCardInColumn(userId, projectId, columnId, cardName) {
+    try {
+        const document = await UserModel.findById(userId);
+        const project = document
+            .projects.id(projectId);
 
-    return UserModel.findOneAndUpdate(formatQuery,
-        {
-            $push: {
-                "projects.$[a].columns.$[b].cards": formatInsert
-            }
-        }
-        , {
-            arrayFilters: [{ "a._id": formatFilterProjId }, { "b._id": formatFilterColId }],
-            new: true,
-            projection: { projects: { $elemMatch: formatFilterProjId } }
-        })
-        .then(updatedDocument => {
-            if (!updatedDocument) return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" })
 
-            return updatedDocument.projects[0];
-        })
-        .catch(err => {
-            return Promise.reject(err);
-        })
+        project.columns.id(columnId)
+            .cards.push({ cardName });
+
+        await document.save();
+
+        return project.toObject();
+    } catch {
+        return Promise.reject({ status: 404, msg: "UserId or ProjectId not found" });
+    }
 }
 
 const deleteColumn = async (userId, projectId, columnId) => {

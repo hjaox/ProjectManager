@@ -34,18 +34,19 @@ async function postColumnInProject(request, response, next) {
     }
 }
 
-function postCardInColumn(request, response, next) {
+async function postCardInColumn(request, response, next) {
     const { userId, projectId, columnId, cardName } = request.body;
 
     if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId) || !mongoose.isValidObjectId(columnId)) return response.status(400).send({ msg: "Invalid userId, projectId or columnId" });
 
-    return insertCardInColumn(userId, projectId, columnId, cardName)
-        .then(updatedDocument => {
-            return response.status(201).send({ updatedDocument });
-        })
-        .catch(err => {
-            next(err)
-        })
+    try {
+        const updatedDocument = await insertCardInColumn(userId, projectId, columnId, cardName);
+
+        return response.status(201).send({ updatedDocument });
+
+    } catch (err) {
+        next(err);
+    }
 }
 
 const removeColumn = async (request, response, next) => {

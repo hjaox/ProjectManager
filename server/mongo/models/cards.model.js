@@ -8,7 +8,6 @@ const cardSchema = mongoose.Schema(
         },
         details: {
             type: String,
-            required: true,
             default: "",
         }
     },
