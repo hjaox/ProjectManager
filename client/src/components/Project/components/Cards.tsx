@@ -7,7 +7,7 @@ import { MdOutlineLibraryAdd } from "react-icons/md";
 import { Editor, EditorState } from "draft-js";
 import 'draft-js/dist/Draft.css';
 
-export default function Cards({ userId, projectId, setProject, cards, columnId, setShowCardOptions, setCardToEdit }: TCards) {
+export default function Cards({ userId, projectId, setProject, cards, columnId, setShowCardOptions, setCardToEdit, setDisplayCard }: TCards) {
     const [editorCardName, setEditorCardName] = useState(EditorState.createEmpty());
     const [addCardError, setAddCardError] = useState(false);
     const [emptyCardError, setEmptyCardError] = useState(false);
@@ -44,7 +44,7 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
     function handleCards(cards: TProjectCard[]) {
         return cards.map((card, i) => {
             return (
-                <li key={i} className="project-board-column-card-list-item">
+                <li key={i} className="project-board-column-card-list-item" onClick={() => setDisplayCard(card)}>
                     <h4 className="card-display">
                         {card.cardName}
                     </h4>
@@ -68,7 +68,7 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
             }
             <li className="project-board-column-card-list-item-add">
                 <form id={`form-${columnId}`} className="add-card-form" onSubmit={e => handleAddCard(e)}>
-                    <div className="card-add-form-input-container">
+                    <div className={`card-add-form-input-container ${emptyCardError ? "emptyCardError": ""}`}>
                         <Editor
                             editorState={editorCardName}
                             onChange={setEditorCardName}

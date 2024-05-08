@@ -6,12 +6,12 @@ import Cards from "./Cards";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import EditCard from "./EditCard";
 
-export default function Columns({ columns, setProject, userId, project }: TColumns) {
+export default function Columns({ columns, setProject, userId, project, setDisplayCard }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
     const [showCardOptions, setShowCardOptions] = useState<{ [key: string]: boolean }>
         ({ _id: true });
     const [showDeletePrompt, setShowDeletePrompt] = useState(false);
-    const [cardToEdit, setCardToEdit] = useState<TProjectCard>({ cardName: "", _id: "" });
+    const [cardToEdit, setCardToEdit] = useState<TProjectCard>({ cardName: "", _id: "", details: "'"});
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
@@ -44,6 +44,7 @@ export default function Columns({ columns, setProject, userId, project }: TColum
                             columnId={_id}
                             setShowCardOptions={setShowCardOptions}
                             setCardToEdit={setCardToEdit}
+                            setDisplayCard={setDisplayCard}
                         />
                     }
                     <div className={`card-options-container ${showCardOptions[_id] ? "card-options-show" : "card-options-hide"}`} >

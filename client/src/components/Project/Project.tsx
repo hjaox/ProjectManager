@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { getProjectByProjectId } from "../../utils/axios/project";
 import { useSelector } from "react-redux";
-import { TProfileState, TProject } from "../../common/types";
+import { TProfileState, TProject, TProjectCard } from "../../common/types";
 import Header from "../subcomponent/Header/Header";
 import "../../style/Project/project.scss";
 import { Rings } from "react-loader-spinner";
@@ -17,6 +17,7 @@ export default function Project() {
     const [pageLoading, setPageLoading] = useState(false);
     const [projects, setProjects] = useState<TProject[]>([]);
     const [expandOverview, setExpandOverview] = useState(true);
+    const [displayCard, setDisplayCard] = useState<TProjectCard | null>(null);
 
     useEffect(() => {
         if (projectId) {
@@ -77,10 +78,28 @@ export default function Project() {
                                                     userId={userId}
                                                     setProject={setProject}
                                                     project={project}
+                                                    setDisplayCard={setDisplayCard}
                                                 />
                                             </section>
                                         </>
 
+                                    )
+                                }
+                                {
+                                    displayCard && (
+                                        <div className="display-card-container" onClick={() => setDisplayCard(null)}>
+                                            <div className="display-card" onClick={e => e.stopPropagation()}>
+                                                <h3 className="display-card-cardname">
+                                                    {displayCard.cardName}
+                                                </h3>
+                                                <h4 className="display-card-details-title">
+                                                    Details
+                                                </h4>
+                                                <p className="display-card-details">
+                                                    {displayCard.details}
+                                                </p>
+                                            </div>
+                                        </div>
                                     )
                                 }
                             </>
