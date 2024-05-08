@@ -7,7 +7,7 @@ import { MdOutlineLibraryAdd } from "react-icons/md";
 import { Editor, EditorState } from "draft-js";
 import 'draft-js/dist/Draft.css';
 
-export default function Cards({ userId, projectId, setProject, cards, columnId, setShowCardOptions, setCardToEdit }: TCards) {
+export default function Cards({ userId, projectId, setProject, cards, columnId, setShowCardOptions, setCardToEdit, setDisplayCard }: TCards) {
     const [editorCardName, setEditorCardName] = useState(EditorState.createEmpty());
     const [addCardError, setAddCardError] = useState(false);
     const [emptyCardError, setEmptyCardError] = useState(false);
@@ -36,7 +36,8 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
         }
     }
 
-    function handleCardOptionsOpen(card: TProjectCard) {
+    function handleCardOptionsOpen(e: React.MouseEvent<HTMLDivElement, MouseEvent>, card: TProjectCard) {
+        e.stopPropagation();
         setShowCardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: true }));
         setCardToEdit(card);
     }
@@ -44,11 +45,11 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
     function handleCards(cards: TProjectCard[]) {
         return cards.map((card, i) => {
             return (
-                <li key={i} className="project-board-column-card-list-item">
+                <li key={i} className="project-board-column-card-list-item" onClick={() => setDisplayCard(card)}>
                     <h4 className="card-display">
                         {card.cardName}
                     </h4>
-                    <div className="card-edit-open-container" onClick={() => handleCardOptionsOpen(card)}>
+                    <div className="card-edit-open-container" onClick={e => handleCardOptionsOpen(e, card)}>
                         <CiEdit />
                     </div>
                 </li>
@@ -68,7 +69,7 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
             }
             <li className="project-board-column-card-list-item-add">
                 <form id={`form-${columnId}`} className="add-card-form" onSubmit={e => handleAddCard(e)}>
-                    <div className="card-add-form-input-container">
+                    <div className={`card-add-form-input-container ${emptyCardError ? "emptyCardError" : ""}`}>
                         <Editor
                             editorState={editorCardName}
                             onChange={setEditorCardName}

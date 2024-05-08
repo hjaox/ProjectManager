@@ -71,6 +71,14 @@
                     height: fit-content;
 
                 }
+
+
+            }
+
+            .emptyCardError {
+                border: 1px solid red;
+                border-radius: 5px;
+                padding: 3px;
             }
 
             .card-add-form-input-container:focus-within {

@@ -1,0 +1,72 @@
+@use "../index.scss";
+
+.display-card-container {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1rem) brightness(50%);
+    height: calc(100vh - 3rem);
+    @include index.center-elements;
+    z-index: 0;
+
+    .display-card {
+        background-color: white;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        width: 45%;
+        min-height: 90%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+
+        .display-card-cardname {
+            border-bottom: 1px solid gainsboro;
+            font-size: x-large;
+            margin-bottom: 0.5rem;
+        }
+
+        .display-card-details-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            .edit-icon-container {
+                @include index.center-elements;
+                width: 1.5rem;
+                height: 1.5rem;
+                cursor: pointer;
+                border-radius: 5px;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+
+                .edit-icon {
+                    font-size: 1.2rem;
+                }
+            }
+
+            .edit-icon-container:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+        }
+
+        .display-card-details {
+            border: 1px solid gainsboro;
+            height: fit-content;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+
+            .card-details-text {
+                height: 10rem;
+            }
+        }
+
+        .display-card-details:focus-within {
+            border: 1px solid black;
+        }
+    }
+}
