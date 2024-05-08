@@ -4,6 +4,7 @@ import "../../../style/Project/displayCard.scss";
 import { CiEdit } from "react-icons/ci";
 import { useState } from "react";
 import { patchCard } from "../../../utils/axios/project";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 export default function DisplayCard({ displayCard, setDisplayCard, setProject }: TDisplayCard) {
     const [editorDetails, setEditorDetailsState] = useState(EditorState.createWithContent(ContentState.createFromText(displayCard.card.details)));
@@ -26,6 +27,9 @@ export default function DisplayCard({ displayCard, setDisplayCard, setProject }:
     return (
         <div className="display-card-container" onClick={() => setDisplayCard(null)}>
             <div className="display-card" onClick={e => e.stopPropagation()}>
+                <div className="display-card-close-icon-container">
+                    <IoCloseCircleOutline className="display-card-close-icon" onClick={() => setDisplayCard(null)}/>
+                </div>
                 <h3 className="display-card-cardname">
                     {displayCard.card.cardName}
                 </h3>
@@ -37,7 +41,7 @@ export default function DisplayCard({ displayCard, setDisplayCard, setProject }:
                         </div>
                     </div>
                 </div>
-                <p className="display-card-details">
+                <div className="display-card-details">
                     {
                         editMode
                             ? (
@@ -56,12 +60,12 @@ export default function DisplayCard({ displayCard, setDisplayCard, setProject }:
                                 </div>
                             )
                     }
-                </p>
+                </div>
                 {
                     editMode && (
                         <div className={`card-details-edit-options card-${displayCard.card._id}`}>
-                            <button onClick={() => setEditMode(false)}>Cancel</button>
-                            <button onClick={() => updateCardDetails()}>Save</button>
+                            <button className="card-details-edit-options-item" onClick={() => setEditMode(false)}>Cancel</button>
+                            <button className="card-details-edit-options-item" onClick={() => updateCardDetails()}>Save</button>
                         </div>
                     )
                 }
