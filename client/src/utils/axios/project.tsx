@@ -58,14 +58,28 @@ export async function deleteCard(userId: string, projectId: string, columnId: st
     }
 }
 
-export async function patchCard(userId: string, projectId: string, columnId: string, cardId: string, details: string) {
-    const body = {
+export async function patchCard(userId: string, projectId: string, columnId: string, cardId: string, ...properties: [{ [key: string]: string }]) {
+    const body: {
+        userId: string,
+        projectId: string,
+        columnId: string,
+        cardId: string,
+        details?: string,
+        cardName?: string
+    } = {
         userId,
         projectId,
         columnId,
         cardId,
-        details
     };
+
+    properties.forEach(pair => {
+        const [[key, value]] = Object.entries(pair);
+
+        if (key === "details" || key === "cardName") {
+            body[key] = value;
+        }
+    });
 
     try {
         const { data: { updatedProject } } = await instance

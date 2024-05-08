@@ -15,7 +15,7 @@ export default function DisplayCard({ displayCard, setDisplayCard, setProject }:
         const { userId, projectId, columnId, card: { _id } } = displayCard;
 
         try {
-            const updatedProject = await patchCard(userId, projectId, columnId, _id, updatedDetails);
+            const updatedProject = await patchCard(userId, projectId, columnId, _id, {details: updatedDetails});
 
             setProject(() => ({ ...updatedProject }));
             setEditMode(false);
