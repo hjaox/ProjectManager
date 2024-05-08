@@ -57,3 +57,22 @@ export async function deleteCard(userId: string, projectId: string, columnId: st
         return null;
     }
 }
+
+export async function patchCard(userId: string, projectId: string, columnId: string, cardId: string, details: string) {
+    const body = {
+        userId,
+        projectId,
+        columnId,
+        cardId,
+        details
+    };
+
+    try {
+        const { data: { updatedProject } } = await instance
+            .patch("/api/project/column/card", body)
+
+        return updatedProject;
+    } catch {
+        return null;
+    }
+}

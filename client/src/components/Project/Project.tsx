@@ -18,7 +18,9 @@ export default function Project() {
     const [pageLoading, setPageLoading] = useState(false);
     const [projects, setProjects] = useState<TProject[]>([]);
     const [expandOverview, setExpandOverview] = useState(true);
-    const [displayCard, setDisplayCard] = useState<TProjectCard | null>(null);
+    const [displayCard, setDisplayCard] = useState<{
+        card: TProjectCard, userId: string, projectId: string, columnId: string
+    } | null>(null);
 
     useEffect(() => {
         if (projectId) {
@@ -91,20 +93,8 @@ export default function Project() {
                                         < DisplayCard
                                             displayCard={displayCard}
                                             setDisplayCard={setDisplayCard}
+                                            setProject={setProject}
                                         />
-                                        // <div className="display-card-container" onClick={() => setDisplayCard(null)}>
-                                        //     <div className="display-card" onClick={e => e.stopPropagation()}>
-                                        //         <h3 className="display-card-cardname">
-                                        //             {displayCard.cardName}
-                                        //         </h3>
-                                        //         <h4 className="display-card-details-title">
-                                        //             Details
-                                        //         </h4>
-                                        //         <p className="display-card-details">
-                                        //             {displayCard.details}
-                                        //         </p>
-                                        //     </div>
-                                        // </div>
                                     )
                                 }
                             </>

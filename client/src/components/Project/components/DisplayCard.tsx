@@ -3,16 +3,31 @@ import { TDisplayCard } from "../../../common/types";
 import "../../../style/Project/displayCard.scss";
 import { CiEdit } from "react-icons/ci";
 import { useState } from "react";
+import { patchCard } from "../../../utils/axios/project";
 
-export default function DisplayCard({ displayCard, setDisplayCard }: TDisplayCard) {
-    const [editorDetails, setEditorDetailsState] = useState(EditorState.createWithContent(ContentState.createFromText(displayCard.details)));
+export default function DisplayCard({ displayCard, setDisplayCard, setProject }: TDisplayCard) {
+    const [editorDetails, setEditorDetailsState] = useState(EditorState.createWithContent(ContentState.createFromText(displayCard.card.details)));
     const [editMode, setEditMode] = useState(false);
+
+    async function updateCardDetails() {
+        const updatedDetails = editorDetails.getCurrentContent().getPlainText("\u000A");
+        const { userId, projectId, columnId, card: { _id } } = displayCard;
+
+        try {
+            const updatedProject = await patchCard(userId, projectId, columnId, _id, updatedDetails);
+
+            setProject(() => ({ ...updatedProject }));
+            setEditMode(false);
+        } catch {
+
+        }
+    }
 
     return (
         <div className="display-card-container" onClick={() => setDisplayCard(null)}>
             <div className="display-card" onClick={e => e.stopPropagation()}>
                 <h3 className="display-card-cardname">
-                    {displayCard.cardName}
+                    {displayCard.card.cardName}
                 </h3>
                 <div>
                     <div className="display-card-details-title">
@@ -35,16 +50,18 @@ export default function DisplayCard({ displayCard, setDisplayCard }: TDisplayCar
                             )
                             : (
                                 <div className="card-details-text">
-                                    {displayCard.details}
+                                    {
+                                        editorDetails.getCurrentContent().getPlainText("\u000A")
+                                    }
                                 </div>
                             )
                     }
                 </p>
                 {
                     editMode && (
-                        <div className="card-details-edit-options">
+                        <div className={`card-details-edit-options card-${displayCard.card._id}`}>
                             <button onClick={() => setEditMode(false)}>Cancel</button>
-                            <button>Save</button>
+                            <button onClick={() => updateCardDetails()}>Save</button>
                         </div>
                     )
                 }
