@@ -78,12 +78,12 @@ const removeCard = async (request, response, next) => {
 }
 
 const editCard = async (request, response, next) => {
-    const { userId, projectId, columnId, cardId, details } = request.body;
+    const { userId, projectId, columnId, cardId, details, cardName } = request.body;
 
     if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId) || !mongoose.isValidObjectId(columnId) || !mongoose.isValidObjectId(cardId)) return response.status(400).send({ msg: "Invalid userId, projectId, columnId or cardId" });
 
     try {
-        const updatedProjectDetails = await updateCard(userId, projectId, columnId, cardId, details);
+        const updatedProjectDetails = await updateCard(userId, projectId, columnId, cardId, {details}, {cardName});
 
         return response.status(200).send({ updatedProject: updatedProjectDetails });
     } catch (err) {
