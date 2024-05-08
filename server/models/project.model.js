@@ -86,28 +86,27 @@ const deleteCard = async (userId, projectId, columnId, cardId) => {
     }
 }
 
-const updateCard = async (userId, projectId, columnId, cardId, details) => {
-    const sanitizedUserId = sanitizeFilter({ _id: userId });
-    const sanitizedProjectId = sanitizeFilter({ _id: projectId });
-    const sanitizedColumnId = sanitizeFilter({ _id: columnId });
-    const sanitizedCardId = sanitizeFilter({ _id: cardId });
-
+const updateCard = async (userId, projectId, columnId, cardId, ...properties) => {
     try {
-        const doc = await UserModel.findById(sanitizedUserId);
+        const document = await UserModel.findById(userId);
+        const project = document
+            .projects.id(projectId);
 
-        doc
-            .projects.id(sanitizedProjectId)
-            .columns.id(sanitizedColumnId)
-            .cards.id(sanitizedCardId)
-            .details = details;
+        properties.forEach(pair => {
+            const [[key, value]] = Object.entries(pair)
 
+            if (key && value) {
+                project
+                    .columns.id(columnId)
+                    .cards.id(cardId)[key] = value;
+            }
+        });
 
-        await doc.save({ validateBeforeSave: false });
+        await document.save();
 
-        return doc
-            .projects.id(sanitizedProjectId).toObject();
-
+        return project;
     } catch (err) {
+        console.log(err)
         return Promise.reject({ status: 404, msg: "UserId, ProjectId or CardId not found" })
     }
 }
