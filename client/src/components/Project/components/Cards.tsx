@@ -36,7 +36,8 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
         }
     }
 
-    function handleCardOptionsOpen(card: TProjectCard) {
+    function handleCardOptionsOpen(e: React.MouseEvent<HTMLDivElement, MouseEvent>, card: TProjectCard) {
+        e.stopPropagation();
         setShowCardOptions(showCardOptions => ({ ...showCardOptions, [columnId]: true }));
         setCardToEdit(card);
     }
@@ -48,7 +49,7 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
                     <h4 className="card-display">
                         {card.cardName}
                     </h4>
-                    <div className="card-edit-open-container" onClick={() => handleCardOptionsOpen(card)}>
+                    <div className="card-edit-open-container" onClick={e => handleCardOptionsOpen(e, card)}>
                         <CiEdit />
                     </div>
                 </li>
@@ -68,7 +69,7 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
             }
             <li className="project-board-column-card-list-item-add">
                 <form id={`form-${columnId}`} className="add-card-form" onSubmit={e => handleAddCard(e)}>
-                    <div className={`card-add-form-input-container ${emptyCardError ? "emptyCardError": ""}`}>
+                    <div className={`card-add-form-input-container ${emptyCardError ? "emptyCardError" : ""}`}>
                         <Editor
                             editorState={editorCardName}
                             onChange={setEditorCardName}

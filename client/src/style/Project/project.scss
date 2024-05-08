@@ -40,21 +40,4 @@
             transition: padding-left 0.3s ease;
         }
     }
-
-    .display-card-container {
-        position: absolute;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(1rem) brightness(50%);
-        height: calc(100vh - 3rem);
-        @include index.center-elements;
-
-        .display-card {
-            background-color: white;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            width: 45%;
-            height: 90%;
-        }
-    }
 }

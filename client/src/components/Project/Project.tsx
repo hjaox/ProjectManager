@@ -9,6 +9,7 @@ import { Rings } from "react-loader-spinner";
 import ProfileOverview from "./components/ProfileOverview";
 import { getProjectsByUserID } from "../../utils/axios/projects";
 import Columns from "./components/Columns";
+import DisplayCard from "./components/DisplayCard";
 
 export default function Project() {
     const { projectId } = useParams();
@@ -87,19 +88,23 @@ export default function Project() {
                                 }
                                 {
                                     displayCard && (
-                                        <div className="display-card-container" onClick={() => setDisplayCard(null)}>
-                                            <div className="display-card" onClick={e => e.stopPropagation()}>
-                                                <h3 className="display-card-cardname">
-                                                    {displayCard.cardName}
-                                                </h3>
-                                                <h4 className="display-card-details-title">
-                                                    Details
-                                                </h4>
-                                                <p className="display-card-details">
-                                                    {displayCard.details}
-                                                </p>
-                                            </div>
-                                        </div>
+                                        < DisplayCard
+                                            displayCard={displayCard}
+                                            setDisplayCard={setDisplayCard}
+                                        />
+                                        // <div className="display-card-container" onClick={() => setDisplayCard(null)}>
+                                        //     <div className="display-card" onClick={e => e.stopPropagation()}>
+                                        //         <h3 className="display-card-cardname">
+                                        //             {displayCard.cardName}
+                                        //         </h3>
+                                        //         <h4 className="display-card-details-title">
+                                        //             Details
+                                        //         </h4>
+                                        //         <p className="display-card-details">
+                                        //             {displayCard.details}
+                                        //         </p>
+                                        //     </div>
+                                        // </div>
                                     )
                                 }
                             </>

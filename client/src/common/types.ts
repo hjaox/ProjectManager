@@ -73,3 +73,8 @@ export type TEditCard = {
     setShowDeletePrompt: React.Dispatch<React.SetStateAction<boolean>>,
     showDeletePrompt: boolean
 }
+
+export type TDisplayCard = {
+    displayCard: TProjectCard,
+    setDisplayCard: React.Dispatch<React.SetStateAction<TProjectCard | null>>
+}
