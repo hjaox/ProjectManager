@@ -46,7 +46,12 @@ export type TColumns = {
     userId: string,
     setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
     project: TProject,
-    setDisplayCard: React.Dispatch<React.SetStateAction<TProjectCard | null>>
+    setDisplayCard: React.Dispatch<React.SetStateAction<{
+        card: TProjectCard;
+        userId: string;
+        projectId: string;
+        columnId: string;
+    } | null>>
 }
 
 export type TCards = {
@@ -59,7 +64,12 @@ export type TCards = {
         [key: string]: boolean;
     }>>,
     setCardToEdit: React.Dispatch<React.SetStateAction<TProjectCard>>,
-    setDisplayCard: React.Dispatch<React.SetStateAction<TProjectCard | null>>
+    setDisplayCard: React.Dispatch<React.SetStateAction<{
+        card: TProjectCard;
+        userId: string;
+        projectId: string;
+        columnId: string;
+    } | null>>
 }
 
 export type TEditCard = {
@@ -75,6 +85,17 @@ export type TEditCard = {
 }
 
 export type TDisplayCard = {
-    displayCard: TProjectCard,
-    setDisplayCard: React.Dispatch<React.SetStateAction<TProjectCard | null>>
+    displayCard: {
+        card: TProjectCard;
+        userId: string;
+        projectId: string;
+        columnId: string;
+    },
+    setDisplayCard: React.Dispatch<React.SetStateAction<{
+        card: TProjectCard;
+        userId: string;
+        projectId: string;
+        columnId: string;
+    } | null>>,
+    setProject: React.Dispatch<React.SetStateAction<TProject | null>>
 }

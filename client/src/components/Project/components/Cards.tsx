@@ -45,7 +45,7 @@ export default function Cards({ userId, projectId, setProject, cards, columnId, 
     function handleCards(cards: TProjectCard[]) {
         return cards.map((card, i) => {
             return (
-                <li key={i} className="project-board-column-card-list-item" onClick={() => setDisplayCard(card)}>
+                <li key={i} className="project-board-column-card-list-item" onClick={() => setDisplayCard({card, userId, projectId, columnId})}>
                     <h4 className="card-display">
                         {card.cardName}
                     </h4>

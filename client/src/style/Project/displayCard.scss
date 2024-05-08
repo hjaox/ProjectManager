@@ -14,10 +14,37 @@
         padding: 1rem 2rem;
         border-radius: 0.5rem;
         width: 45%;
-        min-height: 90%;
+        min-height: 50%;
         display: flex;
         flex-direction: column;
         gap: 0.1rem;
+        position: relative;
+
+        .display-card-close-icon-container {
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            @include index.center-elements;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+            position: absolute;
+            right: 3px;
+            top: 3px;
+
+            .display-card-close-icon {
+                font-size: 1.5rem;
+            }
+        }
+
+        .display-card-close-icon-container:hover {
+            background-color: index.$oxford-blue;
+            color: white;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+        }
 
         .display-card-cardname {
             border-bottom: 1px solid gainsboro;
@@ -67,6 +94,30 @@
 
         .display-card-details:focus-within {
             border: 1px solid black;
+        }
+
+        .card-details-edit-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+
+            .card-details-edit-options-item {
+                padding: 1px 5px;
+                border: 1px solid gainsboro;
+                border-radius: 5px;
+                cursor: pointer;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+
+            .card-details-edit-options-item:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
         }
     }
 }
