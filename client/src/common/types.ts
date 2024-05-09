@@ -80,8 +80,8 @@ export type TEditCard = {
     setShowCardOptions: React.Dispatch<React.SetStateAction<{
         [key: string]: boolean;
     }>>,
-    setShowDeletePrompt: React.Dispatch<React.SetStateAction<boolean>>,
-    showDeletePrompt: boolean
+    setShowDeleteCardPrompt: React.Dispatch<React.SetStateAction<boolean>>,
+    showDeleteCardPrompt: boolean
 }
 
 export type TDisplayCard = {
