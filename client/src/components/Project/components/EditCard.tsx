@@ -5,7 +5,7 @@ import { ContentState, Editor, EditorState } from "draft-js";
 import { deleteCard, patchCard } from "../../../utils/axios/project";
 import { useSelector } from "react-redux";
 
-export default function EditCard({ cardToEdit, projectId, columnId, setProject, setShowCardOptions, setShowDeletePrompt, showDeletePrompt }: TEditCard) {
+export default function EditCard({ cardToEdit, projectId, columnId, setProject, setShowCardOptions, setShowDeleteCardPrompt, showDeleteCardPrompt }: TEditCard) {
     const userId = useSelector((state: TProfileState) => state.userDetails._id);
     const [cardName, setCardName] = useState(EditorState.createEmpty());
 
@@ -20,7 +20,7 @@ export default function EditCard({ cardToEdit, projectId, columnId, setProject, 
 
             closeCardOptions();
             setProject(() => ({ ...updatedProject }));
-            setShowDeletePrompt(false);
+            setShowDeleteCardPrompt(false);
         } catch {
         }
     }
@@ -55,15 +55,15 @@ export default function EditCard({ cardToEdit, projectId, columnId, setProject, 
     }
 
     return (
-        <div className={`card-options ${showDeletePrompt ? "delete-prompt-container" : ""}`}>
+        <div className={`card-options ${showDeleteCardPrompt ? "delete-prompt-container" : ""}`}>
             {
-                showDeletePrompt
+                showDeleteCardPrompt
                     ? (
                         <div className="card-options-delete-prompt">
                             <div>Delete Card?</div>
                             <div className="card-options-delete-prompt-select-container">
                                 <button className="delete-prompt-select-option" onClick={() => handleDeleteCard()}>Confirm</button>
-                                <button className="delete-prompt-select-option" onClick={() => setShowDeletePrompt(false)}>Cancel</button>
+                                <button className="delete-prompt-select-option" onClick={() => setShowDeleteCardPrompt(false)}>Cancel</button>
                             </div>
                         </div>
                     )
@@ -73,7 +73,7 @@ export default function EditCard({ cardToEdit, projectId, columnId, setProject, 
                                 <Editor editorState={cardName} onChange={setCardName} />
                             </div>
                             <ul className="card-options-items-container">
-                                <div className="card-options-item" onClick={() => setShowDeletePrompt(true)}>Delete</div>
+                                <div className="card-options-item" onClick={() => setShowDeleteCardPrompt(true)}>Delete</div>
                             </ul>
                             <button form="card-options-form" onClick={e => updateCardName(e)}>Save</button>
                         </form>

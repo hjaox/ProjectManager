@@ -11,10 +11,11 @@ export default function Columns({ columns, setProject, userId, project, setDispl
     const [newColumnName, setNewColumnName] = useState<string>("");
     const [showCardOptions, setShowCardOptions] = useState<{ [key: string]: boolean }>
         ({});
-    const [showDeletePrompt, setShowDeletePrompt] = useState(false);
+    const [showDeleteCardPrompt, setShowDeleteCardPrompt] = useState(false);
     const [cardToEdit, setCardToEdit] = useState<TProjectCard>({ cardName: "", _id: "", details: "'" });
     const [showColumnOptions, setShowColumnOptions] = useState<{ [key: string]: boolean }>
         ({});
+    const [showDeleteColumnPrompt, setShowDeleteColumnPrompt] = useState<{ [key: string]: boolean }>({});
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
@@ -22,13 +23,27 @@ export default function Columns({ columns, setProject, userId, project, setDispl
             .then(updatedProject => {
                 setNewColumnName(() => "");
                 setProject(() => ({ ...updatedProject }));
-
             })
     }
 
     function handleCardOptionsClose(colId: string) {
         setShowCardOptions(showCardOptions => ({ ...showCardOptions, [colId]: false }));
-        setShowDeletePrompt(false);
+        setShowDeleteCardPrompt(false);
+    }
+
+    function handleDeleteColumn(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, colId: string) {
+        e.preventDefault();
+        setShowDeleteColumnPrompt(showDeleteColumnPrompt => ({ ...showDeleteColumnPrompt, [colId]: true }));
+        handleShowColumnOptions(colId);
+        try {
+
+        } catch {
+
+        }
+    }
+
+    function handleShowColumnOptions(colId: string) {
+        setShowColumnOptions(showColumnOptions => ({ ...showColumnOptions, [colId]: !showColumnOptions[colId] }))
     }
 
     function handleColumns(columns: TProjectColumn[]) {
@@ -39,23 +54,22 @@ export default function Columns({ columns, setProject, userId, project, setDispl
                         <div className="column-header-name">
                             {columnName}
                         </div>
-                        <div className={`column-header-options`} onClick={() => setShowColumnOptions(showColumnOptions => ({ ...showColumnOptions, [_id]: !showColumnOptions[_id] }))}>
+                        <div className={`column-header-options`} onClick={() => handleShowColumnOptions(_id)}>
                             <HiDotsVertical className="column-header-options-icon" />
                         </div>
                     </div>
                     {
                         showColumnOptions?.[_id] && (
                             <div className="column-options-container">
-                                <div className="column-options-item">
+                                <button className="column-options-item column-options-item-top">
                                     Edit
-                                </div>
-                                <div className="column-options-item">
+                                </button>
+                                <button className="column-options-item column-options-item-bottom" onClick={e => handleDeleteColumn(e, _id)}>
                                     Delete
-                                </div>
+                                </button>
                             </div>
                         )
                     }
-
                     {
                         <Cards
                             userId={userId}
@@ -79,11 +93,33 @@ export default function Columns({ columns, setProject, userId, project, setDispl
                                 cardToEdit={cardToEdit}
                                 setProject={setProject}
                                 setShowCardOptions={setShowCardOptions}
-                                setShowDeletePrompt={setShowDeletePrompt}
-                                showDeletePrompt={showDeletePrompt}
+                                setShowDeleteCardPrompt={setShowDeleteCardPrompt}
+                                showDeleteCardPrompt={showDeleteCardPrompt}
                             />
                         }
                     </div>
+                    {
+                        showDeleteColumnPrompt?.[_id] && (
+                            <div className="column-delete-prompt-container">
+                                <div className="column-delete-prompt">
+                                    <h4 className="column-delete-promp-columnName">
+                                        {columnName}
+                                    </h4>
+                                    <p className="column-delete-promp-text">
+                                        Delete list?
+                                    </p>
+                                    <div className="column-delete-prompt-options">
+                                        <button className="column-delete-prompt-options-item">
+                                            Cancel
+                                        </button>
+                                        <button className="column-delete-prompt-options-item">
+                                            Confirm
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }
                 </li>
             )
         });

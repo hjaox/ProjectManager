@@ -83,7 +83,26 @@ export async function patchCard(userId: string, projectId: string, columnId: str
 
     try {
         const { data: { updatedProject } } = await instance
-            .patch("/api/project/column/card", body)
+            .patch("/api/project/column/card", body);
+
+        return updatedProject;
+    } catch {
+        return null;
+    }
+}
+
+export async function deleteColumn(userId: string, projectId: string, columnId: string) {
+    const config = {
+        data: {
+            userId,
+            projectId,
+            columnId
+        }
+    };
+
+    try {
+        const { data: { updatedProject } } = await instance
+            .delete("/api/project/column", config);
 
         return updatedProject;
     } catch {
