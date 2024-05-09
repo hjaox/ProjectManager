@@ -14,8 +14,45 @@
         height: fit-content;
         min-width: 15rem;
 
-        h3 {
-            font-size: medium;
+        .column-header {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: space-between;
+
+            .column-header-name {
+                font-size: medium;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+
+            .column-header-options {
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: 50%;
+                @include index.center-elements;
+                cursor: pointer;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+
+            .column-header-options:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+        }
+
+        .column-options-container {
+            position: absolute;
+            z-index: 1;
+            right: 0;
+            background-color: whitesmoke;
+            border: 1px solid gainsboro;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
         }
     }
 
