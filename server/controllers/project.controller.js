@@ -4,7 +4,8 @@ const { findProjectByProjectId,
     insertCardInColumn,
     deleteColumn,
     deleteCard,
-    updateCard } = require('../models/project.model');
+    updateCard,
+    updateColumn } = require('../models/project.model');
 
 async function getProjectByProjectId(request, response, next) {
     const { projectId, userId } = request.params;
@@ -83,7 +84,7 @@ const editCard = async (request, response, next) => {
     if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId) || !mongoose.isValidObjectId(columnId) || !mongoose.isValidObjectId(cardId)) return response.status(400).send({ msg: "Invalid userId, projectId, columnId or cardId" });
 
     try {
-        const updatedProjectDetails = await updateCard(userId, projectId, columnId, cardId, {details}, {cardName});
+        const updatedProjectDetails = await updateCard(userId, projectId, columnId, cardId, { details }, { cardName });
 
         return response.status(200).send({ updatedProject: updatedProjectDetails });
     } catch (err) {
@@ -91,6 +92,19 @@ const editCard = async (request, response, next) => {
     }
 }
 
+const editColumn = async (request, response, next) => {
+    const { userId, projectId, columnId, columnName } = request.body;
+
+    if (!mongoose.isValidObjectId(userId) || !mongoose.isValidObjectId(projectId) || !mongoose.isValidObjectId(columnId)) return response.status(400).send({ msg: "Invalid userId, projectId, or columnId" });
+
+    try {
+        const updatedProjectDetails = await updateColumn(userId, projectId, columnId, columnName);
+
+        return response.status(200).send({ updatedProject: updatedProjectDetails });
+    } catch (err) {
+        next(err)
+    }
+}
 
 module.exports = {
     getProjectByProjectId,
@@ -98,5 +112,6 @@ module.exports = {
     postCardInColumn,
     removeColumn,
     removeCard,
-    editCard
+    editCard,
+    editColumn
 }
