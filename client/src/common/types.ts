@@ -99,3 +99,10 @@ export type TDisplayCard = {
     } | null>>,
     setProject: React.Dispatch<React.SetStateAction<TProject | null>>
 }
+
+export type TEditColumn = {
+    userId: string,
+    projectId: string,
+    columnId: string,
+    columnName: string
+}
