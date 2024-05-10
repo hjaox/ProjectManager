@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { TColumns, TProjectCard, TProjectColumn } from "../../../common/types";
-import { postColumnInProject } from "../../../utils/axios/project";
+import { deleteColumn, postColumnInProject } from "../../../utils/axios/project";
 import "../../../style/Project/columns.scss";
 import Cards from "./Cards";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import EditCard from "./EditCard";
 import { HiDotsVertical } from "react-icons/hi";
+import EditColumn from "./EditColumn";
 
 export default function Columns({ columns, setProject, userId, project, setDisplayCard }: TColumns) {
     const [newColumnName, setNewColumnName] = useState<string>("");
+    const [showDeleteCardPrompt, setShowDeleteCardPrompt] = useState(false);
     const [showCardOptions, setShowCardOptions] = useState<{ [key: string]: boolean }>
         ({});
-    const [showDeleteCardPrompt, setShowDeleteCardPrompt] = useState(false);
     const [cardToEdit, setCardToEdit] = useState<TProjectCard>({ cardName: "", _id: "", details: "'" });
     const [showColumnOptions, setShowColumnOptions] = useState<{ [key: string]: boolean }>
         ({});
     const [showDeleteColumnPrompt, setShowDeleteColumnPrompt] = useState<{ [key: string]: boolean }>({});
+    const [editColumnName, setEditColumnName] = useState<{ [key: string]: boolean }>({});
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
@@ -31,19 +33,30 @@ export default function Columns({ columns, setProject, userId, project, setDispl
         setShowDeleteCardPrompt(false);
     }
 
-    function handleDeleteColumn(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, colId: string) {
-        e.preventDefault();
-        setShowDeleteColumnPrompt(showDeleteColumnPrompt => ({ ...showDeleteColumnPrompt, [colId]: true }));
+    function handleDeleteColumnPrompt(colId: string) {
+        setShowDeleteColumnPrompt(showDeleteColumnPrompt => ({ ...showDeleteColumnPrompt, [colId]: !showDeleteColumnPrompt[colId] }));
         handleShowColumnOptions(colId);
-        try {
+    }
 
+    async function deleteColumn2(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, colId: string) {
+        e.preventDefault();
+
+        try {
+            const updatedProject = await deleteColumn(userId, project._id, colId);
+
+            setProject(() => ({ ...updatedProject }));
         } catch {
 
         }
     }
 
     function handleShowColumnOptions(colId: string) {
-        setShowColumnOptions(showColumnOptions => ({ ...showColumnOptions, [colId]: !showColumnOptions[colId] }))
+        setShowColumnOptions(showColumnOptions => ({ ...showColumnOptions, [colId]: !showColumnOptions[colId] }));
+    }
+
+    function handleEditColumnName(colId: string) {
+        setEditColumnName(editColumnName => ({ ...editColumnName, [colId]: true }));
+        handleShowColumnOptions(colId);
     }
 
     function handleColumns(columns: TProjectColumn[]) {
@@ -51,20 +64,38 @@ export default function Columns({ columns, setProject, userId, project, setDispl
             return (
                 <li key={i} className="project-board-column-list-item">
                     <div className="column-header">
-                        <div className="column-header-name">
-                            {columnName}
+                        <div className="column-header-name-container">
+                            {
+                                editColumnName?.[_id]
+                                    ? (
+                                        <EditColumn
+                                            userId={userId}
+                                            projectId={project._id}
+                                            columnId={_id}
+                                            columnName={columnName} />
+                                    )
+                                    : (
+                                        <>
+                                            <div className="column-header-name">
+                                                {columnName}
+                                            </div>
+
+                                            <div className={`column-header-options`} onClick={() => handleShowColumnOptions(_id)}>
+                                                <HiDotsVertical className="column-header-options-icon" />
+                                            </div>
+                                        </>
+                                    )
+                            }
                         </div>
-                        <div className={`column-header-options`} onClick={() => handleShowColumnOptions(_id)}>
-                            <HiDotsVertical className="column-header-options-icon" />
-                        </div>
+
                     </div>
                     {
                         showColumnOptions?.[_id] && (
                             <div className="column-options-container">
-                                <button className="column-options-item column-options-item-top">
+                                <button className="column-options-item column-options-item-top" onClick={() => handleEditColumnName(_id)}>
                                     Edit
                                 </button>
-                                <button className="column-options-item column-options-item-bottom" onClick={e => handleDeleteColumn(e, _id)}>
+                                <button className="column-options-item column-options-item-bottom" onClick={() => handleDeleteColumnPrompt(_id)}>
                                     Delete
                                 </button>
                             </div>
@@ -109,10 +140,10 @@ export default function Columns({ columns, setProject, userId, project, setDispl
                                         Delete list?
                                     </p>
                                     <div className="column-delete-prompt-options">
-                                        <button className="column-delete-prompt-options-item">
+                                        <button className="column-delete-prompt-options-item" onClick={() => handleDeleteColumnPrompt(_id)}>
                                             Cancel
                                         </button>
-                                        <button className="column-delete-prompt-options-item">
+                                        <button className="column-delete-prompt-options-item" onClick={e => deleteColumn2(e, _id)}>
                                             Confirm
                                         </button>
                                     </div>
