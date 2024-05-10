@@ -105,8 +105,25 @@ const updateCard = async (userId, projectId, columnId, cardId, ...properties) =>
         await document.save();
 
         return project;
-    } catch (err) {
-        console.log(err)
+    } catch {
+        return Promise.reject({ status: 404, msg: "UserId, ProjectId or CardId not found" })
+    }
+}
+
+const updateColumn = async (userId, projectId, columnId, columnName) => {
+    try {
+        const document = await UserModel.findById(userId);
+        const project = document
+            .projects.id(projectId);
+
+        project
+        .columns.id(columnId)
+        .columnName = columnName;
+
+        await document.save();
+
+        return project;
+    } catch {
         return Promise.reject({ status: 404, msg: "UserId, ProjectId or CardId not found" })
     }
 }
@@ -118,5 +135,6 @@ module.exports = {
     insertCardInColumn,
     deleteColumn,
     deleteCard,
-    updateCard
+    updateCard,
+    updateColumn
 }
