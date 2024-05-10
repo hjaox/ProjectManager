@@ -1,0 +1,42 @@
+@use "../index.scss";
+
+.column-edit-container {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    width: 100%;
+
+    .column-edit-input-container {
+        border: 1px solid gainsboro;
+        padding: 2px;
+        border-radius: 5px;
+        flex: 1;
+    }
+
+    .column-edit-input-container:focus-within {
+        border: 1px solid black;
+    }
+
+    .column-edit-save-icon-container {
+        @include index.center-elements;
+        width: 1.5rem;
+        height: 1.5rem;
+        cursor: pointer;
+        border-radius: 5px;
+        transition:
+            color 0.3s ease,
+            background-color 0.3s ease;
+
+        .column-edit-save-icon {
+            font-size: 1.2rem;
+        }
+    }
+
+    .column-edit-save-icon-container:hover {
+        background-color: index.$oxford-blue;
+        color: white;
+        transition:
+            color 0.3s ease,
+            background-color 0.3s ease;
+    }
+}
