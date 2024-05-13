@@ -13,6 +13,7 @@
         border-radius: 0.5rem;
         height: fit-content;
         min-width: 15rem;
+        max-width: 20rem;
 
         .column-header {
             .column-header-name-container {
@@ -23,6 +24,9 @@
                 justify-content: space-between;
 
                 .column-header-name {
+                    height: fit-content;
+                    word-wrap: break-word;
+                    width: 90%;
                     flex: 1;
                 }
 
@@ -56,6 +60,7 @@
             border-radius: 0.5rem;
             display: flex;
             flex-direction: column;
+            top: 2.5rem;
 
             .column-options-item-top {
                 border-radius: 0.5rem 0.5rem 0 0;
@@ -142,10 +147,43 @@
     }
 
     .add-column {
-        #column-add-form {
-            input {
-                border: 1px solid transparent;
+        form {
+            display: flex;
+            gap: 0.5rem;
+
+            .column-add-form-input-container {
+                flex: 1;
+                padding: 3px;
+                border: 1px solid gainsboro;
+                border-radius: 5px;
+                max-width: 90%;
+                word-wrap: break-word;
             }
+
+            .column-add-form-input-container:focus-within {
+                border: 1px solid black;
+            }
+        }
+
+        .column-add-form-container-icon-container {
+            align-self: center;
+            height: fit-content;
+            font-size: 1.5rem;
+            border: 1px solid transparent;
+            @include index.center-elements;
+            cursor: pointer;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .column-add-form-container-icon-container:hover {
+            color: white;
+            background-color: index.$oxford-blue;
+            transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
         }
     }
 
