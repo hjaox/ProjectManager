@@ -3,6 +3,55 @@
 .project-page {
     @include index.page-layout;
 
+    .redirectToLogin-container {
+        background-color: rgba(0, 0, 0, 0.5);
+        @include index.center-elements;
+        position: absolute;
+        width: 100vw;
+        height: 100%;
+        z-index: 2;
+
+        .redirectToLogin {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 20%;
+            width: 15%;
+            height: 20%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            @include index.center-elements;
+        }
+
+        .redirectToLogin-text {
+            text-align: center;
+        }
+
+        .redirectToLogin-options {
+            display: flex;
+            gap: 1rem;
+
+            .redirectToLogin-options-item {
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid black;
+                cursor: pointer;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+
+            .redirectToLogin-options-item:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                    color 0.3s ease,
+                    background-color 0.3s ease;
+            }
+        }
+    }
+
     .project-display {
         @include index.page-display;
         display: flex;

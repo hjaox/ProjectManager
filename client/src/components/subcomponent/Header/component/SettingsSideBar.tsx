@@ -25,7 +25,6 @@ export default function SettingsSideBar() {
     }
 
     function handleLogout() {
-        console.log("test")
         dispatch(actions.logout());
         navigate("/Home");
     }
