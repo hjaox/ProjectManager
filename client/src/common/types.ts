@@ -104,5 +104,6 @@ export type TEditColumn = {
     userId: string,
     projectId: string,
     columnId: string,
-    columnName: string
+    columnName: string,
+    setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
 }
