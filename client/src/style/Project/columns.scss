@@ -13,6 +13,7 @@
         border-radius: 0.5rem;
         height: fit-content;
         min-width: 15rem;
+        max-width: 20rem;
 
         .column-header {
             .column-header-name-container {
@@ -23,6 +24,9 @@
                 justify-content: space-between;
 
                 .column-header-name {
+                    height: fit-content;
+                    word-wrap: break-word;
+                    width: 90%;
                     flex: 1;
                 }
 
@@ -56,6 +60,7 @@
             border-radius: 0.5rem;
             display: flex;
             flex-direction: column;
+            top: 2.5rem;
 
             .column-options-item-top {
                 border-radius: 0.5rem 0.5rem 0 0;
