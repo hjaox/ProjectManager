@@ -73,7 +73,8 @@ export default function Columns({ columns, setProject, userId, project, setDispl
                                             projectId={project._id}
                                             columnId={_id}
                                             columnName={columnName}
-                                            setProject={setProject} />
+                                            setProject={setProject}
+                                            setEditColumnName={setEditColumnName} />
                                     )
                                     : (
                                         <>

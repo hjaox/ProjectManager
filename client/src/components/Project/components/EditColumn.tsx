@@ -5,14 +5,15 @@ import "../../../style/Project/editColumn.scss";
 import { IoSaveOutline } from "react-icons/io5";
 import { patchColumn } from "../../../utils/axios/project";
 
-export default function EditColumn({userId, projectId, columnId, columnName, setProject }: TEditColumn) {
+export default function EditColumn({ userId, projectId, columnId, columnName, setProject, setEditColumnName }: TEditColumn) {
     const [updatedColumnName, setUpdatedColumnName] = useState(EditorState.createWithContent(ContentState.createFromText(columnName)));
 
     async function updateColumnName() {
         try {
             const updatedProject = await patchColumn(userId, projectId, columnId, updatedColumnName.getCurrentContent().getPlainText("\u000A"));
 
-            setProject(() => ({...updatedProject}));
+            setEditColumnName(editColumnName => ({ ...editColumnName, [columnId]: false }));
+            setProject(() => ({ ...updatedProject }));
         } catch {
 
         }

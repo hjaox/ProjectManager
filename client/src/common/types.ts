@@ -106,4 +106,7 @@ export type TEditColumn = {
     columnId: string,
     columnName: string,
     setProject: React.Dispatch<React.SetStateAction<TProject | null>>,
+    setEditColumnName: React.Dispatch<React.SetStateAction<{
+        [key: string]: boolean;
+    }>>
 }
