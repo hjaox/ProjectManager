@@ -13,7 +13,6 @@ import {
 import Login from './components/Login/Login.tsx';
 import Register from './components/Register/Register.tsx';
 import Home from './components/Home/Home.tsx';
-import Test from './Test.tsx';
 import Dashboard from './components/Dashboard/Dashboard.tsx';
 import App from './App.tsx';
 import ProjectPage from './components/Project/Project.tsx';
@@ -42,11 +41,7 @@ const router = createBrowserRouter([
   {
     path: "/Project/:projectName/:projectId",
     element: <ProjectPage />
-  },
-  {
-    path: "/Test",
-    element: <Test />
-  },
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

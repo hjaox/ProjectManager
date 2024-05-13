@@ -109,3 +109,21 @@ export async function deleteColumn(userId: string, projectId: string, columnId: 
         return null;
     }
 }
+
+export async function patchColumn(userId: string, projectId: string, columnId: string, columnName: string) {
+    const body = {
+        userId,
+        projectId,
+        columnId,
+        columnName
+    };
+
+    try {
+        const { data: { updatedProject } } = await instance
+            .patch("/api/project/column", body);
+
+        return updatedProject
+    } catch {
+        return null;
+    }
+}
