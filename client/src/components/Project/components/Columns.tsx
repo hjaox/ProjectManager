@@ -7,9 +7,11 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import EditCard from "./EditCard";
 import { HiDotsVertical } from "react-icons/hi";
 import EditColumn from "./EditColumn";
+import { Editor, EditorState } from "draft-js";
+import { MdOutlineLibraryAdd } from "react-icons/md";
 
 export default function Columns({ columns, setProject, userId, project, setDisplayCard }: TColumns) {
-    const [newColumnName, setNewColumnName] = useState<string>("");
+    const [newColumnName, setNewColumnName] = useState(EditorState.createEmpty());
     const [showDeleteCardPrompt, setShowDeleteCardPrompt] = useState(false);
     const [showCardOptions, setShowCardOptions] = useState<{ [key: string]: boolean }>
         ({});
@@ -21,9 +23,9 @@ export default function Columns({ columns, setProject, userId, project, setDispl
 
     function handleAddColumn(e: React.FormEvent) {
         e.preventDefault();
-        postColumnInProject(userId, project._id, newColumnName)
+        postColumnInProject(userId, project._id, newColumnName.getCurrentContent().getPlainText("'u000A"))
             .then(updatedProject => {
-                setNewColumnName(() => "");
+                setNewColumnName(() => EditorState.createEmpty());
                 setProject(() => ({ ...updatedProject }));
             })
     }
@@ -169,8 +171,16 @@ export default function Columns({ columns, setProject, userId, project, setDispl
             }
             <li className="project-board-column-list-item add-column">
                 <form id="column-add-form" onSubmit={e => handleAddColumn(e)}>
-                    <input name="column-add-form-input" type="text" value={newColumnName || ""} placeholder="Add column" onChange={e => setNewColumnName(e.target.value)} />
-                    <button type="submit" form="column-add-form">+</button>
+                    <div className="column-add-form-input-container">
+                        <Editor
+                            onChange={setNewColumnName}
+                            editorState={newColumnName}
+                            blockStyleFn={() => "column-add-form-input"}
+                            placeholder="Add List" />
+                    </div>
+                    <button type="submit" form="column-add-form" className="column-add-form-container-icon-container">
+                        <MdOutlineLibraryAdd className="column-add-form-container-icon" />
+                    </button>
                 </form>
             </li>
         </ul>
