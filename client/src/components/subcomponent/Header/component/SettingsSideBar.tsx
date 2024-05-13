@@ -1,14 +1,18 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { TProfileState } from "../../../../common/types";
 import { useState } from "react";
 import "../../../../style/subcomponents/settingsSideBar.scss";
+import { actions } from "../../../../utils/redux/reducers";
+import { useNavigate } from "react-router-dom";
 
 export default function SettingsSideBar() {
     const userDetails = useSelector((state: TProfileState) => state.userDetails);
     const [showSettings, setShowSettings] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function handleName(name: string) {
-        if (!name) return <>Guest</>;
+        if (!name) return <>G</>;
 
         const splitName = name.split(" ");
         const formatName = splitName.length === 1
@@ -18,6 +22,12 @@ export default function SettingsSideBar() {
         return (
             <>{formatName}</>
         );
+    }
+
+    function handleLogout() {
+        console.log("test")
+        dispatch(actions.logout());
+        navigate("/Home");
     }
 
     return (
@@ -50,7 +60,7 @@ export default function SettingsSideBar() {
                 <div className="settings-dropdown-option">settings</div>
                 <div className="settings-dropdown-option">settings</div>
                 <div className="settings-dropdown-option">settings</div>
-                <div className="settings-dropdown-option">settings</div>
+                <div className="settings-dropdown-option" onClick={() => handleLogout()}>Logout</div>
             </div>
         </section>
     )
