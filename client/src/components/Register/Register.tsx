@@ -42,13 +42,13 @@ export default function Register() {
             <div className="register-display">
                 <div className="register-title">
                     <div onClick={() => navigate("/Home")} className="title-projectname">Project Manager</div>
-                    <div className="title-register">register</div>
-                    <div className={`title-error ${registerError ? "show-error" : "hide-error"}`}>Incorrect email or password</div>
+                    <div className="title-register">Register</div>
+                    <div className={`title-error ${registerError ? "show-error" : "hide-error"}`}>Something went wrong</div>
                 </div>
 
                 <form id="register-form" onSubmit={event => handleSubmit(event)}>
                     <div className="form-input">
-                        <label htmlFor="input-name" className={`${registerError ? "error-label" : ""}`}>name:</label>
+                        <label htmlFor="input-name" className={`${registerError ? "error-label" : ""}`}>Name:</label>
                         <input className="border border-black" name="input-name" id="input-name" type="text" onChange={event => handleNameInput(event)} />
                     </div>
                     <div className="form-input">

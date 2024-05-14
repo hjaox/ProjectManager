@@ -1,0 +1,80 @@
+@use "../index.scss";
+
+.register-page {
+    width: 100%;
+    height: 100vh;
+    background-image: url("../../assets/media/register.jpg");
+    background-size: cover;
+    background-position: center;
+    @include index.center-elements;
+
+    .register-display {
+        background-color: white;
+        padding: 1.5rem 2rem;
+        width: fit-content;
+        border-radius: 0.5rem;
+
+        .register-title {
+            @include index.center-elements;
+            flex-direction: column;
+            gap: 0.5rem;
+            cursor: pointer;
+
+            .title-projectname {
+                font-size: x-large;
+                font-weight: bold;
+            }
+
+            .title-register {
+                font-size: large;
+                font-weight: bold;
+            }
+
+            .title-error {
+                font-size: small;
+                color: red;
+            }
+
+            .show-error {
+                visibility: visible;
+            }
+
+            .hide-error {
+                visibility: hidden;
+            }
+        }
+
+        #register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .form-input {
+                display: flex;
+                flex-direction: column;
+            }
+
+            button {
+                margin-top: 5rem;
+                border: 1px solid transparent;
+                width: 5rem;
+                padding: 0.3rem 0.5rem;
+                border-radius: 0.5rem;
+                background-color: index.$platinum;
+                align-self: center;
+                cursor: pointer;
+                transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+            }
+
+            button:hover {
+                background-color: index.$oxford-blue;
+                color: white;
+                transition:
+                color 0.3s ease,
+                background-color 0.3s ease;
+            }
+        }
+    }
+}
