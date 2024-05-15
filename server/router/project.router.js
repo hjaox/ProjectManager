@@ -4,12 +4,14 @@ const { getProjectByProjectId,
     removeColumn,
     removeCard,
     editCard,
-    editColumn} = require("../controllers/project.controller");
+    editColumn,
+    editProject} = require("../controllers/project.controller");
 
 const projectRouter = require("express").Router();
 
 projectRouter
     .get("/:userId/:projectId", getProjectByProjectId)
+    .patch("/", editProject)
     .post("/column", postColumnInProject)
     .delete("/column", removeColumn)
     .patch("/column", editColumn)

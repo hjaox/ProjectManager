@@ -106,7 +106,7 @@ const updateCard = async (userId, projectId, columnId, cardId, ...properties) =>
 
         return project;
     } catch {
-        return Promise.reject({ status: 404, msg: "UserId, ProjectId or CardId not found" })
+        return Promise.reject({ status: 404, msg: "UserId, ProjectId, ColumnId or CardId not found" });
     }
 }
 
@@ -117,14 +117,30 @@ const updateColumn = async (userId, projectId, columnId, columnName) => {
             .projects.id(projectId);
 
         project
-        .columns.id(columnId)
-        .columnName = columnName;
+            .columns.id(columnId)
+            .columnName = columnName;
 
         await document.save();
 
         return project;
     } catch {
-        return Promise.reject({ status: 404, msg: "UserId, ProjectId or CardId not found" })
+        return Promise.reject({ status: 404, msg: "UserId, ProjectId or ColumnId not found" });
+    }
+}
+
+const updateProject = async (userId, projectId, projectName) => {
+    try {
+        const document = await UserModel.findById(userId);
+        const project = document
+        .projects.id(projectId);
+
+        project.projectName = projectName;
+
+        await document.save();
+
+        return project;
+    } catch {
+        return Promise.reject({ status: 404, msg: "UserId, or ProjectId not found" });
     }
 }
 
@@ -136,5 +152,6 @@ module.exports = {
     deleteColumn,
     deleteCard,
     updateCard,
-    updateColumn
+    updateColumn,
+    updateProject
 }
