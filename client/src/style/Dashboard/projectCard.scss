@@ -13,6 +13,16 @@
     padding: 1rem;
     cursor: pointer;
 
+
+    .projects-list-item-title {
+        word-wrap: break-word;
+        width: 90%;
+        height: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .projects-list-item-delete {
         position: absolute;
         color: white;
