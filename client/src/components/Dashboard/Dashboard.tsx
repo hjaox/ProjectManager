@@ -6,7 +6,7 @@ import Header from "../subcomponent/Header/Header";
 import "../../style/Dashboard/dashboard.scss";
 import Footer from "../subcomponent/Footer.tsx/Footer";
 import { Rings } from "react-loader-spinner";
-import Projects from "./components/Projects";
+import Projects from "./components/ProjectCard";
 import { Editor, EditorState } from "draft-js";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 
