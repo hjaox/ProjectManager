@@ -7,12 +7,13 @@ import "../../style/Dashboard/dashboard.scss";
 import Footer from "../subcomponent/Footer.tsx/Footer";
 import { Rings } from "react-loader-spinner";
 import Projects from "./components/Projects";
+import { Editor, EditorState } from "draft-js";
+import { MdOutlineLibraryAdd } from "react-icons/md";
 
 export default function Dashboard() {
     const [projects, setProjects] = useState<TProject[]>([]);
-    //const status = useSelector((state: isLoggedInState) => state.isLoggedIn);
     const userDetails = useSelector((state: TProfileState) => state.userDetails);
-    const [newProjectName, setNewProjectName] = useState<string>("");
+    const [newProjectName, setNewProjectName] = useState(EditorState.createEmpty());
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -29,13 +30,13 @@ export default function Dashboard() {
         })();
     }, [])
 
-    async function handleAddProject(e: React.FormEvent, userId: string, projectName: string) {
+    async function handleAddProject(e: React.FormEvent) {
         e.preventDefault();
 
         try {
-            const updatedProjectList = await addProject(userId, projectName);
+            const updatedProjectList = await addProject(userDetails._id, newProjectName.getCurrentContent().getPlainText("\u000A"));
             setProjects(() => [...updatedProjectList]);
-            setNewProjectName(() => "");
+            setNewProjectName(EditorState.createEmpty());
         } catch {
 
         }
@@ -62,9 +63,16 @@ export default function Dashboard() {
                                         setProjects={setProjects} />
 
                                     <li className="dashboard-addProject">
-                                        <form id="addProjectForm" onSubmit={e => handleAddProject(e, userDetails._id, newProjectName)}>
-                                            <input type="text" value={newProjectName || ""} placeholder="Add Project" onChange={e => setNewProjectName(e.target.value)} />
-                                            <button type="submit" form="addProjectForm">+</button>
+                                        <form id="addProjectForm" onSubmit={e => handleAddProject(e)}>
+                                            <div className="project-add-form-input-container">
+                                                <Editor
+                                                    onChange={setNewProjectName}
+                                                    editorState={newProjectName}
+                                                    blockStyleFn={() => "project-add-form-input"}
+                                                    placeholder="Add Project" />
+                                            </div>
+                                            <button type="submit" form="addProjectForm"><MdOutlineLibraryAdd className="project-add-form-container-icon" />
+                                            </button>
                                         </form>
                                     </li>
                                 </ul>
@@ -72,7 +80,6 @@ export default function Dashboard() {
                         )
                 }
             </section>
-
             <Footer />
         </section>
     )

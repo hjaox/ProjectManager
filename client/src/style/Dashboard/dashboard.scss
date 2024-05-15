@@ -23,8 +23,54 @@
                 list-style: none;
                 display: flex;
                 gap: 1rem;
-                padding: 1rem 0;
+                padding: 1rem;
                 flex-wrap: wrap;
+
+                .dashboard-addProject {
+                    width: 15rem;
+                    height: fit-content;
+                    border-radius: 0.5rem;
+                    background-color: index.$platinum;
+                    padding: 0.5rem;
+
+                    form {
+                        display: flex;
+                        gap: 0.5rem;
+                        justify-content: space-between;
+
+                        .project-add-form-input-container {
+                            width: 85%;
+                            padding: 0.5rem;
+                            border-radius: 0.5rem;
+                            background-color: white;
+                        }
+
+                        .project-add-form-input-container:focus-within {
+                            border: 1px solid black;
+                        }
+
+                        button {
+                            align-self: center;
+                            height: fit-content;
+                            font-size: 1.5rem;
+                            border: 1px solid transparent;
+                            @include index.center-elements;
+                            cursor: pointer;
+                            transition:
+                                color 0.3s ease,
+                                background-color 0.3s ease;
+                            border-radius: 5px;
+                        }
+
+                        button:hover {
+                            color: white;
+                            background-color: index.$oxford-blue;
+                            transition:
+                                color 0.3s ease,
+                                background-color 0.3s ease;
+                        }
+                    }
+                }
             }
         }
     }
