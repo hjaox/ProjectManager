@@ -77,6 +77,8 @@
                     color 0.3s ease,
                     background-color 0.3s ease;
                 cursor: pointer;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
 
             .profile-overview-projects-list-item:hover {
