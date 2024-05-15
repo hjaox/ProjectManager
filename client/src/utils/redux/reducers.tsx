@@ -9,6 +9,7 @@ const initialState = {
         accessToken: "",
     },
     isLoggedIn: false,
+    guestMode: false,
 }
 
 const profileSlice = createSlice({
@@ -22,6 +23,12 @@ const profileSlice = createSlice({
         logout: (state) => {
             state.isLoggedIn = false;
             state.userDetails = { ...initialState.userDetails };
+        },
+        loginAsGuest: (state) => {
+            state.guestMode = true;
+        },
+        logoutAsGuest: (state) => {
+            state.guestMode = false;
         }
     }
 });
