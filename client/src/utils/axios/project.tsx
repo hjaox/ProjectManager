@@ -122,8 +122,25 @@ export async function patchColumn(userId: string, projectId: string, columnId: s
         const { data: { updatedProject } } = await instance
             .patch("/api/project/column", body);
 
-        return updatedProject
+        return updatedProject;
     } catch {
         return null;
+    }
+}
+
+export async function patchProject(userId: string, projectId: string, projectName: string) {
+    const body = {
+        userId,
+        projectId,
+        projectName
+    };
+
+    try {
+        const { data: { updatedProject } } = await instance
+            .patch("/api/project", body);
+
+        return updatedProject;
+    } catch {
+        return null
     }
 }
