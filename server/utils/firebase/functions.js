@@ -33,5 +33,6 @@ async function deleteAllImages() {
 }
 
 module.exports = {
-    uploadImage
+    uploadImage,
+    deleteAllImages
 };
