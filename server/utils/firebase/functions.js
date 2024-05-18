@@ -1,18 +1,21 @@
 const { readFile } = require("fs/promises");
 const { deleteObject, getDownloadURL, listAll, ref, uploadBytes } = require("firebase/storage");
+const { storage } = require("./auth");
 
-async function uploadImage(path) {
+async function uploadImage(path, projectID) {
     const fileBuffer = await readFile(path);
     const fileBlob = new Blob([fileBuffer], { type: "image/jpeg" });
 
     try {
-        const imageRef = ref(storage, `images/${eventId}`);
+        const imageRef = ref(storage, `images/${projectID}`);
 
         const snapshot = await uploadBytes(imageRef, fileBlob);
         const url = await getDownloadURL(snapshot.ref);
 
         return url;
-    } catch {
+    } catch(err) {
+
+        console.log(err)
         console.log("Image upload failed.")
         return null;
     }
