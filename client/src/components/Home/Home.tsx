@@ -10,7 +10,8 @@ export default function Home() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state: TProfileState) => state.isLoggedIn);
-    const [logoutPrompt, setlogoutPrompt] = useState(false);
+    const [logoutRedirect, setLogoutRedirect] = useState(false);
+    const [logoutPrompt, setLogoutPrompt] = useState(false);
 
     function handleGuest() {
         dispatch(actions.loginAsGuest());
@@ -19,7 +20,7 @@ export default function Home() {
 
     function handleLogout() {
         dispatch(actions.logout());
-        setlogoutPrompt(true);
+        setLogoutRedirect(true);
     }
 
     return (
@@ -50,9 +51,9 @@ export default function Home() {
                 message
             </section>
             {
-                logoutPrompt && (
-                    <div className="logout-prompt-container" onClick={() => setlogoutPrompt(false)}>
-                        <div className="logout-prompt">
+                logoutRedirect && (
+                    <div className="logout-redirect-container" onClick={() => setLogoutRedirect(false)}>
+                        <div className="logout-redirect">
                             <div>You have successfully logged out.</div>
                             <div className="redirect-options">
                                 <button>Home</button>
@@ -61,6 +62,13 @@ export default function Home() {
                         </div>
                     </div>
                 )
+            }
+            {
+                    logoutPrompt && (
+                        <div>
+
+                        </div>
+                    )
             }
             <Footer />
         </section>
