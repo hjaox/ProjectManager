@@ -10,7 +10,8 @@ export default function Home() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state: TProfileState) => state.isLoggedIn);
-    const [logoutPrompt, setlogoutPrompt] = useState(false);
+    const [logoutRedirect, setLogoutRedirect] = useState(false);
+    const [logoutPrompt, setLogoutPrompt] = useState(false);
 
     function handleGuest() {
         dispatch(actions.loginAsGuest());
@@ -19,7 +20,8 @@ export default function Home() {
 
     function handleLogout() {
         dispatch(actions.logout());
-        setlogoutPrompt(true);
+        setLogoutRedirect(true);
+        setLogoutPrompt(false);
     }
 
     return (
@@ -31,7 +33,7 @@ export default function Home() {
                         isLoggedIn
                             ? (
                                 <>
-                                    <button className="home-header-navigation-option" onClick={() => handleLogout()}>Logout</button>
+                                    <button className="home-header-navigation-option" onClick={() => setLogoutPrompt(true)}>Logout</button>
                                 </>
                             )
                             : (
@@ -50,13 +52,28 @@ export default function Home() {
                 message
             </section>
             {
-                logoutPrompt && (
-                    <div className="logout-prompt-container" onClick={() => setlogoutPrompt(false)}>
-                        <div className="logout-prompt">
+                logoutRedirect && (
+                    <div className="logout-redirect-container" onClick={() => setLogoutRedirect(false)}>
+                        <div className="logout-redirect">
                             <div>You have successfully logged out.</div>
                             <div className="redirect-options">
                                 <button>Home</button>
                                 <button onClick={() => navigate("/Login")}>Login</button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+            {
+                logoutPrompt && (
+                    <div className="logout-prompt-container">
+                        <div className="logout-prompt">
+                            <div className="prompt-message">
+                                Do you want to log out?
+                            </div>
+                            <div className="prompt-options">
+                                <button onClick={() => setLogoutPrompt(false)}>Cancel</button>
+                                <button onClick={() => handleLogout()}>Confirm</button>
                             </div>
                         </div>
                     </div>

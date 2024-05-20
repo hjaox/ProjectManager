@@ -47,6 +47,52 @@
         z-index: 1;
     }
 
+    .logout-redirect-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 3;
+        background-color: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+        @include index.center-elements;
+
+        .logout-redirect {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 25%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .redirect-options {
+                display: flex;
+                @include index.center-elements;
+                gap: 1rem;
+
+                button {
+                    padding: 3px 5px;
+                    border-radius: 3px;
+                    border: 1px solid black;
+                    cursor: pointer;
+                    transition:
+                        color 0.3s ease,
+                        background-color 0.3s ease;
+                }
+
+                button:hover {
+                    background-color: index.$oxford-blue;
+                    color: white;
+                    transition:
+                        color 0.3s ease,
+                        background-color 0.3s ease;
+                }
+            }
+        }
+    }
+
     .logout-prompt-container {
         position: absolute;
         top: 0;
@@ -67,7 +113,7 @@
             flex-direction: column;
             gap: 1rem;
 
-            .redirect-options {
+            .prompt-options {
                 display: flex;
                 @include index.center-elements;
                 gap: 1rem;

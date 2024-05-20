@@ -7,7 +7,10 @@ const projectSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        columns:[columnSchema]
+        columns:[columnSchema],
+        background: {
+            type: String,
+        }
     },
     {
         timestamps: true
