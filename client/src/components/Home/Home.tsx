@@ -21,6 +21,7 @@ export default function Home() {
     function handleLogout() {
         dispatch(actions.logout());
         setLogoutRedirect(true);
+        setLogoutPrompt(false);
     }
 
     return (
@@ -32,7 +33,7 @@ export default function Home() {
                         isLoggedIn
                             ? (
                                 <>
-                                    <button className="home-header-navigation-option" onClick={() => handleLogout()}>Logout</button>
+                                    <button className="home-header-navigation-option" onClick={() => setLogoutPrompt(true)}>Logout</button>
                                 </>
                             )
                             : (
@@ -64,11 +65,19 @@ export default function Home() {
                 )
             }
             {
-                    logoutPrompt && (
-                        <div>
-
+                logoutPrompt && (
+                    <div className="logout-prompt-container">
+                        <div className="logout-prompt">
+                            <div className="prompt-message">
+                                Do you want to log out?
+                            </div>
+                            <div className="prompt-options">
+                                <button onClick={() => setLogoutPrompt(false)}>Cancel</button>
+                                <button onClick={() => handleLogout()}>Confirm</button>
+                            </div>
                         </div>
-                    )
+                    </div>
+                )
             }
             <Footer />
         </section>
