@@ -59,11 +59,12 @@ export default function Dashboard() {
                             <section className="dashboard-projects">
                                 <ul className="dashboard-projects-list">
                                     {
-                                        projects.map(project => {
+                                        projects.map((project, i) => {
                                             return (
                                                 <Projects
                                                 project={project}
-                                                setProjects={setProjects}/>
+                                                setProjects={setProjects}
+                                                key={i}/>
                                             )
                                         })
                                     }
