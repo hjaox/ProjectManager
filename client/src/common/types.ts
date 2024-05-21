@@ -14,6 +14,7 @@ export type TProject = {
     _id: string,
     createdAt: string,
     updatedAt: string,
+    background: string,
     columns: TProjectColumn[]
 };
 

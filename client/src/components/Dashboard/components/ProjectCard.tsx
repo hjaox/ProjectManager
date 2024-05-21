@@ -41,8 +41,7 @@ export default function ProjectCard({ project, setProjects }: TProjects) {
     }
 
     return (
-        <li className="dashboard-projects-list-item" >
-
+        <li className="dashboard-projects-list-item" style={{backgroundImage: `url(${project.background})`}}>
             {
                 showDeleteProjectPrompt?.[project._id]
                     ? (

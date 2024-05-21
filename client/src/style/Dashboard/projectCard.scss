@@ -1,7 +1,7 @@
 @use "../index.scss";
 
 .dashboard-projects-list-item {
-    background: radial-gradient(farthest-corner at 0px 0px, index.$oxford-blue 70%, rgba(20, 33, 61, 0.8) 100%);
+    background-size: cover;
     color: white;
     width: 15rem;
     height: 8rem;
