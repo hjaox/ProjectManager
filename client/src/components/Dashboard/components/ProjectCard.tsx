@@ -6,7 +6,7 @@ import "../../../style/Dashboard/projectCard.scss";
 import { HiDotsVertical } from "react-icons/hi";
 import { useState } from "react";
 
-export default function ProjectCard({ projects, setProjects }: TProjects) {
+export default function ProjectCard({ project, setProjects }: TProjects) {
     const userId = useSelector((state: TProfileState) => state.userDetails._id);
     const navigate = useNavigate();
     const [showProjectOptions, setShowProjectOptions] = useState<{ [key: string]: boolean }>
@@ -40,46 +40,44 @@ export default function ProjectCard({ projects, setProjects }: TProjects) {
         navigate(`/Project/${projectName}/${projectId}`);
     }
 
-    return projects.map(({ _id, projectName }, i) => {
-        return (
-            <li key={i} className="dashboard-projects-list-item" >
+    return (
+        <li className="dashboard-projects-list-item" >
 
-                {
-                    showDeleteProjectPrompt?.[_id]
-                        ? (
-                            <div className="project-delete-prompt-container" onClick={e => e.stopPropagation()}>
-                                <div className="project-delete-prompt">
-                                    <div className="prompt-text">
-                                        Delete Project?
-                                    </div>
-                                    <div className="prompt-options">
-                                        <button onClick={e => handleProjectDelete(e, _id)}>Cancel</button>
-                                        <button onClick={e => deleteProject(e, _id)}>Confirm</button>
-                                    </div>
+            {
+                showDeleteProjectPrompt?.[project._id]
+                    ? (
+                        <div className="project-delete-prompt-container" onClick={e => e.stopPropagation()}>
+                            <div className="project-delete-prompt">
+                                <div className="prompt-text">
+                                    Delete Project?
                                 </div>
-
-                            </div>
-                        )
-                        : (
-                            <div className="project-container" onClick={() => handleProjectItem(_id, projectName)}>
-                                <div className="projects-list-item-title">{projectName}</div>
-                                <div className="project-options-container" onClick={e => handleOptions(e, _id)} id={`${_id}`}>
-                                    <div className="project-options-icon-container">
-                                        <HiDotsVertical className="project-options-icon" />
-                                    </div>
-                                    {
-                                        showProjectOptions[_id] && (
-                                            <div className="project-options" >
-                                                <div className="project-options-item top">Edit</div>
-                                                <div className="project-options-item bot" onClick={e => handleProjectDelete(e, _id)}>Delete</div>
-                                            </div>
-                                        )
-                                    }
+                                <div className="prompt-options">
+                                    <button onClick={e => handleProjectDelete(e, project._id)}>Cancel</button>
+                                    <button onClick={e => deleteProject(e, project._id)}>Confirm</button>
                                 </div>
                             </div>
-                        )
-                }
-            </li>
-        )
-    })
+
+                        </div>
+                    )
+                    : (
+                        <div className="project-container" onClick={() => handleProjectItem(project._id, project.projectName)}>
+                            <div className="projects-list-item-title">{project.projectName}</div>
+                            <div className="project-options-container" onClick={e => handleOptions(e, project._id)} id={`${project._id}`}>
+                                <div className="project-options-icon-container">
+                                    <HiDotsVertical className="project-options-icon" />
+                                </div>
+                                {
+                                    showProjectOptions[project._id] && (
+                                        <div className="project-options" >
+                                            <div className="project-options-item top">Edit</div>
+                                            <div className="project-options-item bot" onClick={e => handleProjectDelete(e, project._id)}>Delete</div>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    )
+            }
+        </li>
+    )
 }

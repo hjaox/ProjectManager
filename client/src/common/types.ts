@@ -30,7 +30,7 @@ export type TProjectCard = {
 };
 
 export type TProjects = {
-    projects: TProject[],
+    project: TProject,
     setProjects: React.Dispatch<React.SetStateAction<TProject[]>>
 }
 
