@@ -58,9 +58,16 @@ export default function Dashboard() {
                         : (
                             <section className="dashboard-projects">
                                 <ul className="dashboard-projects-list">
-                                    <Projects
-                                        projects={projects}
-                                        setProjects={setProjects} />
+                                    {
+                                        projects.map((project, i) => {
+                                            return (
+                                                <Projects
+                                                project={project}
+                                                setProjects={setProjects}
+                                                key={i}/>
+                                            )
+                                        })
+                                    }
 
                                     <li className="dashboard-addProject">
                                         <form id="addProjectForm" onSubmit={e => handleAddProject(e)}>

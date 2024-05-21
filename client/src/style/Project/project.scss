@@ -55,7 +55,6 @@
     .project-display {
         @include index.page-display;
         display: flex;
-        background-image: url("../../assets/media/1.jpg");
         background-attachment: fixed;
         background-size: cover;
         min-width: 100vw;

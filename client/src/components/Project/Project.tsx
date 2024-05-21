@@ -77,7 +77,7 @@ export default function Project() {
                         </div>
                     )
                     : (
-                        <section className="project-display">
+                        <section className="project-display" style={{ backgroundImage: `url(${project?.background})` }}>
                             {
                                 pageLoading
                                     ? (

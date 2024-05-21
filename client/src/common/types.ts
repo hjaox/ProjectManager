@@ -14,6 +14,7 @@ export type TProject = {
     _id: string,
     createdAt: string,
     updatedAt: string,
+    background: string,
     columns: TProjectColumn[]
 };
 
@@ -30,7 +31,7 @@ export type TProjectCard = {
 };
 
 export type TProjects = {
-    projects: TProject[],
+    project: TProject,
     setProjects: React.Dispatch<React.SetStateAction<TProject[]>>
 }
 
