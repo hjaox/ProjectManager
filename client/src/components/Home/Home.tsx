@@ -33,6 +33,7 @@ export default function Home() {
                         isLoggedIn
                             ? (
                                 <>
+                                    <button className="home-header-navigation-option" onClick={() => navigate("/Dashboard")}>Dashboard</button>
                                     <button className="home-header-navigation-option" onClick={() => setLogoutPrompt(true)}>Logout</button>
                                 </>
                             )
